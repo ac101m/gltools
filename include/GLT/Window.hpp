@@ -2,18 +2,15 @@
 #define _GLT_WINDOW_INCLUDED
 
 
-// Include GLT master once (needed for glew/glfw)
+// This library stuff
 #ifndef _GLT_MASTER_INCLUDED
 #include <GLT/Master.hpp>
 #endif
+#include <GLT/Camera.hpp>
 
 
 // Matrix math
 #include <glm/glm.hpp>
-
-
-// This library
-#include <GLT/Camera.hpp>
 
 
 // Begin GLT namespace
@@ -54,15 +51,13 @@ namespace GLT {
     // Select the context associated with this window
     void MakeCurrent(void);
 
-    // Draw method
-
     // General utility
     bool ShouldClose(void);
     void PollEvents(void);
     void SwapBuffers(void);
 
     // Camera set and get
-    void SetCamera(const GLT::Camera cam) {this->camera = cam;}
+    void SetCamera(const GLT::Camera cam);
     GLT::Camera GetCamera(void) {return this->camera;}
   };
 

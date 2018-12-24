@@ -20,6 +20,12 @@ void Window::Error(int error, const char* description) {
 
 // Common initialisation
 void Window::Init(void) {
+
+  // Default name and resolution
+  this->name = "";
+  this->size = glm::vec2(640, 480);
+
+  // Initialise GLFW if not already done
   if(!glfwInitialised) {
     if(!glfwInit()) {
       std::cerr << "Error, failed to initialise GLFW.\n";
@@ -30,7 +36,6 @@ void Window::Init(void) {
   }
 
   glfwSetErrorCallback(Window::Error);
-
   this->glfwWindow = glfwCreateWindow(
     this->size.x, this->size.y,
     name,
@@ -43,9 +48,6 @@ void Window::Init(void) {
   }
 
   glfwSwapInterval(1);
-
-  this->name = "";
-  this->size = glm::vec2(640, 480);
 }
 
 
@@ -96,4 +98,11 @@ void Window::MakeCurrent(void) {
 void Window::SwapBuffers(void) {
   this->MakeCurrent();
   glfwSwapBuffers(this->glfwWindow);
+}
+
+
+// Set the camera to use
+void Window::SetCamera(const GLT::Camera cam) {
+  this->camera = cam;
+  this->camera.SetViewRatio(this->size);
 }

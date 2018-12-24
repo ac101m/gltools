@@ -47,7 +47,10 @@ glm::mat4 Camera::ComputeProjMat(void) {
 
 // Compute view matrix
 glm::mat4 Camera::ComputeViewMat(void) {
-
+  return glm::lookAt(
+    this->pos,
+    this->pos + this->fwd,
+    this->up);
 }
 
 
@@ -57,9 +60,29 @@ Camera::Camera(void) {
 }
 
 
+// Set view ratio directly
+void Camera::SetViewRatio(const float ratio) {
+  this->viewRatio = ratio;
+  this->viewMatValid = false;
+}
+
+
+// Set view ratio from x/y
+void Camera::SetViewRatio(const glm::vec2 size) {
+  this->SetViewRatio(size.x / size.y);
+}
+
+
+// Set view ratio from glm vector
+void Camera::SetViewRatio(const float x, const float y) {
+  this->SetViewRatio(x / y);
+}
+
+
 // Set camera position
 void Camera::SetPos(const glm::vec3 pos) {
   this->pos = pos;
+  this->viewMatValid = false;
 }
 
 
@@ -72,6 +95,7 @@ void Camera::SetPos(const float x, const float y, const float z) {
 // Move camera position
 void Camera::Move(const glm::vec3 dPos) {
   this->pos += dPos;
+  this->viewMatValid = false;
 }
 
 
@@ -85,7 +109,7 @@ void Camera::Move(const float x, const float y, const float z) {
 glm::mat4* Camera::GetProjMat(void) {
   if(!this->projMatValid) {
     this->projMat = this->ComputeProjMat();
-    projMatValid = true;
+    this->projMatValid = true;
   }
   return &this->projMat;
 }
@@ -95,7 +119,7 @@ glm::mat4* Camera::GetProjMat(void) {
 glm::mat4* Camera::GetViewMat(void) {
   if(!this->viewMatValid) {
     this->viewMat = this->ComputeViewMat();
-    projMatValid = true;
+    this->viewMatValid = true;
   }
   return &this->viewMat;
 }
