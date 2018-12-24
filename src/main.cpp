@@ -4,8 +4,15 @@
 
 int main(void) {
 
-  GLT::Window Window(glm::vec2(640, 480));
+  // Create a window
+  GLT::Window w(glm::vec2(640, 480), "Test window");
 
-  std::cout << "Hello world\n";
+  // Main draw loop
+  while(!w.ShouldClose()) {
+    w.PollEvents();
+    w.SwapBuffers();
+  }
+
+  // Close the window
   return 0;
 }

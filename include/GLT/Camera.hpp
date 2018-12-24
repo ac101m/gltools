@@ -19,6 +19,7 @@ namespace GLT {
   // Class contains camera data
   class Camera {
   private:
+
     // Camera metadata
     CameraMode_t mode;
 
@@ -31,6 +32,7 @@ namespace GLT {
     bool projMatValid;
 
   public:
+
     // Initialisation
     void Init(void);
     Camera(CameraMode_t mode);
@@ -40,8 +42,8 @@ namespace GLT {
     // Mutation methods
 
     // Gets for matrices
-    glm::mat4 getProjMat(void);
-    glm::mat4 getViewMat(void);
+    glm::mat4 GetProjMat(void);
+    glm::mat4 GetViewMat(void);
   };
 
 } // namespace GLT
