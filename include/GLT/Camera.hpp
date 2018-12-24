@@ -4,6 +4,7 @@
 
 // Matrix math
 #include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 
 // Begin GLT namespace
@@ -23,27 +24,54 @@ namespace GLT {
     // Camera metadata
     CameraMode_t mode;
 
-    // Matrices
+    // Matrices and matrix flags
     glm::mat4 projMat;
     glm::mat4 viewMat;
-
-    // Matrix calculation done
     bool viewMatValid;
     bool projMatValid;
+
+    // Camera vectors
+    glm::vec3 pos;
+    glm::vec3 up;
+    glm::vec3 right;
+    glm::vec3 fwd;
+
+    // View characteristics
+    float fov;
+    float zMin;
+    float zMax;
+    float viewRatio;
+
+  private:
+
+    // Initialisation
+    void Init(void);
+
+    // Matrix calculations
+    glm::mat4 ComputeProjMat(void);
+    glm::mat4 ComputeViewMat(void);
 
   public:
 
     // Initialisation
-    void Init(void);
-    Camera(CameraMode_t mode);
+    Camera(void);
 
-    // Sets for various camera properties
+    // Set view ratio
+    void SetViewRatio(const float ratio);
+    void SetViewRatio(const glm::vec2 size);
+    void SetViewRatio(const float x, const float y);
 
-    // Mutation methods
+    // Set camera position
+    void SetPos(const glm::vec3 pos);
+    void SetPos(const float x, const float y, const float z);
 
-    // Gets for matrices
-    glm::mat4 GetProjMat(void);
-    glm::mat4 GetViewMat(void);
+    // Move camera (position delta)
+    void Move(const glm::vec3 pos);
+    void Move(const float x, const float y, const float z);
+
+    // Matrix gets for rendering
+    glm::mat4* GetProjMat(void);
+    glm::mat4* GetViewMat(void);
   };
 
 } // namespace GLT
