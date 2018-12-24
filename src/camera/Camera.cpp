@@ -1,4 +1,4 @@
-#include <camera.hpp>
+#include <GLT/Camera.hpp>
 using namespace GLT;
 
 
