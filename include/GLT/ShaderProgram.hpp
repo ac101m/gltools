@@ -1,0 +1,10 @@
+#ifndef _GLT_SHADER_PROGRAM_INCLUDED
+#define _GLT_SHADER_PROGRAM_INCLUDED
+
+
+namespace GLT {
+  
+}
+
+
+#endif // _GLT_SHADER_PROGRAM_INCLUDED

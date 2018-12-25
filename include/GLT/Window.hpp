@@ -2,7 +2,7 @@
 #define _GLT_WINDOW_INCLUDED
 
 
-// This library stuff
+// This project
 #ifndef _GLT_MASTER_INCLUDED
 #include <GLT/Master.hpp>
 #endif
@@ -13,7 +13,6 @@
 #include <glm/glm.hpp>
 
 
-// Begin GLT namespace
 namespace GLT {
 
   // Class to wrap GLFW context and window
@@ -61,6 +60,6 @@ namespace GLT {
     GLT::Camera GetCamera(void) {return this->camera;}
   };
 
-} // GLT namespace
+} // namespace GLT
 
 #endif // _GLT_CONTEXT_INCLUDED
