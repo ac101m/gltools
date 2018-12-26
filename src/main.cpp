@@ -8,25 +8,17 @@
 
 int main(void) {
 
-  // Create two windows
-  GLT::Window win1(glm::vec2(640, 480), "Test window 1");
-  GLT::Window win2(glm::vec2(640, 480), "Test window 2");
+  // Instantiate a context
+  GLT::Context cxt;
+
+  // Create two windows in the current context
+  GLT::Window* win1 = cxt.NewWindow(glm::vec2(640, 480), "Test window 1", NULL);
 
   // Window 2 loop
-  win1.Open();
-  while(!win1.ShouldClose()) {
-    win1.PollEvents();
-    win1.SwapBuffers();
+  while(!win1->ShouldClose()) {
+    win1->PollEvents();
+    win1->SwapBuffers();
   }
-  win1.Close();
-
-  // Window 2 loop
-  win2.Open();
-  while(!win2.ShouldClose()) {
-    win2.PollEvents();
-    win2.SwapBuffers();
-  }
-  win2.Close();
 
   // All done
   return 0;

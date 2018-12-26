@@ -17,10 +17,6 @@ int Context::contextCount = 0;
 std::mutex Context::contextCountMx;
 
 
-// Global context, used by all GLT objects
-Context GLT::glContext;
-
-
 // GLFW error callback
 void Context::Error(int error, const char* description) {
   std::cerr << "GLFW: " << description << "\n";
@@ -33,7 +29,7 @@ void Context::Init(void) {
   // Lock the context count static variable
   contextCountMx.lock();
 
-  // Initialise GLFW if not already done
+  // If we are the first context, do GLFW setup
   if(contextCount == 0) {
 
     // Initialise GLFW
@@ -52,7 +48,11 @@ void Context::Init(void) {
   contextCount++;
   contextCountMx.unlock();
 
-  // Context isn't actrive until there are attached windows
+  // Last window handle, NULL means glfwCreateWindow will
+  // kick off a new opengl context.
+  this->prevGlfwHandle = NULL;
+
+  // Glew hasn't been intialised yet (we can't until we have a context)
   this->glewInitialised = false;
 }
 
@@ -82,6 +82,29 @@ Context::Context(void) {
 }
 
 
+// Add a window
+Window* Context::NewWindow(glm::vec2 size, std::string name, GLFWmonitor* mon) {
+
+  // Create a GLFW window
+  GLFWwindow* glfwHandle = glfwCreateWindow(
+    size.x, size.y, name.c_str(), mon, this->prevGlfwHandle);
+
+  // Initialise GLEW
+  if(this->prevGlfwHandle == NULL) {
+    this->InitGlew(glfwHandle);
+  }
+
+  // The next window will share this ones context
+  this->prevGlfwHandle = glfwHandle;
+
+  // Create the new window
+  this->windows.push_back(Window(glfwHandle));
+
+  // Return a pointer to the newly created window
+  return &this->windows[this->windows.size() - 1];
+}
+
+
 // Context going out of scope, close all windows
 Context::~Context(void) {
 
@@ -99,30 +122,4 @@ Context::~Context(void) {
 
   // Context has no attached windows at the moment
   this->glewInitialised = false;
-}
-
-
-// Add a window
-GLFWwindow* Context::MakeGlfwWindow(Window* window) {
-  GLFWwindow* glfwWindow;
-
-  // Make first window
-  if(this->windows.size() == 0) {
-    glfwWindow = glfwCreateWindow(
-      window->GetSize().x, window->GetSize().y,
-      window->GetName().c_str(),
-      NULL, NULL);
-
-  // Otherwise, make new window a child of the existing ones
-  } else {
-    glfwWindow = glfwCreateWindow(
-      window->GetSize().x, window->GetSize().y,
-      window->GetName().c_str(),
-      NULL, this->windows[0]->GetWindowHandle());
-  }
-
-  // Add window pointer & initialise GLEW
-  this->windows.push_back(window);
-  this->InitGlew(glfwWindow);
-  return glfwWindow;
 }

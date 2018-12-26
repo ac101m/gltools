@@ -14,6 +14,10 @@
 #include <mutex>
 
 
+// Matrix math
+#include <glm/glm.hpp>
+
+
 namespace GLT {
 
 
@@ -32,7 +36,8 @@ namespace GLT {
     bool glewInitialised;
 
     // Pointers to windows attached to this context
-    std::vector<Window*> windows;
+    std::vector<Window> windows;
+    GLFWwindow* prevGlfwHandle;
 
   private:
 
@@ -47,15 +52,15 @@ namespace GLT {
 
     // Constructor/destructor
     Context(void);
-    ~Context(void);
 
-    // Register things with the context
-    GLFWwindow* MakeGlfwWindow(Window* window);
+    // Create things with this context
+    Window* NewWindow(glm::vec2 size, std::string name, GLFWmonitor* mon);
+
+    // Destructor manages termination of glfw
+    ~Context(void);
   };
 
-  // Context for GLT, used by all GLT objects
-  extern Context glContext;
-}
+} // namespace GLT
 
 
 #endif // _GLT_CONTEXT_INCLUDED

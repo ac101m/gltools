@@ -27,38 +27,27 @@ namespace GLT {
     // Is the window active?
     bool active;
 
-    // Window data
-    glm::vec2 size;
-    std::string name;
-
     // GLFW window and context handles
     GLFWwindow* glfwWindow;
-    Context* context;
 
     // Camera
     Camera camera;
 
   private:
 
-    // Common initialisation
-    void Init(void);
-
-    // Open in specific context (private for now)
-    void Open(Context* context);
+    // Get frame buffer size
+    glm::vec2 GetFrameBufferSize(void);
 
   public:
 
     // Constructor/destructor
-    Window(void);
-    Window(const glm::vec2 size, const std::string name);
+    Window(GLFWwindow* glfwWindow);
 
     // Window open & close methods
-    void Open(void);
     void Close(void);
 
     // Select the context associated with this window
     void MakeCurrent(void);
-    GLFWwindow* GetWindowHandle(void);
 
     // General utility
     bool ShouldClose(void);
@@ -68,10 +57,6 @@ namespace GLT {
     // Camera set and get
     void SetCamera(const Camera cam);
     Camera GetCamera(void) {return this->camera;}
-
-    // Gets for other miscelaneous stuff
-    std::string GetName(void) {return this->name;}
-    glm::vec2 GetSize(void) {return this->size;}
 
     // Destructor, clean things up
     ~Window(void);

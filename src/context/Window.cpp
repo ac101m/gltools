@@ -7,33 +7,19 @@ using namespace GLT;
 using namespace std;
 
 
-// Common initialisation
-void Window::Init(void) {
-
-  // Default name and resolution
-  this->name = "GLT";
-  this->size = glm::vec2(640, 480);
-
-  // Default camera
-  this->camera.SetViewRatio(this->size);
-
-  // Window handle does not exist
-  this->glfwWindow = NULL;
-  this->active = false;
-}
-
-
-// Default constructor
-Window::Window(void) {
-  this->Init();
+// Get frame buffer size
+glm::vec2 Window::GetFrameBufferSize(void) {
+  int x, y;
+  glfwGetFramebufferSize(this->glfwWindow, &x, &y);
+  return glm::vec2(x, y);
 }
 
 
 // Size & description constructor
-Window::Window(const glm::vec2 size, const string name) {
-  this->Init();
-  this->name = name;
-  this->size = size;
+Window::Window(GLFWwindow* glfwWindow) {
+  this->glfwWindow = glfwWindow;
+  this->active = true;
+  this->camera.SetViewRatio(this->GetFrameBufferSize());
 }
 
 
@@ -50,31 +36,6 @@ void Window::MakeCurrent(void) {
 }
 
 
-// Get the GLFW window handle
-GLFWwindow* Window::GetWindowHandle(void) {
-  if(this->glfwWindow != NULL) {
-    return this->glfwWindow;
-  } else {
-    std::cerr << "WINDOW: Cannot fetch window handle, window not active\n";
-    exit(1);
-  }
-}
-
-
-// Open the window and inform the context
-void Window::Open(Context* context) {
-  this->context = context;
-  this->glfwWindow = context->MakeGlfwWindow(this);
-  this->active = true;
-}
-
-
-// Open with default context
-void Window::Open(void) {
-  this->Open(&GLT::glContext);
-}
-
-
 // Close the window
 void Window::Close() {
   if(this->active) {
@@ -86,7 +47,12 @@ void Window::Close() {
 
 // Returns true if the window should close
 bool Window::ShouldClose(void) {
-  return glfwWindowShouldClose(this->glfwWindow);
+  if(this->glfwWindow) {
+    return glfwWindowShouldClose(this->glfwWindow);
+  } else {
+    std::cerr << "WINDOW: Cannot query close state, window already closed\n";
+    exit(1);
+  }
 }
 
 
@@ -107,7 +73,7 @@ void Window::SwapBuffers(void) {
 // Set the camera to use
 void Window::SetCamera(const Camera cam) {
   this->camera = cam;
-  this->camera.SetViewRatio(this->size);
+  this->camera.SetViewRatio(this->GetFrameBufferSize());
 }
 
 
