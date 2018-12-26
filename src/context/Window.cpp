@@ -4,72 +4,64 @@ using namespace GLT;
 
 // Standard
 #include <iostream>
+using namespace std;
 
-
-// Variable to track initialisation state of glfw
-bool Window::glfwInitialised = false;
-
-
-// GLFW error callback
-void Window::Error(int error, const char* description) {
-  std::cerr << "GLFW: " << description << "\n";
-}
-
-
-//========[PRIVATE METHODS]===================================================//
 
 // Common initialisation
 void Window::Init(void) {
 
   // Default name and resolution
-  this->name = "";
+  this->name = "GLT";
   this->size = glm::vec2(640, 480);
 
-  // Initialise GLFW if not already done
-  if(!glfwInitialised) {
-    if(!glfwInit()) {
-      std::cerr << "Error, failed to initialise GLFW.\n";
-      exit(1);
-    } else {
-      glfwInitialised = true;
-    }
-  }
-
-  glfwSetErrorCallback(Window::Error);
-  this->glfwWindow = glfwCreateWindow(
-    this->size.x, this->size.y,
-    name,
-    NULL, NULL);
-
-  this->MakeCurrent();
-  if(glewInit() != GLEW_OK) {
-    std::cerr << "Error, failed to initialise GLEW\n";
-    exit(1);
-  }
-
-  glfwSwapInterval(1);
+  // Default camera
+  this->camera.SetViewRatio(this->size);
 }
 
-
-//========[PUBLIC METHODS]====================================================//
 
 // Default constructor
 Window::Window(void) {
   this->Init();
+  this->Open(&GLT::glContext);
 }
 
 
 // Size & description constructor
-Window::Window(const glm::vec2 size, const char* name) {
+Window::Window(const glm::vec2 size, const string name) {
   this->Init();
   this->name = name;
   this->size = size;
+  this->Open(&GLT::glContext);
 }
 
 
 // Clean up on destruction
 Window::~Window(void) {
   glfwDestroyWindow(this->glfwWindow);
+}
+
+
+// Make the context current if not already
+void Window::MakeCurrent(void) {
+  if(glfwGetCurrentContext() != this->glfwWindow) {
+    glfwMakeContextCurrent(this->glfwWindow);
+  }
+}
+
+
+// Open the window and inform the context
+void Window::Open(Context* context) {
+
+  // Store pointer to parent context
+  this->context = context;
+
+  // Create the window
+  this->glfwWindow = glfwCreateWindow(
+    this->size.x, this->size.y,
+    this->name.c_str(), NULL, NULL);
+
+  // Register window with context
+  this->context->RegisterWindow(this);
 }
 
 
@@ -86,14 +78,6 @@ void Window::PollEvents(void) {
 }
 
 
-// Make the context current if not already
-void Window::MakeCurrent(void) {
-  if(glfwGetCurrentContext() != this->glfwWindow) {
-    glfwMakeContextCurrent(this->glfwWindow);
-  }
-}
-
-
 // Swap buffers
 void Window::SwapBuffers(void) {
   this->MakeCurrent();
@@ -102,7 +86,7 @@ void Window::SwapBuffers(void) {
 
 
 // Set the camera to use
-void Window::SetCamera(const GLT::Camera cam) {
+void Window::SetCamera(const Camera cam) {
   this->camera = cam;
   this->camera.SetViewRatio(this->size);
 }
