@@ -36,7 +36,7 @@ namespace GLT {
     bool glewInitialised;
 
     // Pointers to windows attached to this context
-    std::vector<Window> windows;
+    std::vector<Window*> windows;
     GLFWwindow* prevGlfwHandle;
 
   private:

@@ -47,12 +47,7 @@ void Window::Close() {
 
 // Returns true if the window should close
 bool Window::ShouldClose(void) {
-  if(this->glfwWindow) {
-    return glfwWindowShouldClose(this->glfwWindow);
-  } else {
-    std::cerr << "WINDOW: Cannot query close state, window already closed\n";
-    exit(1);
-  }
+  return glfwWindowShouldClose(this->glfwWindow);
 }
 
 
@@ -80,4 +75,5 @@ void Window::SetCamera(const Camera cam) {
 // Clean up on destruction
 Window::~Window(void) {
   this->Close();
+  std::cout << "WINDOW: Window cleaned up\n";
 }

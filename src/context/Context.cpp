@@ -54,6 +54,7 @@ void Context::Init(void) {
 
   // Glew hasn't been intialised yet (we can't until we have a context)
   this->glewInitialised = false;
+  this->windows.clear();
 }
 
 
@@ -98,15 +99,20 @@ Window* Context::NewWindow(glm::vec2 size, std::string name, GLFWmonitor* mon) {
   this->prevGlfwHandle = glfwHandle;
 
   // Create the new window
-  this->windows.push_back(Window(glfwHandle));
+  this->windows.push_back(new Window(glfwHandle));
 
   // Return a pointer to the newly created window
-  return &this->windows[this->windows.size() - 1];
+  return this->windows[this->windows.size() - 1];
 }
 
 
 // Context going out of scope, close all windows
 Context::~Context(void) {
+
+  // Clean up windows
+  for(unsigned i = 0; i < this->windows.size(); i++) {
+    delete windows[i];
+  }
 
   // Decrement reference count
   contextCountMx.lock();
@@ -122,4 +128,7 @@ Context::~Context(void) {
 
   // Context has no attached windows at the moment
   this->glewInitialised = false;
+
+  // Cleaned up context
+  std::cout << "CONTEXT: Context cleaned up\n";
 }

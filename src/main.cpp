@@ -12,12 +12,12 @@ int main(void) {
   GLT::Context cxt;
 
   // Create two windows in the current context
-  GLT::Window* win1 = cxt.NewWindow(glm::vec2(640, 480), "Test window 1", NULL);
+  GLT::Window* win = cxt.NewWindow(glm::vec2(640, 480), "Test 1", NULL);
 
   // Window 2 loop
-  while(!win1->ShouldClose()) {
-    win1->PollEvents();
-    win1->SwapBuffers();
+  while(!win->ShouldClose()) {
+    win->PollEvents();
+    win->SwapBuffers();
   }
 
   // All done

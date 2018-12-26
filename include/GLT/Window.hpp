@@ -27,6 +27,10 @@ namespace GLT {
     // Is the window active?
     bool active;
 
+    // Some general window info
+    glm::vec2 size;
+    std::string name;
+
     // GLFW window and context handles
     GLFWwindow* glfwWindow;
 
@@ -40,7 +44,7 @@ namespace GLT {
 
   public:
 
-    // Constructor/destructor
+    // Constructor
     Window(GLFWwindow* glfwWindow);
 
     // Window open & close methods
@@ -48,6 +52,9 @@ namespace GLT {
 
     // Select the context associated with this window
     void MakeCurrent(void);
+
+    // Get the GLFW window handle pointer
+    GLFWwindow* GetGlfwHandle(void);
 
     // General utility
     bool ShouldClose(void);
