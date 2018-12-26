@@ -16,13 +16,16 @@ void Window::Init(void) {
 
   // Default camera
   this->camera.SetViewRatio(this->size);
+
+  // Window handle does not exist
+  this->glfwWindow = NULL;
+  this->active = false;
 }
 
 
 // Default constructor
 Window::Window(void) {
   this->Init();
-  this->Open(&GLT::glContext);
 }
 
 
@@ -31,37 +34,53 @@ Window::Window(const glm::vec2 size, const string name) {
   this->Init();
   this->name = name;
   this->size = size;
-  this->Open(&GLT::glContext);
-}
-
-
-// Clean up on destruction
-Window::~Window(void) {
-  glfwDestroyWindow(this->glfwWindow);
 }
 
 
 // Make the context current if not already
 void Window::MakeCurrent(void) {
-  if(glfwGetCurrentContext() != this->glfwWindow) {
-    glfwMakeContextCurrent(this->glfwWindow);
+  if(this->active) {
+    if(glfwGetCurrentContext() != this->glfwWindow) {
+      glfwMakeContextCurrent(this->glfwWindow);
+    }
+  } else {
+    std::cerr << "WINDOW: Cannot make current, window not active\n";
+    exit(1);
+  }
+}
+
+
+// Get the GLFW window handle
+GLFWwindow* Window::GetWindowHandle(void) {
+  if(this->glfwWindow != NULL) {
+    return this->glfwWindow;
+  } else {
+    std::cerr << "WINDOW: Cannot fetch window handle, window not active\n";
+    exit(1);
   }
 }
 
 
 // Open the window and inform the context
 void Window::Open(Context* context) {
-
-  // Store pointer to parent context
   this->context = context;
+  this->glfwWindow = context->MakeGlfwWindow(this);
+  this->active = true;
+}
 
-  // Create the window
-  this->glfwWindow = glfwCreateWindow(
-    this->size.x, this->size.y,
-    this->name.c_str(), NULL, NULL);
 
-  // Register window with context
-  this->context->RegisterWindow(this);
+// Open with default context
+void Window::Open(void) {
+  this->Open(&GLT::glContext);
+}
+
+
+// Close the window
+void Window::Close() {
+  if(this->active) {
+    glfwDestroyWindow(this->glfwWindow);
+    this->active = false;
+  }
 }
 
 
@@ -89,4 +108,10 @@ void Window::SwapBuffers(void) {
 void Window::SetCamera(const Camera cam) {
   this->camera = cam;
   this->camera.SetViewRatio(this->size);
+}
+
+
+// Clean up on destruction
+Window::~Window(void) {
+  this->Close();
 }

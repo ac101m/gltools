@@ -28,8 +28,8 @@ namespace GLT {
     static int contextCount;
     static std::mutex contextCountMx;
 
-    // Is the context initialized?
-    bool active;
+    // Is glew initialised?
+    bool glewInitialised;
 
     // Pointers to windows attached to this context
     std::vector<Window*> windows;
@@ -38,6 +38,7 @@ namespace GLT {
 
     // Common initialisation
     void Init(void);
+    void InitGlew(GLFWwindow* window);
 
     // GLFW Error callback
     static void Error(int error, const char* description);
@@ -49,7 +50,7 @@ namespace GLT {
     ~Context(void);
 
     // Register things with the context
-    void RegisterWindow(Window* window);
+    GLFWwindow* MakeGlfwWindow(Window* window);
   };
 
   // Context for GLT, used by all GLT objects

@@ -53,7 +53,26 @@ void Context::Init(void) {
   contextCountMx.unlock();
 
   // Context isn't actrive until there are attached windows
-  this->active = false;
+  this->glewInitialised = false;
+}
+
+
+// Initialise GLEW
+void Context::InitGlew(GLFWwindow* window) {
+  if(!this->glewInitialised) {
+
+    // Make one of the windows from this context active
+    glfwMakeContextCurrent(window);
+
+    // Do the initialisation
+    if(glewInit() != GLEW_OK) {
+      std::cerr << "CONTEXT: Failed to initialise GLEW\n";
+      exit(1);
+    } else {
+      std::cout << "CONTEXT: GLEW Initialised\n";
+      this->glewInitialised = true;
+    }
+  }
 }
 
 
@@ -79,25 +98,31 @@ Context::~Context(void) {
   contextCountMx.unlock();
 
   // Context has no attached windows at the moment
-  this->active = false;
+  this->glewInitialised = false;
 }
 
 
 // Add a window
-void Context::RegisterWindow(Window* window) {
+GLFWwindow* Context::MakeGlfwWindow(Window* window) {
+  GLFWwindow* glfwWindow;
 
-  // Add the window to the
-  window->MakeCurrent();
-  this->windows.push_back(window);
+  // Make first window
+  if(this->windows.size() == 0) {
+    glfwWindow = glfwCreateWindow(
+      window->GetSize().x, window->GetSize().y,
+      window->GetName().c_str(),
+      NULL, NULL);
 
-  // Initialise GLEW if neccessary
-  if(!this->active) {
-    if(glewInit() != GLEW_OK) {
-      std::cerr << "CONTEXT: Failed to initialise GLEW\n";
-      exit(1);
-    } else {
-      std::cout << "CONTEXT: Initialised GLEW\n";
-      this->active = true;
-    }
+  // Otherwise, make new window a child of the existing ones
+  } else {
+    glfwWindow = glfwCreateWindow(
+      window->GetSize().x, window->GetSize().y,
+      window->GetName().c_str(),
+      NULL, this->windows[0]->GetWindowHandle());
   }
+
+  // Add window pointer & initialise GLEW
+  this->windows.push_back(window);
+  this->InitGlew(glfwWindow);
+  return glfwWindow;
 }
