@@ -10,6 +10,7 @@ using namespace GLT;
 
 // Standard
 #include <iostream>
+#include <string>
 
 
 // Track the number of GLFW contexts
@@ -54,7 +55,10 @@ void Context::Init(void) {
 
   // Glew hasn't been intialised yet (we can't until we have a context)
   this->glewInitialised = false;
+
+  // Clear all attached opengl objects
   this->windows.clear();
+  this->shaders.clear();
 }
 
 
@@ -83,6 +87,12 @@ Context::Context(void) {
 }
 
 
+// Make this context current
+void Context::MakeCurrent(void) {
+  glfwMakeContextCurrent(this->prevGlfwHandle);
+}
+
+
 // Add a window
 Window* Context::NewWindow(glm::vec2 size, std::string name, GLFWmonitor* mon) {
 
@@ -106,13 +116,24 @@ Window* Context::NewWindow(glm::vec2 size, std::string name, GLFWmonitor* mon) {
 }
 
 
+// Create a new shader
+Shader* Context::NewShader(std::string path, ShaderType type) {
+
+}
+
+
+// Create a new shader program
+ShaderProgram* Context::NewShaderProgram(std::string vertexPath, std::string fragmentPath) {
+
+}
+
+
 // Context going out of scope, close all windows
 Context::~Context(void) {
 
-  // Clean up windows
-  for(unsigned i = 0; i < this->windows.size(); i++) {
-    delete windows[i];
-  }
+  // Clean up context linked objects
+  for(unsigned i = 0; i < this->windows.size(); i++) delete windows[i];
+  for(unsigned i = 0; i < this->shaders.size(); i++) delete shaders[i];
 
   // Decrement reference count
   contextCountMx.lock();

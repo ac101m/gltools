@@ -7,6 +7,8 @@
 #include <GLT/Master.hpp>
 #endif
 #include <GLT/Window.hpp>
+#include <GLT/Shader.hpp>
+#include <GLT/ShaderProgram.hpp>
 
 
 // Standard
@@ -19,7 +21,6 @@
 
 
 namespace GLT {
-
 
   // Window class will exist, Promise
   class Window;
@@ -37,6 +38,7 @@ namespace GLT {
 
     // Pointers to windows attached to this context
     std::vector<Window*> windows;
+    std::vector<Shader*> shaders;
     GLFWwindow* prevGlfwHandle;
 
   private:
@@ -53,8 +55,13 @@ namespace GLT {
     // Constructor/destructor
     Context(void);
 
-    // Create things with this context
+    // Make this context current
+    void MakeCurrent(void);
+
+    // Create things within this context
     Window* NewWindow(glm::vec2 size, std::string name, GLFWmonitor* mon);
+    Shader* NewShader(std::string path, ShaderType type);
+    ShaderProgram* NewShaderProgram(std::string vertexPath, std::string fragmentPath);
 
     // Destructor manages termination of glfw
     ~Context(void);

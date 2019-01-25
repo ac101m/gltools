@@ -10,33 +10,41 @@
 
 // Standard
 #include <string>
-using namespace std;
 
 
 namespace GLT {
+
+  // Shader type ENUM
+  typedef enum {
+    GLT_SHADER_VERTEX = GL_VERTEX_SHADER,
+    GLT_SHADER_FRAGMENT = GL_FRAGMENT_SHADER
+  } ShaderType;
+
 
   // Class encapsulates a shader
   class Shader {
   private:
 
-    // Shader source
-    string source;
-
     // OpenGL handle
     GLuint handle;
-    GLenum type;
+    ShaderType type;
+
+    // Shader source
+    std::string source;
 
   private:
 
     // Loads entire file into string and returns it
-    void SetSource(const string src);
-    void LoadSource(const string path);
+    void SetSource(const std::string src);
+    void LoadSource(const std::string path);
 
   public:
 
     // Constructors/destructor
-    Shader(const string path, const GLenum type);
+    Shader(const std::string path, const ShaderType type);
 
+    // Deconstruct
+    ~Shader(void);
   };
 
 } // namespace GLT
