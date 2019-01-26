@@ -7,19 +7,29 @@ using namespace GLT;
 using namespace std;
 
 
+void Window::Init(glm::vec2 size, string name, Context *context) {
+  this->glfwWindow = context->NewGlfwWindow(size, name, NULL);
+  this->active = true;
+  this->camera.SetViewRatio(this->GetFrameBufferSize());
+}
+
+
+// Constructor, with specified context
+Window::Window(glm::vec2 size, string name, Context *context) {
+  this->Init(size, name, context);
+}
+
+
+Window::Window(glm::vec2 size, string name) {
+  this->Init(size, name, &defaultContext);
+}
+
+
 // Get frame buffer size
 glm::vec2 Window::GetFrameBufferSize(void) {
   int x, y;
   glfwGetFramebufferSize(this->glfwWindow, &x, &y);
   return glm::vec2(x, y);
-}
-
-
-// Size & description constructor
-Window::Window(GLFWwindow* glfwWindow) {
-  this->glfwWindow = glfwWindow;
-  this->active = true;
-  this->camera.SetViewRatio(this->GetFrameBufferSize());
 }
 
 

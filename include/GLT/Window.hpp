@@ -3,6 +3,9 @@
 
 
 // This project
+#ifndef _GLT_MASTER_INCLUDED
+#include <GLT/Master.hpp>
+#endif
 #include <GLT/Context.hpp>
 #include <GLT/Camera.hpp>
 
@@ -42,10 +45,14 @@ namespace GLT {
     // Get frame buffer size
     glm::vec2 GetFrameBufferSize(void);
 
+    // Common initialisation
+    void Init(glm::vec2 size, std::string name, Context *context);
+
   public:
 
     // Constructor
-    Window(GLFWwindow* glfwWindow);
+    Window(glm::vec2 size, std::string name, Context *context);
+    Window(glm::vec2 size, std::string name);
 
     // Window open & close methods
     void Close(void);

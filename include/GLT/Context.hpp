@@ -6,9 +6,7 @@
 #ifndef _GLT_MASTER_INCLUDED
 #include <GLT/Master.hpp>
 #endif
-#include <GLT/Window.hpp>
-#include <GLT/Shader.hpp>
-#include <GLT/ShaderProgram.hpp>
+#include <GLT/ShaderType.hpp>
 
 
 // Standard
@@ -22,9 +20,6 @@
 
 namespace GLT {
 
-  // Window class will exist, Promise
-  class Window;
-
   // Class encapsulates an opengl context
   class Context {
   private:
@@ -37,18 +32,15 @@ namespace GLT {
     bool glewInitialised;
 
     // Pointers to windows attached to this context
-    std::vector<Window*> windows;
-    std::vector<Shader*> shaders;
-    GLFWwindow* prevGlfwHandle;
+    GLFWwindow* prevGlfwWindow;
 
   private:
 
-    // Common initialisation
-    void Init(void);
-    void InitGlew(GLFWwindow* window);
-
     // GLFW Error callback
     static void Error(int error, const char* description);
+
+    // Common initialisation
+    void InitGlew(GLFWwindow* window);
 
   public:
 
@@ -59,13 +51,15 @@ namespace GLT {
     void MakeCurrent(void);
 
     // Create things within this context
-    Window* NewWindow(glm::vec2 size, std::string name, GLFWmonitor* mon);
-    Shader* NewShader(std::string path, ShaderType type);
-    ShaderProgram* NewShaderProgram(std::string vertexPath, std::string fragmentPath);
+    GLFWwindow* NewGlfwWindow(glm::vec2 size, std::string name, GLFWmonitor* mon);
+    GLuint NewShaderHandle(ShaderType type);
 
     // Destructor manages termination of glfw
     ~Context(void);
   };
+
+  // Global default context variable
+  extern Context defaultContext;
 
 } // namespace GLT
 

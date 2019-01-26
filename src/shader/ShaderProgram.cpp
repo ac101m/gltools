@@ -3,12 +3,12 @@ using namespace GLT;
 
 
 // Constructor
-ShaderProgram::ShaderProgram(GLuint glHandle) {
-  this->handle = glHandle;
+ShaderProgram::ShaderProgram(void) {
+
 }
 
 
 // Delete the shader program
 ShaderProgram::~ShaderProgram(void) {
-  glDeleteProgram(this->handle);
+  glDeleteProgram(this->glHandle);
 }

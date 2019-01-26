@@ -6,6 +6,8 @@
 #ifndef _GLT_MASTER_INCLUDED
 #include <GLT/Master.hpp>
 #endif
+#include <GLT/ShaderType.hpp>
+#include <GLT/Context.hpp>
 
 
 // Standard
@@ -14,20 +16,13 @@
 
 namespace GLT {
 
-  // Shader type ENUM
-  typedef enum {
-    GLT_SHADER_VERTEX = GL_VERTEX_SHADER,
-    GLT_SHADER_FRAGMENT = GL_FRAGMENT_SHADER
-  } ShaderType;
-
-
   // Class encapsulates a shader
   class Shader {
   private:
 
     // OpenGL handle
-    GLuint handle;
     ShaderType type;
+    GLuint glHandle;
 
     // Shader source
     std::string source;
@@ -35,13 +30,14 @@ namespace GLT {
   private:
 
     // Loads entire file into string and returns it
-    void SetSource(const std::string src);
-    void LoadSource(const std::string path);
+    void SetSource(std::string src);
+    void LoadSource(std::string path);
 
   public:
 
-    // Constructors/destructor
-    Shader(const std::string path, const ShaderType type);
+    // Constructors
+    Shader(ShaderType type, std::string path, Context* context);
+    Shader(ShaderType type, std::string path);
 
     // Deconstruct
     ~Shader(void);

@@ -5,15 +5,26 @@ using namespace GLT;
 // Standard
 #include <fstream>
 #include <iostream>
-using namespace std;
 
 
-// Constructor, load shader from file
-Shader::Shader(const string path, const ShaderType type) {
+// Constructor, specified context
+Shader::Shader(ShaderType type, std::string path, Context* context) {
 
   // Set up type information
   this->type = type;
-  this->handle = glCreateShader(this->type);
+  this->glHandle = context->NewShaderHandle(this->type);
+
+  // Load the shader source
+  this->LoadSource(path);
+}
+
+
+// Constructor, default context
+Shader::Shader(ShaderType type, std::string path) {
+
+  // Set up type information
+  this->type = type;
+  this->glHandle = defaultContext.NewShaderHandle(this->type);
 
   // Load the shader source
   this->LoadSource(path);
@@ -21,17 +32,17 @@ Shader::Shader(const string path, const ShaderType type) {
 
 
 // Gets file from string
-void Shader::LoadSource(const string path) {
+void Shader::LoadSource(std::string path) {
 
   // Open the file
-  ifstream fp(path, ios::in);
+  std::ifstream fp(path, std::ios::in);
   if(!fp.is_open()) {
     std::cout << "SHADER: Could not open shader source '" << path << "'\n";
     exit(1);
   }
 
   // Get the source from the file
-  string line, source;
+  std::string line, source;
   while(getline(fp, line)) {
     source += line + "\n";
   }
@@ -43,15 +54,15 @@ void Shader::LoadSource(const string path) {
 
 
 // Set shader source
-void Shader::SetSource(const string src) {
+void Shader::SetSource(std::string src) {
   this->source = src;
   const char * srcPtr = this->source.c_str();
-  glShaderSource(this->handle, 1, &srcPtr, NULL);
+  glShaderSource(this->glHandle, 1, &srcPtr, NULL);
 }
 
 
 // Deconstruct
 Shader::~Shader(void) {
   this->source = "";
-  glDeleteShader(this->handle);
+  glDeleteShader(this->glHandle);
 }

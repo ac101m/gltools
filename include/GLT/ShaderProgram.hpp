@@ -3,11 +3,15 @@
 
 
 // This project
+#ifndef _GLT_MASTER_INCLUDED
+#include <GLT/Master.hpp>
+#endif
 #include <GLT/Shader.hpp>
 
 
 // Standard
 #include <string>
+#include <vector>
 
 
 namespace GLT {
@@ -16,12 +20,12 @@ namespace GLT {
   private:
 
     // OpenGL handle
-    GLuint handle;
+    GLuint glHandle;
 
   public:
 
     // Constructor
-    ShaderProgram(GLuint glHandle);
+    ShaderProgram(void);
 
     // Destructor, clean up GL handle
     ~ShaderProgram(void);
