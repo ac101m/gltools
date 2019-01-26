@@ -5,6 +5,7 @@
 #include <GLT/Window.hpp>
 #include <GLT/Camera.hpp>
 #include <GLT/ShaderProgram.hpp>
+#include <GLT/RefCount.hpp>
 
 
 int main(void) {

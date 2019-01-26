@@ -64,5 +64,4 @@ void Shader::SetSource(std::string src) {
 // Deconstruct
 Shader::~Shader(void) {
   this->source = "";
-  glDeleteShader(this->glHandle);
 }

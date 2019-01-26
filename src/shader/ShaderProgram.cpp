@@ -10,5 +10,5 @@ ShaderProgram::ShaderProgram(void) {
 
 // Delete the shader program
 ShaderProgram::~ShaderProgram(void) {
-  glDeleteProgram(this->glHandle);
+  
 }
