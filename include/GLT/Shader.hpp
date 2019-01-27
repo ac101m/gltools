@@ -8,6 +8,7 @@
 #endif
 #include <GLT/ShaderType.hpp>
 #include <GLT/Context.hpp>
+#include <GLT/RefCount.hpp>
 
 
 // Standard
@@ -23,6 +24,7 @@ namespace GLT {
     // OpenGL handle
     ShaderType type;
     GLuint glHandle;
+    RefCount refCount;
 
     // Shader source
     std::string source;

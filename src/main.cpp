@@ -10,8 +10,12 @@
 
 int main(void) {
 
-  // Create two windows in the current context
+  // Create window
   GLT::Window win(glm::vec2(800, 600), "Test 1");
+
+  // Build a shader program
+  GLT::Shader vertShader(GLT_SHADER_VERTEX, "shader/generic-vert.glsl");
+  GLT::Shader fragShader(GLT_SHADER_VERTEX, "shader/generic-frag.glsl");
 
   // Window 2 loop
   while(!win.ShouldClose()) {
