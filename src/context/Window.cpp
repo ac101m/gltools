@@ -40,7 +40,7 @@ void Window::MakeCurrent(void) {
       glfwMakeContextCurrent(this->glfwWindow);
     }
   } else {
-    std::cerr << "WINDOW: Cannot make current, window not active\n";
+    std::cerr << "Cannot make window current, window not active\n";
     exit(1);
   }
 }
@@ -85,5 +85,5 @@ void Window::SetCamera(const Camera cam) {
 // Clean up on destruction
 Window::~Window(void) {
   this->Close();
-  std::cout << "WINDOW: Window cleaned up\n";
+  std::cout << "Window cleaned up\n";
 }

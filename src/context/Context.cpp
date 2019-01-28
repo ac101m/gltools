@@ -31,10 +31,10 @@ void Context::InitGlew(GLFWwindow* window) {
 
     // Do the initialisation
     if(glewInit() != GLEW_OK) {
-      std::cerr << "CONTEXT: Failed to initialise GLEW\n";
+      std::cerr << "Failed to initialise GLEW\n";
       exit(1);
     } else {
-      std::cout << "CONTEXT: GLEW Initialised\n";
+      std::cout << "Initialised GLEW\n";
       this->glewInitialised = true;
     }
   }
@@ -52,10 +52,10 @@ Context::Context(void) {
 
     // Initialise GLFW
     if(!glfwInit()) {
-      std::cerr << "CONTEXT: Failed to initialise GLFW\n";
+      std::cerr << "Failed to initialise GLFW\n";
       exit(1);
     } else {
-      std::cout << "CONTEXT: Initialised GLFW\n";
+      std::cout << "Initialised GLFW\n";
     }
 
     // Add glfw error callback
@@ -111,6 +111,13 @@ GLuint Context::NewShaderHandle(ShaderType type) {
 }
 
 
+// Make a new shader handle within the current context
+GLuint Context::NewShaderProgramHandle(void) {
+  this->MakeCurrent();
+  return glCreateProgram();
+}
+
+
 // Context going out of scope
 Context::~Context(void) {
 
@@ -130,8 +137,8 @@ Context::~Context(void) {
   this->glewInitialised = false;
 
   // Print cleanup messages
-  std::cout << "CONTEXT: Context cleaned up\n";
+  std::cout << "Context cleaned up\n";
   if(!contextCount) {
-    std::cout << "CONTEXT: All contexts cleaned, GLFW terminated\n";
+    std::cout << "All contexts destroyed, GLFW terminated\n";
   }
 }

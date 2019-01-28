@@ -53,6 +53,7 @@ namespace GLT {
     // Create things within this context
     GLFWwindow* NewGlfwWindow(glm::vec2 size, std::string name, GLFWmonitor* mon);
     GLuint NewShaderHandle(ShaderType type);
+    GLuint NewShaderProgramHandle(void);
 
     // Destructor manages termination of glfw
     ~Context(void);

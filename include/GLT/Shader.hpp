@@ -21,15 +21,23 @@ namespace GLT {
   class Shader {
   private:
 
+    // Reference count for shader deletion
+    RefCount refCount;
+
     // OpenGL handle
     ShaderType type;
     GLuint glHandle;
-    RefCount refCount;
 
     // Shader source
     std::string source;
 
   private:
+
+    // Common initialisation
+    void Init(ShaderType type, std::string path, Context& context);
+
+    // Generates debug prints
+    void Compile(void);
 
     // Loads entire file into string and returns it
     void SetSource(std::string src);
@@ -38,8 +46,11 @@ namespace GLT {
   public:
 
     // Constructors
-    Shader(ShaderType type, std::string path, Context* context);
+    Shader(ShaderType type, std::string path, Context& context);
     Shader(ShaderType type, std::string path);
+
+    // Get GL handle
+    GLuint GetGlHandle(void) {return this->glHandle;}
 
     // Deconstruct
     ~Shader(void);

@@ -20,18 +20,28 @@ namespace GLT {
   class ShaderProgram {
   private:
 
+    // Reference count for shader deletion
+    RefCount refCount;
+
     // OpenGL handle & reference counter
     GLuint glHandle;
-    RefCount refCount;
+
+  private:
+
+    // Links an array of shaders into this program
+    void LinkShaders(std::vector<Shader>& shaders);
 
   public:
 
     // Constructor
-    ShaderProgram(void);
+    ShaderProgram(std::vector<Shader> shaders);
+    ShaderProgram(std::vector<Shader> shaders, Context& context);
+
+    // Use this shader program
+    void Use(void);
 
     // Destructor, clean up GL handle
     ~ShaderProgram(void);
-
   };
 
 } // namespace GLT
