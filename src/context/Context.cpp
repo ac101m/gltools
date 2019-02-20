@@ -118,12 +118,21 @@ GLuint Context::NewShaderProgramHandle(void) {
 }
 
 
-// Make a new shader handle within the current context
-GLuint Context::NewVertexArray(void) {
+// Make a new vertex buffer object within the current context
+GLuint Context::NewVertexArrayHandle(void) {
   this->MakeCurrent();
   GLuint vao;
   glGenVertexArrays(1, &vao);
   return vao;
+}
+
+
+// Make a new vertex buffer object within the current context
+GLuint Context::NewBufferHandle(void) {
+  this->MakeCurrent();
+  GLuint buf;
+  glGenBuffers(1, &buf);
+  return buf;
 }
 
 
