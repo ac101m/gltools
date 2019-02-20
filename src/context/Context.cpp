@@ -118,6 +118,15 @@ GLuint Context::NewShaderProgramHandle(void) {
 }
 
 
+// Make a new shader handle within the current context
+GLuint Context::NewVertexArray(void) {
+  this->MakeCurrent();
+  GLuint vao;
+  glGenVertexArrays(1, &vao);
+  return vao;
+}
+
+
 // Context going out of scope
 Context::~Context(void) {
 
