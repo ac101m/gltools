@@ -2,18 +2,18 @@
 #define _GLT_REF_COUNT_INCLUDED
 
 
-// This project
-#ifndef _GLT_MASTER_INCLUDED
-#include <GLT/Master.hpp>
-#endif
-
-
 namespace GLT {
 
-  // Referenc
+  // Reference counter class
   class RefCount {
   private:
+
+    // Shared counter
     int *count;
+
+    // Increment and decrement methods
+    void Increment(void) {*this->count++;}
+    void Decrement(void) {*this->count--;}
 
   public:
 

@@ -11,14 +11,14 @@ RefCount::RefCount(void) {
 // Copy constructor with increment
 RefCount::RefCount(const RefCount& rc) {
   this->count = rc.count;
-  (*this->count)++;
+  this->Increment();
 }
 
 
 // Destructor, decement reference counter
 RefCount::~RefCount(void) {
-  if(*this->count != 0) {
-    (*this->count)--;
+  if(this->GetCount() != 0) {
+    this->Decrement();
   } else {
     delete this->count;
   }
