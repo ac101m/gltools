@@ -12,8 +12,8 @@ namespace GLT {
     int *count;
 
     // Increment and decrement methods
-    void Increment(void) {*this->count++;}
-    void Decrement(void) {*this->count--;}
+    void Increment(void) {(*this->count)++;}
+    void Decrement(void) {(*this->count)--;}
 
   public:
 
@@ -21,7 +21,10 @@ namespace GLT {
     RefCount(void);
 
     // Copy constructor
-    RefCount(const RefCount& rc);
+    RefCount(const RefCount& other);
+
+    // Assignment operator
+    RefCount& operator=(const RefCount& other);
 
     // Get reference counter value
     int GetCount(void) {return *this->count;}
