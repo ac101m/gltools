@@ -12,8 +12,8 @@ namespace GLT {
     int *count;
 
     // Increment and decrement methods
-    void Increment(void) {*this->count++;}
-    void Decrement(void) {*this->count--;}
+    void Increment(void) {(*this->count)++;}
+    void Decrement(void) {(*this->count)--;}
 
   public:
 
