@@ -1,5 +1,5 @@
-#ifndef _GLT_VERTEX_ARRAY_OBJECT_INCLUDED
-#define _GLT_VERTEX_ARRAY_OBJECT_INCLUDED
+#ifndef _GLT_MESH_INCLUDED
+#define _GLT_MESH_INCLUDED
 
 
 // This project
@@ -8,6 +8,8 @@
 #endif
 #include <GLT/RefCount.hpp>
 #include <GLT/Context.hpp>
+#include <GLT/ShaderProgram.hpp>
+#include <GLT/Drawable.hpp>
 
 
 // Standard
@@ -29,35 +31,57 @@ namespace GLT {
   } vertex_t;
 
 
-  // Class for containing mesh data
-  class Mesh {
+  // Container class for vertex buffer
+  class VertexBuffer {
+  private:
+
+    // Reference counter, for handling destruction of gl buffers
+    RefCount rc;
+
+    // OpenGL handles
+    GLuint vao, vbo, ebo;
+
+    // Sets up the mesh opengl buffers
+    void GenBuffers(std::vector<vertex_t>& vertices,
+                    std::vector<unsigned>& indices,
+                    Context *context);
+
+  public:
+
+    // Constructors with context initialisation
+    VertexBuffer(void);
+    VertexBuffer(std::vector<vertex_t>& vertices, std::vector<unsigned>& indices);
+
+    // Bind this vertex buffer
+    void Bind(void) {glBindVertexArray(this->vao);}
+    void Unbind(void) {glBindVertexArray(0);}
+
+    // Destructor
+    ~VertexBuffer(void);
+  };
+
+
+  // Container class for meshes
+  class Mesh: public Drawable {
   private:
 
     // Mesh data
     std::vector<vertex_t> vertices;
     std::vector<unsigned> indices;
 
-    // OpenGL handles
-    GLuint vao, vbo, ebo;
-
-    // Reference counter, for handling deallocation of gl stuff
-    RefCount rc;
-
-    // Sets up the mesh opengl buffers
-    void GenBuffers(Context *context);
+    // Vertex buffer
+    VertexBuffer vertexBuffer;
 
   public:
 
-    // Initialise vertex positions
+    // Initialise geometry and indices
+    Mesh(std::vector<vertex_t> vertices);
     Mesh(std::vector<vertex_t> vertices, std::vector<unsigned> indices);
 
-    // Get the number of vertices in the mesh
-    unsigned GetSize(void) {return this->vertices.size();}
-
-    // Destructor
-    ~Mesh(void);
+    // Draw routine
+    void Draw(ShaderProgram& shader);
   };
 
 } // namespace GLT
 
-#endif // _GLT_VERTEX_ARRAY_OBJECT_HPP
+#endif // _GLT_MESH_HPP

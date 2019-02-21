@@ -3,9 +3,11 @@ using namespace GLT;
 
 
 // Sets up the mesh opengl buffers
-void Mesh::GenBuffers(Context *context) {
+void VertexBuffer::GenBuffers(std::vector<vertex_t>& vertices,
+                              std::vector<unsigned>& indices,
+                              Context *context) {
 
-  // Create out vertex array object handle
+  // Create vertex array object buffer
   this->vao = context->NewVertexArrayHandle();
   glBindVertexArray(this->vao);
 
@@ -13,16 +15,16 @@ void Mesh::GenBuffers(Context *context) {
   this->vbo = context->NewBufferHandle();
   glBindBuffer(GL_ARRAY_BUFFER, this->vbo);
   glBufferData(GL_ARRAY_BUFFER,
-               this->vertices.size() * sizeof(vertex_t),
-               &this->vertices[0],
+               vertices.size() * sizeof(vertex_t),
+               &vertices[0],
                GL_STATIC_DRAW);
 
   // Set up index buffer
   this->ebo = context->NewBufferHandle();
-  glBindBuffer(GL_ARRAY_BUFFER, this->ebo);
-  glBufferData(GL_ARRAY_BUFFER,
-               this->indices.size() * sizeof(unsigned),
-               &this->indices[0],
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->ebo);
+  glBufferData(GL_ELEMENT_ARRAY_BUFFER,
+               indices.size() * sizeof(unsigned),
+               &indices[0],
                GL_STATIC_DRAW);
 
   // Vertex positions
@@ -42,18 +44,23 @@ void Mesh::GenBuffers(Context *context) {
 }
 
 
+// Blank constructor, no data
+VertexBuffer::VertexBuffer(void) {
+  this->vao = this->vbo = this->ebo = 0;
+}
+
+
 // Initialise vertex positions
-Mesh::Mesh(std::vector<vertex_t> vertices, std::vector<unsigned> indices) {
-  this->vertices = vertices;
-  this->indices = indices;
-  this->GenBuffers(&GLT::defaultContext);
+VertexBuffer::VertexBuffer(std::vector<vertex_t>& vertices, std::vector<unsigned>& indices) {
+  this->GenBuffers(vertices, indices, &GLT::defaultContext);
 }
 
 
 // Destructor with reference count
-Mesh::~Mesh(void) {
+VertexBuffer::~VertexBuffer(void) {
   if(this->rc.GetCount() == 0) {
-    glDeleteBuffers(1, &this->vbo);
-    glDeleteBuffers(1, &this->ebo);
+    if(this->vao) glDeleteVertexArrays(1, &this->vao);
+    if(this->vbo) glDeleteBuffers(1, &this->vbo);
+    if(this->ebo) glDeleteBuffers(1, &this->ebo);
   }
 }
