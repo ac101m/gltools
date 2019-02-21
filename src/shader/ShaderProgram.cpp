@@ -30,7 +30,7 @@ void ShaderProgram::LinkShaders(std::vector<Shader>& shaders) {
     std::cout << "ERROR:\n";
 		std::vector<char> log(logLength + 1);
 		glGetProgramInfoLog(this->glHandle, logLength, NULL, &log[0]);
-    std::cout << log[0] << "\n";
+    std::cout << &log[0] << "\n";
 	}
 
   // Detach the shaders
