@@ -72,6 +72,9 @@ namespace GLT {
     void SetCamera(const Camera cam);
     Camera GetCamera(void) {return this->camera;}
 
+    // Drawing routines
+    void Clear(void);
+
     // Destructor, clean things up
     ~Window(void);
   };

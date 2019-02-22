@@ -82,6 +82,12 @@ void Window::SetCamera(const Camera cam) {
 }
 
 
+// Clear the window
+void Window::Clear(void) {
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+}
+
+
 // Clean up on destruction
 Window::~Window(void) {
   this->Close();
