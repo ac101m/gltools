@@ -13,9 +13,19 @@
 // Standard
 #include <string>
 #include <vector>
+#include <map>
 
 
 namespace GLT {
+
+
+  // Struct to contain uniform data
+  typedef struct {
+    GLint size;
+    GLenum type;
+    GLuint handle;
+  } uniform_t;
+
 
   class ShaderProgram {
   private:
@@ -23,13 +33,20 @@ namespace GLT {
     // Reference count for shader deletion
     RefCount refCount;
 
-    // OpenGL handle & reference counter
+    // OpenGL handle
     GLuint glHandle;
 
-  private:
+    // Uniform locations in shader, raw pointer for shallow copy
+    std::map<std::string, uniform_t> *uniformMap;
 
     // Links an array of shaders into this program
     void LinkShaders(std::vector<Shader>& shaders);
+
+    // Fill uniform map
+    void LocateUniforms(void);
+
+    // Common initialisation
+    void Init(std::vector<Shader>& shaders, Context& context);
 
   public:
 
@@ -39,6 +56,9 @@ namespace GLT {
 
     // Use this shader program
     void Use(void);
+
+    // Get shader uniform
+    uniform_t GetUniform(std::string name);
 
     // Destructor, clean up GL handle
     ~ShaderProgram(void);

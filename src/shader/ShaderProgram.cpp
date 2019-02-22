@@ -40,17 +40,68 @@ void ShaderProgram::LinkShaders(std::vector<Shader>& shaders) {
 }
 
 
-// Constructor
-ShaderProgram::ShaderProgram(std::vector<Shader> shaders) {
-  this->glHandle = defaultContext.NewShaderProgramHandle();
-  this->LinkShaders(shaders);
+// Fill uniform cache with data
+void ShaderProgram::LocateUniforms(void) {
+	this->uniformMap->clear();
+
+	// Get uniform count
+	GLint uniformCount = 0;
+	glGetProgramiv(this->glHandle, GL_ACTIVE_UNIFORMS, &uniformCount);
+
+	// Struct to contain uniform data
+	uniform_t uniformData;
+
+	// Uniform name constants
+	const GLsizei nameBufSize = 16;
+	GLchar nameBuf[nameBufSize];
+	GLsizei nameLength;
+
+	// Add all uniforms and their GLuints to the map so we can find them later
+	for(unsigned i = 0; i < uniformCount; i++) {
+
+		// Get our uniform data
+		glGetActiveUniform(
+			this->glHandle,
+			(GLuint)i,
+			nameBufSize,
+			&nameLength,
+			&uniformData.size,
+			&uniformData.type,
+			nameBuf
+		);
+
+		// Get GL handle for uniform (redundant? i good enough?)
+		uniformData.handle = glGetUniformLocation(this->glHandle, nameBuf);
+
+		// Print out uniform stuff, temporary, to confirm the above
+		std::cout << i << " - Found uniform '" << nameBuf;
+		std::cout << "', length " << uniformData.size;
+		std::cout << ", handleID " << uniformData.handle << "\n";
+
+		// Add the uniform to the uniform map
+		this->uniformMap->insert(
+			std::pair<std::string, uniform_t>(std::string(nameBuf), uniformData));
+	}
 }
 
 
-// Constructor
-ShaderProgram::ShaderProgram(std::vector<Shader> shaders, Context& context) {
-  this->glHandle = context.NewShaderProgramHandle();
+// Common initialisation
+void ShaderProgram::Init(std::vector<Shader>& shaders, Context& context) {
+	this->glHandle = context.NewShaderProgramHandle();
   this->LinkShaders(shaders);
+	this->uniformMap = new std::map<std::string, uniform_t>;
+	this->LocateUniforms();
+}
+
+// Constructor, default context
+ShaderProgram::ShaderProgram(std::vector<Shader> shaders) {
+  this->Init(shaders, defaultContext);
+}
+
+
+// Constructor, custom context
+ShaderProgram::ShaderProgram(std::vector<Shader> shaders, Context& context) {
+  this->Init(shaders, context);
 }
 
 
@@ -60,9 +111,16 @@ void ShaderProgram::Use(void) {
 }
 
 
+// Get uniforms
+uniform_t ShaderProgram::GetUniform(std::string name) {
+	return (*(this->uniformMap))[name];
+}
+
+
 // Delete the shader program
 ShaderProgram::~ShaderProgram(void) {
   if(this->refCount.GetCount() == 0) {
+		delete this->uniformMap;
     glDeleteProgram(this->glHandle);
   }
 }
