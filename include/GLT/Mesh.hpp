@@ -79,7 +79,7 @@ namespace GLT {
     Mesh(std::vector<vertex_t> vertices, std::vector<unsigned> indices);
 
     // Draw routine
-    void Draw(ShaderProgram& shader);
+    void Draw(Window& window, ShaderProgram& shader, glm::mat4& mmx);
   };
 
 } // namespace GLT

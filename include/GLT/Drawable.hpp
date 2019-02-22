@@ -7,6 +7,7 @@
 #include <GLT/Master.hpp>
 #endif
 #include <GLT/ShaderProgram.hpp>
+#include <GLT/Window.hpp>
 
 
 // Standard
@@ -20,7 +21,7 @@ namespace GLT {
   public:
 
     // Template draw function
-    virtual void Draw(ShaderProgram& shader) {
+    virtual void Draw(Window& window, ShaderProgram& shader, glm::mat4& mmx) {
       std::cout << "Pure virtual function call: Drawable.Draw\n";
       exit(1);
     }
