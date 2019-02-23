@@ -46,16 +46,16 @@ namespace GLT {
     glm::vec2 GetFrameBufferSize(void);
 
     // Window and framebuffer resize callbacks
-    static void WindowResizeCallback(GLFWwindow *window, int x, int y);
-    static void FrameBufferResizeCallback(GLFWwindow *window, int x, int y);
+    static void WindowSizeCallback(GLFWwindow *window, int x, int y);
+    static void FrameBufferSizeCallback(GLFWwindow *window, int x, int y);
 
     // Common initialisation
-    void Init(glm::vec2 size, std::string name, Context *context);
+    void Init(glm::vec2 size, std::string name, Context& context);
 
   public:
 
     // Constructor
-    Window(glm::vec2 size, std::string name, Context *context);
+    Window(glm::vec2 size, std::string name, Context& context);
     Window(glm::vec2 size, std::string name);
 
     // Window open & close methods

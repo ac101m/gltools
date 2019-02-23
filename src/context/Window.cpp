@@ -8,33 +8,38 @@ using namespace std;
 
 
 // Window resize callback
-void Window::WindowResizeCallback(GLFWwindow *window, int x, int y) {
-
+void Window::WindowSizeCallback(GLFWwindow *window, int x, int y) {
+  
 }
 
 
 // Frame buffer resize callback
-void Window::FrameBufferResizeCallback(GLFWwindow *window, int x, int y) {
+void Window::FrameBufferSizeCallback(GLFWwindow *window, int x, int y) {
 
 }
 
 
 // Common initialisation
-void Window::Init(glm::vec2 size, string name, Context *context) {
-  this->glfwWindow = context->NewGlfwWindow(size, name, NULL);
+void Window::Init(glm::vec2 size, string name, Context& context) {
+  this->glfwWindow = context.NewGlfwWindow(size, name, NULL);
   this->active = true;
   this->camera.SetViewRatio(this->GetFrameBufferSize());
+
+  // Set window and frame buffer resize callbacks
+  glfwSetWindowSizeCallback(this->glfwWindow, this->WindowSizeCallback);
+  glfwSetFramebufferSizeCallback(this->glfwWindow, this->FrameBufferSizeCallback);
 }
 
 
 // Constructor, with specified context
-Window::Window(glm::vec2 size, string name, Context *context) {
+Window::Window(glm::vec2 size, string name, Context& context) {
   this->Init(size, name, context);
 }
 
 
+// Constructor, with default context
 Window::Window(glm::vec2 size, string name) {
-  this->Init(size, name, &defaultContext);
+  this->Init(size, name, defaultContext);
 }
 
 
@@ -85,6 +90,14 @@ void Window::PollEvents(void) {
 void Window::SwapBuffers(void) {
   this->MakeCurrent();
   glfwSwapBuffers(this->glfwWindow);
+
+  // Handle frame buffer size changes
+  glm::vec2 fbSize = this->GetFrameBufferSize();
+  if(fbSize != this->size) {
+    glViewport(0, 0, fbSize.x, fbSize.y);
+    this->camera.SetViewRatio(fbSize);
+    this->size = fbSize;
+  }
 }
 
 
@@ -97,6 +110,7 @@ void Window::SetCamera(const Camera cam) {
 
 // Clear the window
 void Window::Clear(void) {
+  this->MakeCurrent();
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 

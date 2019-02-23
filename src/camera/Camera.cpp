@@ -70,7 +70,7 @@ Camera::Camera(void) {
 // Set view ratio directly
 void Camera::SetViewRatio(const float ratio) {
   this->viewRatio = ratio;
-  this->viewMatValid = false;
+  this->projMatValid = false;
 }
 
 

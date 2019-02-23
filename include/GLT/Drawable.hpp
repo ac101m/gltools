@@ -16,12 +16,12 @@
 
 namespace GLT {
 
-  // Class defines common methods for drawable
+  // Class defines common methods for drawable objects
   class Drawable {
   public:
 
     // Template draw function
-    virtual void Draw(Window& window, ShaderProgram& shader, glm::mat4& mmx) {
+    virtual void Draw(Window& window, ShaderProgram& shader, glm::mat4& m) {
       std::cout << "Pure virtual function call: Drawable.Draw\n";
       exit(1);
     }
