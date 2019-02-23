@@ -40,6 +40,8 @@ namespace GLT {
     // Get frame buffer size
     glm::vec2 GetFrameBufferSize(void);
 
+//====[METHODS]==============================================================//
+
     // Window and framebuffer resize callbacks
     static void WindowSizeCallback(GLFWwindow *window, int x, int y);
     static void FrameBufferSizeCallback(GLFWwindow *window, int x, int y);
@@ -52,7 +54,9 @@ namespace GLT {
     // Camera
     Camera camera;
 
-    // Constructor
+//====[METHODS]==============================================================//
+
+    // Constructors
     Window(glm::vec2 size, std::string name, Context& context);
     Window(glm::vec2 size, std::string name);
 

@@ -41,6 +41,8 @@ namespace GLT {
     // OpenGL handles
     GLuint vao, vbo, ebo;
 
+//====[METHODS]==============================================================//
+
     // Sets up the mesh opengl buffers
     void GenBuffers(std::vector<vertex_t>& vertices,
                     std::vector<unsigned>& indices,

@@ -34,7 +34,7 @@ namespace GLT {
     // Pointers to windows attached to this context
     GLFWwindow* prevGlfwWindow;
 
-  private:
+//====[METHODS]==============================================================//
 
     // GLFW Error callback
     static void Error(int error, const char* description);

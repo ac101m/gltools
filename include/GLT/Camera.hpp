@@ -42,7 +42,7 @@ namespace GLT {
     float zMax;
     float viewRatio;
 
-  private:
+//====[METHODS]==============================================================//
 
     // Initialisation
     void Init(void);

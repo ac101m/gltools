@@ -31,7 +31,7 @@ namespace GLT {
     // Shader source
     std::string source;
 
-  private:
+//====[METHODS]==============================================================//
 
     // Common initialisation
     void Init(ShaderType type, std::string path, Context& context);
