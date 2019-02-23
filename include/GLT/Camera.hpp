@@ -48,8 +48,8 @@ namespace GLT {
     void Init(void);
 
     // Matrix calculations
-    glm::mat4 ComputeProjMat(void);
-    glm::mat4 ComputeViewMat(void);
+    void ComputeProjMat(void);
+    void ComputeViewMat(void);
 
   public:
 
@@ -69,9 +69,12 @@ namespace GLT {
     void Move(const glm::vec3 pos);
     void Move(const float x, const float y, const float z);
 
+    // Change the camera look direction
+    void MoveLook(const float dx, const float dy, const float dr);
+
     // Matrix gets for rendering
-    glm::mat4* GetProjMat(void);
-    glm::mat4* GetViewMat(void);
+    glm::mat4& GetProjMat(void);
+    glm::mat4& GetViewMat(void);
   };
 
 } // namespace GLT

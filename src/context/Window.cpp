@@ -7,6 +7,19 @@ using namespace GLT;
 using namespace std;
 
 
+// Window resize callback
+void Window::WindowResizeCallback(GLFWwindow *window, int x, int y) {
+
+}
+
+
+// Frame buffer resize callback
+void Window::FrameBufferResizeCallback(GLFWwindow *window, int x, int y) {
+
+}
+
+
+// Common initialisation
 void Window::Init(glm::vec2 size, string name, Context *context) {
   this->glfwWindow = context->NewGlfwWindow(size, name, NULL);
   this->active = true;

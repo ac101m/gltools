@@ -22,13 +22,20 @@ Mesh::Mesh(std::vector<vertex_t> vertices, std::vector<unsigned> indices) /*: ve
 
 
 // Override the draw method
-void Mesh::Draw(Window& window, ShaderProgram& shader, glm::mat4& mmx) {
+void Mesh::Draw(Window& window, ShaderProgram& shader, glm::mat4& m) {
+
+  // Window and camera stuff
   window.MakeCurrent();
+
+  // Multiply out the matrices IN THE RIGHT FUCKING ORDER THIS TIME
+  // GOD DMAN NON-COMMUTATIVE BASTARDS FKN 4 HOURS RIGHT THERE
+  glm::mat4 mvp = window.GetCamera().GetProjMat() *
+                  window.GetCamera().GetViewMat() * m;
 
   // Shader uniform setup
   shader.Use();
   uniform_t uniform = shader.GetUniform("mvp");
-  glUniformMatrix4fv(uniform.handle, 1, GL_FALSE, &mmx[0][0]);
+  glUniformMatrix4fv(uniform.handle, 1, GL_FALSE, &mvp[0][0]);
 
   // Draw the things
   this->vertexBuffer.Bind();

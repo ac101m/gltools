@@ -45,6 +45,10 @@ namespace GLT {
     // Get frame buffer size
     glm::vec2 GetFrameBufferSize(void);
 
+    // Window and framebuffer resize callbacks
+    static void WindowResizeCallback(GLFWwindow *window, int x, int y);
+    static void FrameBufferResizeCallback(GLFWwindow *window, int x, int y);
+
     // Common initialisation
     void Init(glm::vec2 size, std::string name, Context *context);
 
@@ -61,7 +65,7 @@ namespace GLT {
     void MakeCurrent(void);
 
     // Get the GLFW window handle pointer
-    GLFWwindow* GetGlfwHandle(void);
+    GLFWwindow* GetGlfwHandle(void) {return this->glfwWindow;}
 
     // General utility
     bool ShouldClose(void);
@@ -70,7 +74,7 @@ namespace GLT {
 
     // Camera set and get
     void SetCamera(const Camera cam);
-    Camera GetCamera(void) {return this->camera;}
+    Camera& GetCamera(void) {return this->camera;}
 
     // Drawing routines
     void Clear(void);

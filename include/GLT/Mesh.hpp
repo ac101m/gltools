@@ -62,7 +62,7 @@ namespace GLT {
 
 
   // Container class for meshes
-  class Mesh: public Drawable {
+  class Mesh : public Drawable {
   private:
 
     // Mesh data
@@ -79,7 +79,7 @@ namespace GLT {
     Mesh(std::vector<vertex_t> vertices, std::vector<unsigned> indices);
 
     // Draw routine
-    void Draw(Window& window, ShaderProgram& shader, glm::mat4& mmx);
+    void Draw(Window& window, ShaderProgram& shader, glm::mat4& m);
   };
 
 } // namespace GLT
