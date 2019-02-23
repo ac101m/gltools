@@ -29,8 +29,8 @@ void Mesh::Draw(Window& window, ShaderProgram& shader, glm::mat4& m) {
 
   // Multiply out the matrices IN THE RIGHT FUCKING ORDER THIS TIME
   // GOD DMAN NON-COMMUTATIVE BASTARDS FKN 4 HOURS RIGHT THERE
-  glm::mat4 mvp = window.GetCamera().GetProjMat() *
-                  window.GetCamera().GetViewMat() * m;
+  glm::mat4 mvp = window.camera.GetProjMat() *
+                  window.camera.GetViewMat() * m;
 
   // Shader uniform setup
   shader.Use();

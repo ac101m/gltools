@@ -21,7 +21,7 @@ int main(void) {
 
   // Create window
   GLT::Window window(glm::vec2(800, 600), "GLT Test");
-  window.GetCamera().SetPos(0, 0, -2);
+  window.camera.SetPos(0, 0, -2);
 
   // Build a shader program
   GLT::Shader vertexShader(GLT_SHADER_VERTEX, "shaders/generic-vert.glsl");
@@ -95,8 +95,8 @@ int main(void) {
     testMesh.Draw(window, shader, m);
 
     // Display output
-    window.PollEvents();
     window.SwapBuffers();
+    window.PollEvents();
   }
 
   // All done

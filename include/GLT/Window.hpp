@@ -37,11 +37,6 @@ namespace GLT {
     // GLFW window and context handles
     GLFWwindow* glfwWindow;
 
-    // Camera
-    Camera camera;
-
-  private:
-
     // Get frame buffer size
     glm::vec2 GetFrameBufferSize(void);
 
@@ -53,6 +48,9 @@ namespace GLT {
     void Init(glm::vec2 size, std::string name, Context& context);
 
   public:
+
+    // Camera
+    Camera camera;
 
     // Constructor
     Window(glm::vec2 size, std::string name, Context& context);
@@ -71,10 +69,6 @@ namespace GLT {
     bool ShouldClose(void);
     void PollEvents(void);
     void SwapBuffers(void);
-
-    // Camera set and get
-    void SetCamera(const Camera cam);
-    Camera& GetCamera(void) {return this->camera;}
 
     // Drawing routines
     void Clear(void);

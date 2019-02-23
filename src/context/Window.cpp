@@ -9,7 +9,7 @@ using namespace std;
 
 // Window resize callback
 void Window::WindowSizeCallback(GLFWwindow *window, int x, int y) {
-  
+
 }
 
 
@@ -98,13 +98,6 @@ void Window::SwapBuffers(void) {
     this->camera.SetViewRatio(fbSize);
     this->size = fbSize;
   }
-}
-
-
-// Set the camera to use
-void Window::SetCamera(const Camera cam) {
-  this->camera = cam;
-  this->camera.SetViewRatio(this->GetFrameBufferSize());
 }
 
 
