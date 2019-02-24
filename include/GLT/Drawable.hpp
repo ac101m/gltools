@@ -6,25 +6,26 @@
 #ifndef _GLT_MASTER_INCLUDED
 #include <GLT/Master.hpp>
 #endif
+#include <GLT/Camera.hpp>
 #include <GLT/ShaderProgram.hpp>
-#include <GLT/Window.hpp>
-
-
-// Standard
-#include <iostream>
 
 
 namespace GLT {
 
   // Class defines common methods for drawable objects
   class Drawable {
+  protected:
+
+    // Model matrix, can't draw without one!
+    glm::mat4 modelMatrix;
+
   public:
 
+    // Constructor, just use an identity matrix
+    Drawable(void);
+
     // Template draw function
-    virtual void Draw(Window& window, ShaderProgram& shader, glm::mat4& m) {
-      std::cout << "Pure virtual function call: Drawable.Draw\n";
-      exit(1);
-    }
+    virtual void Draw(Camera& camera, ShaderProgram& shader);
   };
 
 } // namespace GLT
