@@ -31,16 +31,22 @@ namespace GLT {
     bool active;
 
     // Some general window info
-    glm::vec2 size;
     std::string name;
+    glm::vec2 size;
 
     // GLFW window and context handles
     GLFWwindow* glfwWindow;
 
-    // Get frame buffer size
-    glm::vec2 GetFrameBufferSize(void);
+    // Cursor stuff
+    bool cursorCaptured;
+    glm::vec2 cursorDelta;
+    glm::vec2 cursorPrevPos;
 
 //====[METHODS]==============================================================//
+
+    // Get frame buffer size
+    glm::vec2 GetFrameBufferSize(void);
+    glm::vec2 GetWindowSize(void);
 
     // Window and framebuffer resize callbacks
     static void WindowSizeCallback(GLFWwindow *window, int x, int y);
@@ -48,6 +54,10 @@ namespace GLT {
 
     // Common initialisation
     void Init(glm::vec2 size, std::string name, Context& context);
+
+    // General refresh routines
+    void RefreshCursor(void);
+    void RefreshSize(void);
 
   public:
 
@@ -72,9 +82,20 @@ namespace GLT {
     // General utility
     bool ShouldClose(void);
     void PollEvents(void);
-    void SwapBuffers(void);
+    void WaitEvents(void);
+
+    // Cursor
+    glm::vec2 GetCursorPos(void);
+    glm::vec2 GetCursorDelta(void);
+    void SetCursorPos(glm::vec2 pos);
+    void CenterCursor(void);
+    void CaptureCursor(void);
+    void FreeCursor(void);
+
+    // Keypresses
 
     // Drawing routines
+    void Refresh(void);
     void Clear(void);
 
     // Destructor, clean things up

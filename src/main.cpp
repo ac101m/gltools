@@ -32,7 +32,7 @@ int main(void) {
   GLT::Mesh testMesh = GenTestMesh();
   glm::mat4 m = glm::mat4(1.0);
 
-/*
+
 //====[TEMPORARY]============================================================//
   // Input sensitifity stuff
   float rotateSpeed = 1.0f;
@@ -43,19 +43,15 @@ int main(void) {
   // Time stuff
   double tLast = glfwGetTime();
   double tCurrent;
-  float dt = 0.0f;
-  float dx, dy, dr = 0.0f;            // pitch roll and yaw
+  float dt, dr = 0.0f;                    // pitch roll and yaw
   float dFwd, dRight, dUp = 0.0f;     // camera movement
-
-  // Zero cursor pos to make things less jumpy
-  glfwSetCursorPos(window.GetGlfwHandle(), 400, 300);
 //====[TEMPORARY]============================================================//
-*/
+
 
   // Window 2 loop
   while(!window.ShouldClose()) {
 
-/*
+
 //====[TEMPORARY]============================================================//
     // get current time
     tCurrent = glfwGetTime();
@@ -63,13 +59,14 @@ int main(void) {
     tLast = tCurrent;
 
     // reset input control deltas
-    dr = dFwd = dRight = dUp = dx = dy = 0.0f;
+    dr = dFwd = dRight = dUp = 0.0f;
 
-    // get mouse position & use it to calculate camera angle
-    glfwGetCursorPos(window.GetGlfwHandle(), &mouseX, &mouseY);
-    glfwSetCursorPos(window.GetGlfwHandle(), 400, 300);
-    float dx = mouseSensitivity * float(400 - mouseX);
-    float dy = mouseSensitivity * - float(300 - mouseY);
+    // get mouse position delta
+    glm::vec2 cursorDelta = window.GetCursorDelta() * mouseSensitivity;
+
+    // Cursor captured?
+    if(glfwGetKey(window.GetGlfwHandle(), GLFW_KEY_ESCAPE) == GLFW_PRESS) window.FreeCursor();
+    if(glfwGetKey(window.GetGlfwHandle(), GLFW_KEY_M) == GLFW_PRESS) window.CaptureCursor();
 
     // do input handling
     if(glfwGetKey(window.GetGlfwHandle(), GLFW_KEY_W) == GLFW_PRESS) dFwd += (dt * moveSpeed);      // forwards
@@ -82,21 +79,24 @@ int main(void) {
     if(glfwGetKey(window.GetGlfwHandle(), GLFW_KEY_Q) == GLFW_PRESS) dr -= (dt * rotateSpeed);
 
     // update camera orientation
-    window.GetCamera().Move(dRight, dUp, dFwd);
-    window.GetCamera().MoveLook(dx, dy, dr);
+    window.camera.Move(dRight, dUp, dFwd);
+    window.camera.MoveLook(-cursorDelta.x, cursorDelta.y, dr);
 //====[TEMPORARY]============================================================//
-*/
+
 
     // Rotate the "mesh"
-    glm::mat4 m = glm::rotate(glm::mat4(1.0f), (float)glfwGetTime(), glm::vec3(0, 1, 0));
+    glm::mat4 m = glm::rotate(
+      glm::mat4(1.0f),
+      (float)glfwGetTime(),
+      glm::vec3(0, 1, 0)
+    );
 
-    // Clear the screen and draw
-    window.Clear();
+    // Draw the test mesh
     testMesh.Draw(window, shader, m);
 
     // Display output
-    window.SwapBuffers();
     window.PollEvents();
+    window.Refresh();
   }
 
   // All done
