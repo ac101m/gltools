@@ -167,6 +167,16 @@ void Window::RefreshSize(void) {
 
 // Refresh the display
 void Window::RefreshDisplay(void) {
+
+  // Draw everything in the draw queue
+  for(unsigned i = 0; i < this->drawQueue.size(); i++) {
+    this->drawQueue[i].object.Draw(
+      this->camera,
+      this->drawQueue[i].shader);
+  }
+  this->drawQueue.clear();
+
+  // Swap backbuffer and clear
   glfwSwapBuffers(this->glfwWindow);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
@@ -175,6 +185,13 @@ void Window::RefreshDisplay(void) {
 // Key pressed?
 bool Window::KeyPressed(int key) {
   return glfwGetKey(this->glfwWindow, key) == GLFW_PRESS;
+}
+
+
+// Draw a drawable object
+void Window::Draw(Drawable& object, ShaderProgram& shader) {
+  this->drawQueue.push_back({object, shader});
+  //object.Draw(this->Camera, shader);
 }
 
 

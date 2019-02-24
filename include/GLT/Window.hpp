@@ -8,6 +8,7 @@
 #endif
 #include <GLT/Context.hpp>
 #include <GLT/Camera.hpp>
+#include <GLT/Drawable.hpp>
 
 
 // Standard
@@ -22,6 +23,14 @@ namespace GLT {
 
   // The context class will exist. Promise...
   class Context;
+
+
+  // Struct to contain
+  typedef struct  {
+    Drawable& object;
+    ShaderProgram shader;
+  } drawQueue_t;
+
 
   // Class to wrap GLFW context and window
   class Window {
@@ -41,6 +50,9 @@ namespace GLT {
     bool cursorCaptured;
     glm::vec2 cursorDelta;
     glm::vec2 cursorPrevPos;
+
+    // Drawing stuff
+    std::vector<drawQueue_t> drawQueue;
 
 //====[METHODS]==============================================================//
 
@@ -96,6 +108,7 @@ namespace GLT {
     bool KeyPressed(int key);
 
     // Drawing routines
+    void Draw(Drawable& object, ShaderProgram& shader);
     void Refresh(void);
     void Clear(void);
 

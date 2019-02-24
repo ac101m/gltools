@@ -85,7 +85,7 @@ int main(void) {
 
 
     // Draw the test mesh
-    meshInstance.Draw(window.camera, shader);
+    window.Draw(meshInstance, shader);
 
     // Display output
     window.Refresh();
