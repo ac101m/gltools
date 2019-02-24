@@ -32,6 +32,8 @@ void Window::Init(glm::vec2 size, string name, Context& context) {
 
   // Cursor setup
   this->cursorCaptured = false;
+  this->cursorDelta = glm::vec2(0, 0);
+  this->cursorPrevPos = this->GetCursorPos();
 }
 
 
@@ -146,11 +148,10 @@ void Window::RefreshCursor(void) {
   if(this->cursorCaptured) {
     this->cursorDelta = this->GetCursorPos() - this->cursorPrevPos;
     this->CenterCursor();
-    this->cursorPrevPos = this->GetCursorPos();
   } else {
     this->cursorDelta = glm::vec2(0, 0);
-    this->cursorPrevPos = this->GetCursorPos();
   }
+  this->cursorPrevPos = this->GetCursorPos();
 }
 
 
@@ -165,18 +166,19 @@ void Window::RefreshSize(void) {
 }
 
 
-// Refresh the display
-void Window::RefreshDisplay(void) {
-
-  // Draw everything in the draw queue
+// Empty the draw queue
+void Window::EmptyDrawQueue(void) {
   for(unsigned i = 0; i < this->drawQueue.size(); i++) {
     this->drawQueue[i].object.Draw(
       this->camera,
       this->drawQueue[i].shader);
   }
   this->drawQueue.clear();
+}
 
-  // Swap backbuffer and clear
+
+// Refresh the display
+void Window::RefreshDisplay(void) {
   glfwSwapBuffers(this->glfwWindow);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
@@ -188,16 +190,16 @@ bool Window::KeyPressed(int key) {
 }
 
 
-// Draw a drawable object
+// Draw a drawable object (well, add it to the draw queue)
 void Window::Draw(Drawable& object, ShaderProgram& shader) {
   this->drawQueue.push_back({object, shader});
-  //object.Draw(this->Camera, shader);
 }
 
 
 // Perform window refresh cycle
 void Window::Refresh(void) {
   this->MakeCurrent();
+  this->EmptyDrawQueue();
   this->PollEvents();
 
   // Refresh all the things

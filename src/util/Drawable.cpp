@@ -12,6 +12,18 @@ Drawable::Drawable(void) {
 }
 
 
+// Scale the instance
+void Drawable::Scale(glm::vec3 scale) {
+  this->modelMatrix = glm::scale(this->modelMatrix, scale);
+}
+
+
+// Rotate the instance
+void Drawable::Rotate(float angle, glm::vec3 axis) {
+  this->modelMatrix = glm::rotate(this->modelMatrix, angle, axis);
+}
+
+
 // Template draw routine
 void Drawable::Draw(Camera& camera, ShaderProgram& shader) {
   std::cout << "Pure virtual function call: Drawable.Draw\n";

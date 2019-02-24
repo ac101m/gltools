@@ -72,6 +72,7 @@ namespace GLT {
     void RefreshSize(void);
     void RefreshDisplay(void);
     void PollEvents(void);
+    void EmptyDrawQueue(void);
 
   public:
 

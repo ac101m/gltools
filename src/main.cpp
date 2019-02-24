@@ -85,6 +85,7 @@ int main(void) {
 
 
     // Draw the test mesh
+    meshInstance.Rotate(dt, glm::vec3(0, 1, 0));
     window.Draw(meshInstance, shader);
 
     // Display output

@@ -24,6 +24,10 @@ namespace GLT {
     // Constructor, just use an identity matrix
     Drawable(void);
 
+    // Rotation and scale change methods
+    void Scale(glm::vec3 scale);
+    void Rotate(float angle, glm::vec3 axis);
+
     // Template draw function
     virtual void Draw(Camera& camera, ShaderProgram& shader);
   };
