@@ -16,11 +16,6 @@
 #include <vector>
 
 
-// Other
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-
-
 namespace GLT {
 
   // Vertex structure
@@ -41,12 +36,16 @@ namespace GLT {
     // OpenGL handles
     GLuint vao, vbo, ebo;
 
+    // Buffer lengths
+    GLsizei *vBufLen;
+    GLsizei *iBufLen;
+
 //====[METHODS]==============================================================//
 
     // Sets up the mesh opengl buffers
     void GenBuffers(std::vector<vertex_t>& vertices,
                     std::vector<unsigned>& indices,
-                    Context *context);
+                    Context& context);
 
   public:
 
@@ -58,13 +57,17 @@ namespace GLT {
     void Bind(void) {glBindVertexArray(this->vao);}
     void Unbind(void) {glBindVertexArray(0);}
 
+    // Get index and vertex counts
+    GLsizei GetIndexBufferLength(void) {return *(this->iBufLen);}
+    GLsizei GetVertexBufferLength(void) {return *(this->vBufLen);}
+
     // Destructor
     ~VertexBuffer(void);
   };
 
 
   // Container class for meshes
-  class Mesh : public Drawable {
+  class Mesh {
   private:
 
     // Mesh data
@@ -80,8 +83,25 @@ namespace GLT {
     Mesh(std::vector<vertex_t> vertices);
     Mesh(std::vector<vertex_t> vertices, std::vector<unsigned> indices);
 
-    // Draw routine
-    void Draw(Window& window, ShaderProgram& shader, glm::mat4& m);
+    // Get a copy of the vertex buffer
+    VertexBuffer GetVertexBuffer(void) {return this->vertexBuffer;}
+  };
+
+
+  // Container for mesh instance
+  class MeshInstance : public Drawable {
+  private:
+
+    // Reference to the buffer
+    VertexBuffer vertexBuffer;
+
+  public:
+
+    // Initialise from a mesh
+    MeshInstance(Mesh& mesh);
+
+    // Override draw routine
+    void Draw(Camera& camera, ShaderProgram& shader);
   };
 
 } // namespace GLT

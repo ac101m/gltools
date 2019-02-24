@@ -5,14 +5,14 @@ using namespace GLT;
 // Sets up the mesh opengl buffers
 void VertexBuffer::GenBuffers(std::vector<vertex_t>& vertices,
                               std::vector<unsigned>& indices,
-                              Context *context) {
+                              Context& context) {
 
   // Create vertex array object buffer
-  this->vao = context->NewVertexArrayHandle();
+  this->vao = context.NewVertexArrayHandle();
   glBindVertexArray(this->vao);
 
   // Set up vertex buffer
-  this->vbo = context->NewBufferHandle();
+  this->vbo = context.NewBufferHandle();
   glBindBuffer(GL_ARRAY_BUFFER, this->vbo);
   glBufferData(GL_ARRAY_BUFFER,
                vertices.size() * sizeof(vertex_t),
@@ -20,7 +20,7 @@ void VertexBuffer::GenBuffers(std::vector<vertex_t>& vertices,
                GL_STATIC_DRAW);
 
   // Set up index buffer
-  this->ebo = context->NewBufferHandle();
+  this->ebo = context.NewBufferHandle();
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->ebo);
   glBufferData(GL_ELEMENT_ARRAY_BUFFER,
                indices.size() * sizeof(unsigned),
@@ -47,12 +47,16 @@ void VertexBuffer::GenBuffers(std::vector<vertex_t>& vertices,
 // Blank constructor, no data
 VertexBuffer::VertexBuffer(void) {
   this->vao = this->vbo = this->ebo = 0;
+  this->vBufLen = new GLsizei(0);
+  this->iBufLen = new GLsizei(0);
 }
 
 
 // Initialise vertex positions
 VertexBuffer::VertexBuffer(std::vector<vertex_t>& vertices, std::vector<unsigned>& indices) {
-  this->GenBuffers(vertices, indices, &GLT::defaultContext);
+  this->GenBuffers(vertices, indices, GLT::defaultContext);
+  this->vBufLen = new GLsizei(vertices.size());
+  this->iBufLen = new GLsizei(indices.size());
 }
 
 

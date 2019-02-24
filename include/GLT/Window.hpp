@@ -58,6 +58,8 @@ namespace GLT {
     // General refresh routines
     void RefreshCursor(void);
     void RefreshSize(void);
+    void RefreshDisplay(void);
+    void PollEvents(void);
 
   public:
 
@@ -81,8 +83,6 @@ namespace GLT {
 
     // General utility
     bool ShouldClose(void);
-    void PollEvents(void);
-    void WaitEvents(void);
 
     // Cursor
     glm::vec2 GetCursorPos(void);
@@ -93,6 +93,7 @@ namespace GLT {
     void FreeCursor(void);
 
     // Keypresses
+    bool KeyPressed(int key);
 
     // Drawing routines
     void Refresh(void);

@@ -20,7 +20,7 @@ Mesh::Mesh(std::vector<vertex_t> vertices, std::vector<unsigned> indices) /*: ve
   this->vertexBuffer = VertexBuffer(this->vertices, this->indices);
 }
 
-
+/*
 // Override the draw method
 void Mesh::Draw(Window& window, ShaderProgram& shader, glm::mat4& m) {
 
@@ -42,3 +42,4 @@ void Mesh::Draw(Window& window, ShaderProgram& shader, glm::mat4& m) {
   glDrawElements(GL_TRIANGLES, this->indices.size(), GL_UNSIGNED_INT, 0);
   this->vertexBuffer.Unbind();
 }
+*/

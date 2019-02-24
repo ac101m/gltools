@@ -98,13 +98,6 @@ void Window::PollEvents(void) {
 }
 
 
-// Poll events
-void Window::WaitEvents(void) {
-  this->MakeCurrent();
-  glfwWaitEvents();
-}
-
-
 // Get position of the cursor
 glm::vec2 Window::GetCursorPos(void) {
   double x, y;
@@ -134,17 +127,17 @@ void Window::CenterCursor(void) {
 // Capture the Cursor
 void Window::CaptureCursor(void) {
   this->CenterCursor();
+  glfwSetInputMode(this->glfwWindow, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
   this->cursorPrevPos = this->GetCursorPos();
   this->cursorDelta = glm::vec2(0, 0);
-  glfwSetInputMode(this->glfwWindow, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
   this->cursorCaptured = true;
 }
 
 
 // Free the cursor
 void Window::FreeCursor(void) {
-  this->cursorCaptured = false;
   glfwSetInputMode(this->glfwWindow, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+  this->cursorCaptured = false;
 }
 
 
@@ -156,6 +149,7 @@ void Window::RefreshCursor(void) {
     this->cursorPrevPos = this->GetCursorPos();
   } else {
     this->cursorDelta = glm::vec2(0, 0);
+    this->cursorPrevPos = this->GetCursorPos();
   }
 }
 
@@ -171,17 +165,28 @@ void Window::RefreshSize(void) {
 }
 
 
-// Swap buffers
+// Refresh the display
+void Window::RefreshDisplay(void) {
+  glfwSwapBuffers(this->glfwWindow);
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+}
+
+
+// Key pressed?
+bool Window::KeyPressed(int key) {
+  return glfwGetKey(this->glfwWindow, key) == GLFW_PRESS;
+}
+
+
+// Perform window refresh cycle
 void Window::Refresh(void) {
   this->MakeCurrent();
-  glfwSwapBuffers(this->glfwWindow);
+  this->PollEvents();
 
   // Refresh all the things
+  this->RefreshDisplay();
   this->RefreshSize();
   this->RefreshCursor();
-
-  // Clear the screen
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 
