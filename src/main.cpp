@@ -41,8 +41,6 @@ int main(void) {
 	float mouseSensitivity = 0.003f;
 
   // Time stuff
-  double tLast = glfwGetTime();
-  double tCurrent;
   float dt, dr = 0.0f;                    // pitch roll and yaw
   float dFwd, dRight, dUp = 0.0f;     // camera movement
 //====[TEMPORARY]============================================================//
@@ -54,9 +52,7 @@ int main(void) {
 
 //====[TEMPORARY]============================================================//
     // get current time
-    tCurrent = glfwGetTime();
-    dt = float(tCurrent - tLast);
-    tLast = tCurrent;
+    dt = window.GetTimeDelta();
 
     // reset input control deltas
     dr = dFwd = dRight = dUp = 0.0f;

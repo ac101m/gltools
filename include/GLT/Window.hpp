@@ -51,6 +51,11 @@ namespace GLT {
     glm::vec2 cursorDelta;
     glm::vec2 cursorPrevPos;
 
+    // Time data
+    double windowCreationTime;
+    double prevRefreshTime;
+    double timeDelta;
+
     // Drawing stuff
     std::vector<drawQueue_t> drawQueue;
 
@@ -68,11 +73,18 @@ namespace GLT {
     void Init(glm::vec2 size, std::string name, Context& context);
 
     // General refresh routines
+    void InitCursor(void);
     void RefreshCursor(void);
+
+    // Time handling
+    void InitTime(void);
+    void RefreshTime(void);
+
+    // General window handling
     void RefreshSize(void);
-    void RefreshDisplay(void);
     void PollEvents(void);
     void EmptyDrawQueue(void);
+    void RefreshDisplay(void);
 
   public:
 
@@ -97,7 +109,7 @@ namespace GLT {
     // General utility
     bool ShouldClose(void);
 
-    // Cursor
+    // Cursor routines
     glm::vec2 GetCursorPos(void);
     glm::vec2 GetCursorDelta(void);
     void SetCursorPos(glm::vec2 pos);
@@ -105,13 +117,16 @@ namespace GLT {
     void CaptureCursor(void);
     void FreeCursor(void);
 
+    // Time routines
+    double GetTime(void) {return glfwGetTime() - this->windowCreationTime;}
+    double GetTimeDelta(void) {return this->timeDelta;}
+
     // Keypresses
     bool KeyPressed(int key);
 
     // Drawing routines
     void Draw(Drawable& object, ShaderProgram& shader);
     void Refresh(void);
-    void Clear(void);
 
     // Destructor, clean things up
     ~Window(void);

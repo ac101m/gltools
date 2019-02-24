@@ -30,10 +30,9 @@ void Window::Init(glm::vec2 size, string name, Context& context) {
   glfwSetWindowSizeCallback(this->glfwWindow, this->WindowSizeCallback);
   glfwSetFramebufferSizeCallback(this->glfwWindow, this->FrameBufferSizeCallback);
 
-  // Cursor setup
-  this->cursorCaptured = false;
-  this->cursorDelta = glm::vec2(0, 0);
-  this->cursorPrevPos = this->GetCursorPos();
+  // General run-to-run state data setup
+  this->InitCursor();
+  this->InitTime();
 }
 
 
@@ -100,29 +99,25 @@ void Window::PollEvents(void) {
 }
 
 
-// Get position of the cursor
-glm::vec2 Window::GetCursorPos(void) {
-  double x, y;
-  glfwGetCursorPos(this->glfwWindow, &x, &y);
-  return glm::vec2(x, y);
+//====[CURSOR ROUTINES]======================================================//
+
+// Initialisation routine for cursor data
+void Window::InitCursor(void) {
+  this->cursorCaptured = false;
+  this->cursorDelta = glm::vec2(0, 0);
+  this->cursorPrevPos = this->GetCursorPos();
 }
 
 
-//
-glm::vec2 Window::GetCursorDelta(void) {
-  return this->cursorDelta;
-}
-
-
-// Set cursor position
-void Window::SetCursorPos(glm::vec2 pos) {
-  glfwSetCursorPos(this->glfwWindow, pos.x, pos.y);
-}
-
-
-// Place cursor at the middle of the screen
-void Window::CenterCursor(void) {
-  this->SetCursorPos(this->GetWindowSize() / 2.0f);
+// Refresh cursor position
+void Window::RefreshCursor(void) {
+  if(this->cursorCaptured) {
+    this->cursorDelta = this->GetCursorPos() - this->cursorPrevPos;
+    this->CenterCursor();
+  } else {
+    this->cursorDelta = glm::vec2(0, 0);
+  }
+  this->cursorPrevPos = this->GetCursorPos();
 }
 
 
@@ -143,17 +138,50 @@ void Window::FreeCursor(void) {
 }
 
 
-// Refresh cursor position
-void Window::RefreshCursor(void) {
-  if(this->cursorCaptured) {
-    this->cursorDelta = this->GetCursorPos() - this->cursorPrevPos;
-    this->CenterCursor();
-  } else {
-    this->cursorDelta = glm::vec2(0, 0);
-  }
-  this->cursorPrevPos = this->GetCursorPos();
+// Get position of the cursor
+glm::vec2 Window::GetCursorPos(void) {
+  double x, y;
+  glfwGetCursorPos(this->glfwWindow, &x, &y);
+  return glm::vec2(x, y);
 }
 
+
+// Set the position of the cursor
+void Window::SetCursorPos(glm::vec2 pos) {
+  glfwSetCursorPos(this->glfwWindow, pos.x, pos.y);
+}
+
+
+// Place cursor at the middle of the screen
+void Window::CenterCursor(void) {
+  this->SetCursorPos(this->GetWindowSize() / 2.0f);
+}
+
+
+// How much has the cursor moved?
+glm::vec2 Window::GetCursorDelta(void) {
+  return this->cursorDelta;
+}
+
+
+//====[TIME HANDLING ROUTINES]===============================================//
+
+// Initialise time state data
+void Window::InitTime(void) {
+  this->prevRefreshTime = this->windowCreationTime = glfwGetTime();
+  this->timeDelta = 0;
+}
+
+
+// Refresh time data
+void Window::RefreshTime(void) {
+  double currentTime = this->GetTime();
+  this->timeDelta = currentTime - this->prevRefreshTime;
+  this->prevRefreshTime = currentTime;
+}
+
+
+//====[WINDOW AND FRAME BUFFER SIZE ROUTINES]================================//
 
 // Refresh window size
 void Window::RefreshSize(void) {
@@ -199,20 +227,16 @@ void Window::Draw(Drawable& object, ShaderProgram& shader) {
 // Perform window refresh cycle
 void Window::Refresh(void) {
   this->MakeCurrent();
+
+  // Majority of refresh cycle should be here
   this->EmptyDrawQueue();
   this->PollEvents();
 
-  // Refresh all the things
+  // Refresh beginning-of-loop things
   this->RefreshDisplay();
   this->RefreshSize();
   this->RefreshCursor();
-}
-
-
-// Clear the window
-void Window::Clear(void) {
-  this->MakeCurrent();
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  this->RefreshTime();
 }
 
 
