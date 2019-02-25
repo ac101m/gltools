@@ -10,6 +10,7 @@
 #include <GLT/Context.hpp>
 #include <GLT/ShaderProgram.hpp>
 #include <GLT/Drawable.hpp>
+#include <GLT/Texture.hpp>
 
 
 // Standard
@@ -67,41 +68,33 @@ namespace GLT {
 
 
   // Container class for meshes
-  class Mesh {
+  class Mesh : public Drawable {
   private:
 
     // Mesh data
     std::vector<vertex_t> vertices;
     std::vector<unsigned> indices;
+    std::vector<Texture> textures;
 
     // Vertex buffer
     VertexBuffer vertexBuffer;
+
+//====[METHODS]==============================================================//
+
+    // Common initialisation
+    void Init(void);
 
   public:
 
     // Initialise geometry and indices
     Mesh(std::vector<vertex_t> vertices);
-    Mesh(std::vector<vertex_t> vertices, std::vector<unsigned> indices);
+    Mesh(std::vector<vertex_t> vertices,
+         std::vector<unsigned> indices,
+         std::vector<Texture> textures);
 
-    // Get a copy of the vertex buffer
-    VertexBuffer GetVertexBuffer(void) {return this->vertexBuffer;}
-  };
+    // Overridden draw method
+    void Draw(Camera& camera, ShaderProgram& shader, glm::mat4& transform);
 
-
-  // Container for mesh instance
-  class MeshInstance : public Drawable {
-  private:
-
-    // Reference to the buffer
-    VertexBuffer vertexBuffer;
-
-  public:
-
-    // Initialise from a mesh
-    MeshInstance(Mesh& mesh);
-
-    // Override draw routine
-    void Draw(Camera& camera, ShaderProgram& shader);
   };
 
 } // namespace GLT

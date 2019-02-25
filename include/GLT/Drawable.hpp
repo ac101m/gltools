@@ -14,22 +14,10 @@ namespace GLT {
 
   // Class defines common methods for drawable objects
   class Drawable {
-  protected:
-
-    // Model matrix, can't draw without one!
-    glm::mat4 modelMatrix;
-
   public:
 
-    // Constructor, just use an identity matrix
-    Drawable(void);
-
-    // Rotation and scale change methods
-    void Scale(glm::vec3 scale);
-    void Rotate(float angle, glm::vec3 axis);
-
     // Template draw function
-    virtual void Draw(Camera& camera, ShaderProgram& shader);
+    virtual void Draw(Camera& camera, ShaderProgram& shader, glm::mat4& m);
   };
 
 } // namespace GLT

@@ -4,16 +4,27 @@
 #include <GLT/ShaderProgram.hpp>
 #include <GLT/RefCount.hpp>
 #include <GLT/Mesh.hpp>
+#include <GLT/Texture.hpp>
 
 
 // Generates a single triangle test mesh
 GLT::Mesh GenTestMesh(void) {
+
+  // Indices
   std::vector<unsigned> indices = {0, 1, 2};
+
+  // Vertices
   std::vector<GLT::vertex_t> vertices = {
-    {glm::vec3(-0.5, -0.5, 0), glm::vec3(1, 0, 0), glm::vec2()},
-    {glm::vec3(0.5, -0.5, 0), glm::vec3(0, 1, 0), glm::vec2()},
-    {glm::vec3(0, 0.5, 0), glm::vec3(0, 0, 1), glm::vec2()}};
-  return GLT::Mesh(vertices, indices);
+    {glm::vec3(-0.5, -0.5, 0),  glm::vec3(1, 0, 0),   glm::vec2(0, 0)},
+    {glm::vec3(0.5, -0.5, 0),   glm::vec3(0, 1, 0),   glm::vec2(1, 0)},
+    {glm::vec3(0, 0.5, 0),      glm::vec3(0, 0, 1),   glm::vec2(0.5, 1)}};
+
+  // Textures
+  std::vector<GLT::Texture> textures = {
+    GLT::Texture("textures/wood.png")};
+
+  // Package up into mesh
+  return GLT::Mesh(vertices, indices, textures);
 }
 
 
@@ -30,8 +41,6 @@ int main(void) {
 
   // Mesh and model matrix
   GLT::Mesh testMesh = GenTestMesh();
-  GLT::MeshInstance meshInstance(testMesh);
-  glm::mat4 m = glm::mat4(1.0);
 
 
 //====[TEMPORARY]============================================================//
@@ -39,10 +48,7 @@ int main(void) {
   float rotateSpeed = 1.0f;
 	float moveSpeed = 1.0f;
 	float mouseSensitivity = 0.003f;
-
-  // Time stuff
-  float dt, dr = 0.0f;                    // pitch roll and yaw
-  float dFwd, dRight, dUp = 0.0f;     // camera movement
+  float dFwd, dRight, dUp, dr = 0.0f;     // camera movement
 //====[TEMPORARY]============================================================//
 
 
@@ -52,7 +58,7 @@ int main(void) {
 
 //====[TEMPORARY]============================================================//
     // get current time
-    dt = window.GetTimeDelta();
+    float dt = window.GetTimeDelta();
 
     // reset input control deltas
     dr = dFwd = dRight = dUp = 0.0f;
@@ -80,9 +86,14 @@ int main(void) {
 //====[TEMPORARY]============================================================//
 
 
+    // Generate transform matrix
+    glm::mat4 transform = glm::rotate(
+      glm::mat4(1.0f),
+      (float)window.GetTime(),
+      glm::vec3(0, 1, 0));
+
     // Draw the test mesh
-    meshInstance.Rotate(dt, glm::vec3(0, 1, 0));
-    window.Draw(meshInstance, shader);
+    window.Draw(testMesh, shader, transform);
 
     // Display output
     window.Refresh();

@@ -136,6 +136,15 @@ GLuint Context::NewBufferHandle(void) {
 }
 
 
+// Make a new vertex buffer object within the current context
+GLuint Context::NewTexture(void) {
+  this->MakeCurrent();
+  GLuint id;
+  glGenTextures(1, &id);
+  return id;
+}
+
+
 // Context going out of scope
 Context::~Context(void) {
 

@@ -28,7 +28,8 @@ namespace GLT {
   // Struct to contain
   typedef struct  {
     Drawable& object;
-    ShaderProgram shader;
+    ShaderProgram& shader;
+    glm::mat4& transform;
   } drawQueue_t;
 
 
@@ -125,7 +126,7 @@ namespace GLT {
     bool KeyPressed(int key);
 
     // Drawing routines
-    void Draw(Drawable& object, ShaderProgram& shader);
+    void Draw(Drawable& object, ShaderProgram& shader, glm::mat4& transform);
     void Refresh(void);
 
     // Destructor, clean things up

@@ -56,6 +56,7 @@ namespace GLT {
     GLuint NewShaderProgramHandle(void);
     GLuint NewVertexArrayHandle(void);
     GLuint NewBufferHandle(void);
+    GLuint NewTexture(void);
 
     // Destructor manages termination of glfw
     ~Context(void);
