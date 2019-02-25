@@ -2,23 +2,21 @@
 #include <GLT/Window.hpp>
 #include <GLT/Camera.hpp>
 #include <GLT/ShaderProgram.hpp>
-#include <GLT/RefCount.hpp>
 #include <GLT/Mesh.hpp>
 #include <GLT/Texture.hpp>
-#include <iostream>
 
 
 // Generates a single triangle test mesh
 GLT::Mesh GenTestMesh(void) {
-
-  // Indices
-  std::vector<unsigned> indices = {0, 1, 2};
 
   // Vertices
   std::vector<GLT::vertex_t> vertices = {
     {glm::vec3(-0.5, -0.5, 0),  glm::vec3(1, 0, 0),   glm::vec2(0, 0)},
     {glm::vec3(0.5, -0.5, 0),   glm::vec3(0, 1, 0),   glm::vec2(1, 0)},
     {glm::vec3(0, 0.5, 0),      glm::vec3(0, 0, 1),   glm::vec2(0.5, 1)}};
+
+  // Indices
+  std::vector<unsigned> indices = {0, 1, 2};
 
   // Textures
   std::vector<GLT::Texture> textures = {

@@ -57,7 +57,7 @@ void ShaderProgram::LocateUniforms(void) {
 	GLsizei nameLength;
 
 	// Add all uniforms and their GLuints to the map so we can find them later
-	for(unsigned i = 0; i < uniformCount; i++) {
+	for(int i = 0; i < uniformCount; i++) {
 
 		// Get our uniform data
 		glGetActiveUniform(

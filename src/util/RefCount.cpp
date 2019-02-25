@@ -36,7 +36,9 @@ RefCount::RefCount(const RefCount& other) {
 
 // Assignment operator
 RefCount& RefCount::operator=(const RefCount& other) {
-  if(this != &other) {
+  if(this == &other) {
+    return *this;
+  } else {
     this->referenceCount = other.referenceCount;
     this->Increment();
     #ifdef _GLT_DO_REF_COUNT_PRINT
@@ -44,6 +46,7 @@ RefCount& RefCount::operator=(const RefCount& other) {
                 << " incremented (assign) "
                 << *this->referenceCount << "\n";
     #endif
+    return *this;
   }
 }
 
