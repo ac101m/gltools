@@ -4,6 +4,7 @@ using namespace GLT;
 
 // Standard
 #include <iostream>
+#include <sstream>
 using namespace std;
 
 
@@ -20,9 +21,10 @@ void Window::FrameBufferSizeCallback(GLFWwindow *window, int x, int y) {
 
 
 // Common initialisation
-void Window::Init(glm::vec2 size, string name, Context& context) {
-  this->glfwWindow = context.NewGlfwWindow(size, name, NULL);
+void Window::Init(glm::vec2 size, string title, Context& context) {
+  this->glfwWindow = context.NewGlfwWindow(size, title, NULL);
   this->active = true;
+  this->title = title;
   this->size = this->GetWindowSize();
   this->camera.SetViewRatio(this->GetFrameBufferSize());
 
@@ -33,18 +35,28 @@ void Window::Init(glm::vec2 size, string name, Context& context) {
   // General run-to-run state data setup
   this->InitCursor();
   this->InitTime();
+
+  // Fps counter is not enabled
+  this->fpsCounterEnabled = false;
 }
 
 
 // Constructor, with specified context
-Window::Window(glm::vec2 size, string name, Context& context) {
-  this->Init(size, name, context);
+Window::Window(glm::vec2 size, string title, Context& context) {
+  this->Init(size, title, context);
 }
 
 
 // Constructor, with default context
-Window::Window(glm::vec2 size, string name) {
-  this->Init(size, name, defaultContext);
+Window::Window(glm::vec2 size, string title) {
+  this->Init(size, title, defaultContext);
+}
+
+
+// Set the window title
+void Window::SetTitle(std::string title) {
+  glfwSetWindowTitle(this->glfwWindow, title.c_str());
+  this->title = title;
 }
 
 
@@ -181,7 +193,7 @@ void Window::RefreshTime(void) {
 }
 
 
-//====[WINDOW AND FRAME BUFFER SIZE ROUTINES]================================//
+//====[WINDOW AND FRAME BUFFER ROUTINES]=====================================//
 
 // Refresh window size
 void Window::RefreshSize(void) {
@@ -206,6 +218,12 @@ void Window::EmptyDrawQueue(void) {
 }
 
 
+// Draw a drawable object (well, add it to the draw queue)
+void Window::Draw(Drawable& object, ShaderProgram& shader, glm::mat4& transform) {
+  this->drawQueue.push_back({object, shader, transform});
+}
+
+
 // Refresh the display
 void Window::RefreshDisplay(void) {
   glfwSwapBuffers(this->glfwWindow);
@@ -213,15 +231,36 @@ void Window::RefreshDisplay(void) {
 }
 
 
-// Key pressed?
-bool Window::KeyPressed(int key) {
-  return glfwGetKey(this->glfwWindow, key) == GLFW_PRESS;
+//====[FPS COUNTER ROUTINES]=================================================//
+
+// Enable FPS counter
+void Window::EnableFpsCounter(void) {
+  this->fpsCounterEnabled = true;
 }
 
 
-// Draw a drawable object (well, add it to the draw queue)
-void Window::Draw(Drawable& object, ShaderProgram& shader, glm::mat4& transform) {
-  this->drawQueue.push_back({object, shader, transform});
+// Disable FPS counter
+void Window::DisableFpsCounter(void) {
+  this->fpsCounterEnabled = false;
+  this->SetTitle(this->title);
+}
+
+
+// Refresh the FPS counter at the top of the window (if enabled)
+void Window::RefreshFpsCounter(void) {
+  if(this->fpsCounterEnabled) {
+    std::stringstream ss;
+    ss << this->title << " (" << unsigned(1 / this->GetTimeDelta()) << " FPS)";
+    glfwSetWindowTitle(this->glfwWindow, ss.str().c_str());
+  }
+}
+
+
+//====[MISC]=================================================================//
+
+// Key pressed?
+bool Window::KeyPressed(int key) {
+  return glfwGetKey(this->glfwWindow, key) == GLFW_PRESS;
 }
 
 
@@ -238,6 +277,7 @@ void Window::Refresh(void) {
   this->RefreshSize();
   this->RefreshCursor();
   this->RefreshTime();
+  this->RefreshFpsCounter();
 }
 
 

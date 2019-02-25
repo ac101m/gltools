@@ -32,6 +32,7 @@ int main(void) {
   // Create window
   GLT::Window window(glm::vec2(800, 600), "GLT Test");
   window.camera.SetPos(0, 0, -2);
+  window.EnableFpsCounter();
 
   // Build a shader program
   GLT::Shader vertexShader(GLT_SHADER_VERTEX, "shaders/generic-vert.glsl");
@@ -56,7 +57,7 @@ int main(void) {
 
 
 //====[TEMPORARY]============================================================//
-    // get current time
+    // get current time and print out fps
     float dt = window.GetTimeDelta();
 
     // reset input control deltas

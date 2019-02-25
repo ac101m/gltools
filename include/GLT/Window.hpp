@@ -41,7 +41,7 @@ namespace GLT {
     bool active;
 
     // Some general window info
-    std::string name;
+    std::string title;
     glm::vec2 size;
 
     // GLFW window and context handles
@@ -59,6 +59,9 @@ namespace GLT {
 
     // Drawing stuff
     std::vector<drawQueue_t> drawQueue;
+
+    // FPS counter enabled?
+    bool fpsCounterEnabled;
 
 //====[METHODS]==============================================================//
 
@@ -86,6 +89,7 @@ namespace GLT {
     void PollEvents(void);
     void EmptyDrawQueue(void);
     void RefreshDisplay(void);
+    void RefreshFpsCounter(void);
 
   public:
 
@@ -95,17 +99,22 @@ namespace GLT {
 //====[METHODS]==============================================================//
 
     // Constructors
-    Window(glm::vec2 size, std::string name, Context& context);
-    Window(glm::vec2 size, std::string name);
+    Window(glm::vec2 size, std::string title, Context& context);
+    Window(glm::vec2 size, std::string title);
+
+    // Set the window title
+    void SetTitle(std::string title);
+    std::string GetTitle(void) {return this->title;}
+
+    // Option routines
+    void EnableFpsCounter();
+    void DisableFpsCounter();
 
     // Window open & close methods
     void Close(void);
 
     // Select the context associated with this window
     void MakeCurrent(void);
-
-    // Get the GLFW window handle pointer
-    GLFWwindow* GetGlfwHandle(void) {return this->glfwWindow;}
 
     // General utility
     bool ShouldClose(void);
