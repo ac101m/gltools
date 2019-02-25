@@ -13,7 +13,7 @@ INC_DIRS ?= include $(shell find $(SRC_DIRS) -name *.hpp -printf '%h\n' | sort -
 CXX = g++
 INC_FLAGS := $(addprefix -I,$(INC_DIRS))
 LD_FLAGS ?= -lglfw -lGLEW -lGL
-BASE_FLAGS ?= -m64 -std=c++11
+BASE_FLAGS ?= -MMD -MP -m64 -std=c++11 -Wall
 DEBUG_FLAGS ?= $(INC_FLAGS) $(BASE_FLAGS) $(LD_FLAGS) -g
 RELEASE_FLAGS ?= $(INC_FLAGS) $(BASE_FLAGS) $(LD_FLAGS) -O3
 
@@ -21,13 +21,13 @@ RELEASE_FLAGS ?= $(INC_FLAGS) $(BASE_FLAGS) $(LD_FLAGS) -O3
 MAIN_SRCS := $(shell find $(SRC_DIRS) -maxdepth 1 -name *.cpp)
 MAIN_OBJS_RELEASE := $(MAIN_SRCS:%=$(OBJ_DIR_RELEASE)/%.o)
 MAIN_OBJS_DEBUG := $(MAIN_SRCS:%=$(OBJ_DIR_DEBUG)/%.o)
-MAIN_DEPS := $(MAIN_OBJS:.o=.d)
+MAIN_DEPS := $(MAIN_OBJS_DEBUG:.o=.d) $(SUB_OBJS_RELEASE:.o=.d)
 
 # "Subordinate" sources which do not define mains
 SUB_SRCS := $(shell find $(SRC_DIRS) -mindepth 2 -name *.cpp)
 SUB_OBJS_RELEASE := $(SUB_SRCS:%=$(OBJ_DIR_RELEASE)/%.o)
 SUB_OBJS_DEBUG := $(SUB_SRCS:%=$(OBJ_DIR_DEBUG)/%.o)
-SUB_DEPS := $(SUB_OBJS:.o=.d)
+SUB_DEPS := $(SUB_OBJS_DEBUG:.o=.d) $(SUB_OBJS_RELEASE:.o=.d)
 
 # C++ object compilation - debug - symbols - no optimisation
 $(OBJ_DIR_DEBUG)/%.cpp.o: %.cpp
@@ -67,7 +67,7 @@ clean:
 	@$(RM) -rv $(OBJ_DIR_BASE)
 
 # Include dependencies
--include $(MAIN_DEPS) $(SUB_DEPS)
+-include $(SUB_DEPS) $(MAIN_DEPS)
 
 # Make directory
 MKDIR_P ?= mkdir -p
