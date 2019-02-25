@@ -137,11 +137,30 @@ GLuint Context::NewBufferHandle(void) {
 
 
 // Make a new vertex buffer object within the current context
-GLuint Context::NewTexture(void) {
+GLuint Context::NewTextureHandle(void) {
   this->MakeCurrent();
   GLuint id;
   glGenTextures(1, &id);
   return id;
+}
+
+
+// Check if a texture has been previously loaded
+bool Context::TextureLoaded(std::string& path) {
+  auto iterator = this->textures.find(path);
+  return (iterator != this->textures.end());
+}
+
+
+// Get a loaded texture, segfaults if it doesn't exist
+Texture Context::GetLoadedTexture(std::string& path) {
+  return this->textures.find(path)->second;
+}
+
+
+// Add a loaded texture to the
+void Context::AddTexture(std::string& path, Texture& texture) {
+  this->textures.insert(std::pair<std::string, Texture>(path, texture));
 }
 
 

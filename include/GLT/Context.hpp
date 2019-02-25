@@ -7,11 +7,13 @@
 #include <GLT/Master.hpp>
 #endif
 #include <GLT/ShaderType.hpp>
+#include <GLT/Texture.hpp>
 
 
 // Standard
 #include <vector>
 #include <mutex>
+#include <map>
 
 
 // Matrix math
@@ -19,6 +21,11 @@
 
 
 namespace GLT {
+
+
+  // Forward declarations
+  class Texture;
+
 
   // Class encapsulates an opengl context
   class Context {
@@ -33,6 +40,9 @@ namespace GLT {
 
     // Pointers to windows attached to this context
     GLFWwindow* prevGlfwWindow;
+
+    // Texture cache
+    std::map<std::string, Texture> textures;
 
 //====[METHODS]==============================================================//
 
@@ -56,7 +66,12 @@ namespace GLT {
     GLuint NewShaderProgramHandle(void);
     GLuint NewVertexArrayHandle(void);
     GLuint NewBufferHandle(void);
-    GLuint NewTexture(void);
+    GLuint NewTextureHandle(void);
+
+    // Texture caching routines
+    bool TextureLoaded(std::string& path);
+    Texture GetLoadedTexture(std::string& path);
+    void AddTexture(std::string& path, Texture& texture);
 
     // Destructor manages termination of glfw
     ~Context(void);

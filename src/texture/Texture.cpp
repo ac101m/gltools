@@ -14,6 +14,20 @@ using namespace GLT;
 // Common initialisation
 void Texture::Init(std::string& path, Context& context) {
 
+  // Load the texture from file unless already loaded
+  if(!context.TextureLoaded(path)) {
+    this->LoadFromFile(path, context);
+    context.AddTexture(path, *this);
+  } else {
+    *this = context.GetLoadedTexture(path);
+  }
+}
+
+
+// Load texture from file
+void Texture::LoadFromFile(std::string& path, Context& context) {
+  std::cout << "Loading texture '" << path << "' - ";
+
   // Load image data
   int width, height, channelCount;
   unsigned char *data = stbi_load(
@@ -23,12 +37,12 @@ void Texture::Init(std::string& path, Context& context) {
 
   // Only continue if the texture load was successful
   if(!data) {
-    std::cout << "Error loading texture '" << path << "'\n";
+    std::cout << "ERROR\n";
     exit(1);
   }
 
   // Load the texture
-  this->glHandle = context.NewTexture();
+  this->glHandle = context.NewTextureHandle();
   this->Bind();
   glTexImage2D(
     GL_TEXTURE_2D,
@@ -42,6 +56,9 @@ void Texture::Init(std::string& path, Context& context) {
 
   // Done with the texture data
   stbi_image_free(data);
+
+  // Loading complete
+  std::cout << "SUCCESS\n";
 }
 
 

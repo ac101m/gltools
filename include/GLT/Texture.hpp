@@ -16,6 +16,11 @@
 
 namespace GLT {
 
+
+  // Context will exist, promise
+  class Context;
+
+
   // Class represents a texture handle
   class Texture {
   private:
@@ -30,6 +35,7 @@ namespace GLT {
 
     // Common initialisation
     void Init(std::string& path, Context& context);
+    void LoadFromFile(std::string& path, Context& context);
 
   public:
 
