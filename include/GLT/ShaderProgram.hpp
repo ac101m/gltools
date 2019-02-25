@@ -27,17 +27,17 @@ namespace GLT {
   } uniform_t;
 
 
-  class ShaderProgram {
+  // Class wraps an opengl shader program handle
+  class ShaderProgram : public RefCount {
   private:
-
-    // Reference count for shader deletion
-    RefCount refCount;
 
     // OpenGL handle
     GLuint glHandle;
 
     // Uniform locations in shader, raw pointer for shallow copy
     std::map<std::string, uniform_t> *uniformMap;
+
+//====[METHODS]==============================================================//
 
     // Links an array of shaders into this program
     void LinkShaders(std::vector<Shader>& shaders);

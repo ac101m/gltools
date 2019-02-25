@@ -18,11 +18,8 @@
 namespace GLT {
 
   // Class encapsulates a shader
-  class Shader {
+  class Shader : public RefCount {
   private:
-
-    // Reference count for shader deletion
-    RefCount refCount;
 
     // OpenGL handle
     ShaderType type;

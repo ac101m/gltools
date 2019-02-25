@@ -5,6 +5,7 @@
 #include <GLT/RefCount.hpp>
 #include <GLT/Mesh.hpp>
 #include <GLT/Texture.hpp>
+#include <iostream>
 
 
 // Generates a single triangle test mesh

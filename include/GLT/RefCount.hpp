@@ -8,12 +8,12 @@ namespace GLT {
   class RefCount {
   private:
 
-    // Shared counter
-    int *count;
-
     // Increment and decrement methods
-    void Increment(void) {(*this->count)++;}
-    void Decrement(void) {(*this->count)--;}
+    void Increment(void) {(*this->referenceCount)++;}
+    void Decrement(void) {(*this->referenceCount)--;}
+
+    // Shared counter
+    unsigned *referenceCount;
 
   public:
 
@@ -27,7 +27,8 @@ namespace GLT {
     RefCount& operator=(const RefCount& other);
 
     // Get reference counter value
-    int GetCount(void) {return *this->count;}
+    unsigned GetReferenceCount(void) {return *this->referenceCount;}
+    bool ReferencedElsewhere(void) {return *this->referenceCount;}
 
     // Destroy when reference counter is zero
     ~RefCount(void);

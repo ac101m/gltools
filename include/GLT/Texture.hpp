@@ -22,11 +22,8 @@ namespace GLT {
 
 
   // Class represents a texture handle
-  class Texture {
+  class Texture : public RefCount {
   private:
-
-    // Reference counter for pointer deletion
-    RefCount rc;
 
     // Texture path, used as name
     GLuint glHandle;

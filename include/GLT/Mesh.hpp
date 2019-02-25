@@ -28,11 +28,8 @@ namespace GLT {
 
 
   // Container class for vertex buffer
-  class VertexBuffer {
+  class VertexBuffer : public RefCount {
   private:
-
-    // Reference counter, for handling destruction of gl buffers
-    RefCount rc;
 
     // OpenGL handles
     GLuint vao, vbo, ebo;

@@ -119,7 +119,7 @@ uniform_t ShaderProgram::GetUniform(std::string name) {
 
 // Delete the shader program
 ShaderProgram::~ShaderProgram(void) {
-  if(this->refCount.GetCount() == 0) {
+  if(!this->ReferencedElsewhere()) {
 		delete this->uniformMap;
     glDeleteProgram(this->glHandle);
   }

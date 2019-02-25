@@ -62,7 +62,7 @@ VertexBuffer::VertexBuffer(std::vector<vertex_t>& vertices, std::vector<unsigned
 
 // Destructor with reference count
 VertexBuffer::~VertexBuffer(void) {
-  if(this->rc.GetCount() == 0) {
+  if(!this->ReferencedElsewhere()) {
     if(this->vao) glDeleteVertexArrays(1, &this->vao);
     if(this->vbo) glDeleteBuffers(1, &this->vbo);
     if(this->ebo) glDeleteBuffers(1, &this->ebo);

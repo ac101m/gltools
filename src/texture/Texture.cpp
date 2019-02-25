@@ -70,7 +70,7 @@ Texture::Texture(std::string path) {
 
 // Reference counting destructor
 Texture::~Texture(void) {
-  if(this->rc.GetCount() == 0) {
+  if(!this->ReferencedElsewhere()) {
     glDeleteTextures(1, &this->glHandle);
   }
 }

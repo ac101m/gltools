@@ -90,7 +90,7 @@ void Shader::SetSource(std::string src) {
 
 // Deconstruct
 Shader::~Shader(void) {
-  if(this->refCount.GetCount() == 0) {
+  if(!this->ReferencedElsewhere()) {
     glDeleteShader(this->glHandle);
   }
 }
