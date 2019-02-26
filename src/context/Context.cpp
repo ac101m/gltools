@@ -41,6 +41,12 @@ void Context::InitGlew(GLFWwindow* window) {
 }
 
 
+// Initialise opengl behaviour
+void Context::InitGL(void) {
+  glEnable(GL_DEPTH_TEST);
+}
+
+
 // Common initialisation
 Context::Context(void) {
 
@@ -98,6 +104,9 @@ GLFWwindow* Context::NewGlfwWindow(glm::vec2 size, std::string name, GLFWmonitor
   // The next window will share this ones context
   this->prevGlfwWindow = glfwWindow;
   this->MakeCurrent();
+
+  // Initialise opengl
+  this->InitGL();
 
   // Return the window handle
   return glfwWindow;

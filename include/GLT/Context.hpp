@@ -8,6 +8,7 @@
 #endif
 #include <GLT/ShaderType.hpp>
 #include <GLT/Texture.hpp>
+#include <GLT/RenderBehaviour.hpp>
 
 
 // Standard
@@ -22,9 +23,9 @@
 
 namespace GLT {
 
-
   // Forward declarations
   class Texture;
+  class RenderBehaviour;
 
 
   // Class encapsulates an opengl context
@@ -51,6 +52,9 @@ namespace GLT {
 
     // Common initialisation
     void InitGlew(GLFWwindow* window);
+
+    // Initialise opengl
+    void InitGL(void);
 
   public:
 

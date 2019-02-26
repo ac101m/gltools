@@ -9,6 +9,7 @@
 #include <GLT/Context.hpp>
 #include <GLT/Camera.hpp>
 #include <GLT/Drawable.hpp>
+#include <GLT/RenderBehaviour.hpp>
 
 
 // Standard
@@ -25,7 +26,7 @@ namespace GLT {
   class Context;
 
 
-  // Struct to contain
+  // Struct to contain draw queue entry
   typedef struct  {
     Drawable& object;
     ShaderProgram& shader;
@@ -95,6 +96,9 @@ namespace GLT {
 
     // Camera
     Camera camera;
+
+    // Render behaviour
+    RenderBehaviour renderBehaviour;
 
 //====[METHODS]==============================================================//
 

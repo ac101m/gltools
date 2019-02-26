@@ -87,13 +87,20 @@ int main(void) {
 
 
     // Generate transform matrix
-    glm::mat4 transform = glm::rotate(
+    glm::mat4 transform1 = glm::rotate(
       glm::mat4(1.0f),
       (float)window.GetTime(),
       glm::vec3(0, 1, 0));
 
+    // Generate another transform matrix
+    glm::mat4 transform2 = glm::rotate(
+      glm::mat4(1.0f),
+      (float)window.GetTime() / 2,
+      glm::vec3(0, 1, 0));
+
     // Draw the test mesh
-    window.Draw(testMesh, shader, transform);
+    window.Draw(testMesh, shader, transform1);
+    window.Draw(testMesh, shader, transform2);
 
     // Display output
     window.Refresh();

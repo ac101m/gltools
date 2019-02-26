@@ -82,6 +82,7 @@ void Window::MakeCurrent(void) {
     if(glfwGetCurrentContext() != this->glfwWindow) {
       glfwMakeContextCurrent(this->glfwWindow);
     }
+    this->renderBehaviour.Apply();
   } else {
     std::cerr << "Cannot make window current, window not active\n";
     exit(1);
