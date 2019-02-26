@@ -44,6 +44,7 @@ void Context::InitGlew(GLFWwindow* window) {
 // Initialise opengl behaviour
 void Context::InitGL(void) {
   glEnable(GL_DEPTH_TEST);
+	glEnable(GL_CULL_FACE);
 }
 
 

@@ -85,6 +85,17 @@ void ShaderProgram::LocateUniforms(void) {
 }
 
 
+// Get uniform by name
+uniform_t ShaderProgram::GetUniform(std::string& name) {
+	this->Use();
+	if(this->uniformMap->find(name) != this->uniformMap->end()) {
+		return (*(this->uniformMap))[name];
+	} else {
+		std::cout << "Error, uniform '" << name << "' does not exist\n";
+		exit(1);
+	}
+}
+
 // Common initialisation
 void ShaderProgram::Init(std::vector<Shader>& shaders, Context& context) {
 	this->glHandle = context.NewShaderProgramHandle();
@@ -105,15 +116,27 @@ ShaderProgram::ShaderProgram(std::vector<Shader> shaders, Context& context) {
 }
 
 
-// Use this shader program
-void ShaderProgram::Use(void) {
-  glUseProgram(this->glHandle);
+// Set 3 element vector uniform
+void ShaderProgram::SetVec3(std::string name, glm::vec3 value) {
+	uniform_t uniform = this->GetUniform(name);
+	if(1) {
+		glUniform3f(uniform.handle, value.x, value.y, value.z);
+	}
 }
 
 
-// Get uniforms
-uniform_t ShaderProgram::GetUniform(std::string name) {
-	return (*(this->uniformMap))[name];
+// Set matrix uniform
+void ShaderProgram::SetMat4(std::string name, glm::mat4 value) {
+	uniform_t uniform = this->GetUniform(name);
+	if(1) {
+		glUniformMatrix4fv(uniform.handle, 1, GL_FALSE, &value[0][0]);
+	}
+}
+
+
+// Use this shader program
+void ShaderProgram::Use(void) {
+  glUseProgram(this->glHandle);
 }
 
 

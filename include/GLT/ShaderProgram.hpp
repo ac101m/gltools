@@ -42,8 +42,9 @@ namespace GLT {
     // Links an array of shaders into this program
     void LinkShaders(std::vector<Shader>& shaders);
 
-    // Fill uniform map
+    // Uniform map stuff
     void LocateUniforms(void);
+    uniform_t GetUniform(std::string& name);
 
     // Common initialisation
     void Init(std::vector<Shader>& shaders, Context& context);
@@ -57,8 +58,9 @@ namespace GLT {
     // Use this shader program
     void Use(void);
 
-    // Get shader uniform
-    uniform_t GetUniform(std::string name);
+    // Set uniforms
+    void SetVec3(std::string name, glm::vec3 value);
+    void SetMat4(std::string name, glm::mat4 value);
 
     // Destructor, clean up GL handle
     ~ShaderProgram(void);

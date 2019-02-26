@@ -44,6 +44,12 @@ void Texture::LoadFromFile(std::string& path, Context& context) {
   // Load the texture
   this->glHandle = context.NewTextureHandle();
   this->Bind();
+
+  // Sampling behaviour
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+  // Texture data
   glTexImage2D(
     GL_TEXTURE_2D,
     0, GL_RGB,

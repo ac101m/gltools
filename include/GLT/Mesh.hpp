@@ -22,8 +22,8 @@ namespace GLT {
   // Vertex structure
   typedef struct {
     glm::vec3 position;
-    glm::vec3 normal;
     glm::vec2 uv;
+    glm::vec3 normal;
   } vertex_t;
 
 
@@ -89,9 +89,11 @@ namespace GLT {
          std::vector<unsigned> indices,
          std::vector<Texture> textures);
 
+    // Generate normals
+    void AutoGenerateNormals(void);
+
     // Overridden draw method
     void Draw(Camera& camera, ShaderProgram& shader, glm::mat4& transform);
-
   };
 
 } // namespace GLT
