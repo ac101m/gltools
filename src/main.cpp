@@ -7,7 +7,7 @@
 
 
 // Generates a single triangle test mesh
-GLT::Mesh GenTestMesh(void) {
+GLT::Mesh GenTestTriangle(void) {
 
   // Vertices
   std::vector<GLT::vertex_t> vertices = {
@@ -20,9 +20,66 @@ GLT::Mesh GenTestMesh(void) {
 
   // Textures
   std::vector<GLT::Texture> textures = {
-    GLT::Texture("textures/wood.png")};
+    GLT::Texture("textures/brownrock/colour.png")};
 
   // Package up into mesh
+  return GLT::Mesh(vertices, indices, textures);
+}
+
+
+// Generates a cube test mesh with proper indices
+GLT::Mesh GenTestCubeIndexed(void) {
+  std::vector<float> vertexData = {
+    -0.5f, -0.5f, -0.5f,  0.0f,  0.0f,
+     0.5f, -0.5f, -0.5f,  1.0f,  0.0f,
+     0.5f,  0.5f, -0.5f,  1.0f,  1.0f,
+    -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,
+    -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,
+     0.5f, -0.5f,  0.5f,  1.0f,  0.0f,
+     0.5f,  0.5f,  0.5f,  1.0f,  1.0f,
+    -0.5f,  0.5f,  0.5f,  0.0f,  1.0f,
+    -0.5f,  0.5f,  0.5f,  1.0f,  0.0f,
+    -0.5f,  0.5f, -0.5f,  1.0f,  1.0f,
+    -0.5f, -0.5f, -0.5f,  0.0f,  1.0f,
+    -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,
+     0.5f,  0.5f,  0.5f,  1.0f,  0.0f,
+     0.5f,  0.5f, -0.5f,  1.0f,  1.0f,
+     0.5f, -0.5f, -0.5f,  0.0f,  1.0f,
+     0.5f, -0.5f,  0.5f,  0.0f,  0.0f,
+    -0.5f, -0.5f, -0.5f,  0.0f,  1.0f,
+     0.5f, -0.5f, -0.5f,  1.0f,  1.0f,
+     0.5f, -0.5f,  0.5f,  1.0f,  0.0f,
+    -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,
+    -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,
+     0.5f,  0.5f, -0.5f,  1.0f,  1.0f,
+     0.5f,  0.5f,  0.5f,  1.0f,  0.0f,
+    -0.5f,  0.5f,  0.5f,  0.0f,  0.0f};
+
+  // Vertex list
+  std::vector<GLT::vertex_t> vertices;
+  for(unsigned i = 0; i < vertexData.size(); i += 5) {
+    GLT::vertex_t v;
+    v.position = glm::vec3(vertexData[i], vertexData[i + 1], vertexData[i + 2]);
+    v.uv = glm::vec2(vertexData[i + 3], vertexData[i + 4]);
+    vertices.push_back(v);
+  }
+
+  // Compute all indices
+  std::vector<unsigned> indices;
+  for(unsigned i = 0; i < vertices.size(); i += 4) {
+    indices.push_back(i);
+    indices.push_back(i + 1);
+    indices.push_back(i + 2);
+    indices.push_back(i + 2);
+    indices.push_back(i + 3);
+    indices.push_back(i);
+  }
+
+  // Load the side texture
+  std::vector<GLT::Texture> textures = {
+    GLT::Texture("textures/brownrock/colour.png")};
+
+  // Package up into mesh and return
   return GLT::Mesh(vertices, indices, textures);
 }
 
@@ -40,7 +97,7 @@ int main(void) {
   GLT::ShaderProgram shader({vertexShader, fragmentShader});
 
   // Mesh and model matrix
-  GLT::Mesh testMesh = GenTestMesh();
+  GLT::Mesh testMesh = GenTestCubeIndexed();
 
 
 //====[TEMPORARY]============================================================//
@@ -89,18 +146,11 @@ int main(void) {
     // Generate transform matrix
     glm::mat4 transform1 = glm::rotate(
       glm::mat4(1.0f),
-      (float)window.GetTime(),
-      glm::vec3(0, 1, 0));
-
-    // Generate another transform matrix
-    glm::mat4 transform2 = glm::rotate(
-      glm::mat4(1.0f),
       (float)window.GetTime() / 2,
       glm::vec3(0, 1, 0));
 
     // Draw the test mesh
     window.Draw(testMesh, shader, transform1);
-    window.Draw(testMesh, shader, transform2);
 
     // Display output
     window.Refresh();
