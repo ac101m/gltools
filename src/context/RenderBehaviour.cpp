@@ -2,10 +2,10 @@
 using namespace GLT;
 
 
-// Initialisation, set some reasonable defaults
-void RenderBehaviour::Init(void) {
+// Constructor with default context
+RenderBehaviour::RenderBehaviour(void) : parentContext(&defaultContext) {
 
-  // Default behaviours
+  // Default polygon modes
   this->polyFaceMode = GL_FRONT_AND_BACK;
   this->polyDrawMode = GL_FILL;
 
@@ -14,14 +14,31 @@ void RenderBehaviour::Init(void) {
 }
 
 
-// Constructor with default context
-RenderBehaviour::RenderBehaviour(void) {
-  this->Init();
+// Apply method for normal usage
+void RenderBehaviour::Apply(void) {
+  this->ApplyDifference(this->parentContext->GetCurrentRenderBehaviour());
+  this->parentContext->SetCurrentRenderBehaviour(*this);
 }
 
 
-// Apply everything
-void RenderBehaviour::Apply(void) {
+// Apply everything indiscriminately
+void RenderBehaviour::ApplyAll(void) {
   glPolygonMode(this->polyFaceMode, this->polyDrawMode);
   glDepthFunc(this->depthTestFunction);
+}
+
+
+// Apply only the parts that have changed
+void RenderBehaviour::ApplyDifference(RenderBehaviour& other) {
+
+  // Polygon draw behaviour
+  if((other.GetPolyFaceMode() != this->polyFaceMode) ||
+     (other.GetPolyDrawMode() != this->polyDrawMode)) {
+     glPolygonMode(this->polyFaceMode, this->polyDrawMode);
+  }
+
+  // Dept test behaviour
+  if(other.GetDepthTestFunction() != this->depthTestFunction) {
+    glDepthFunc(this->depthTestFunction);
+  }
 }

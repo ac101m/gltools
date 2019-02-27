@@ -6,9 +6,8 @@
 #ifndef _GLT_MASTER_INCLUDED
 #include <GLT/Master.hpp>
 #endif
-#include <GLT/ShaderType.hpp>
-#include <GLT/Context.hpp>
 #include <GLT/RefCount.hpp>
+#include <GLT/Context.hpp>
 
 
 // Standard
@@ -22,7 +21,7 @@ namespace GLT {
   private:
 
     // OpenGL handle
-    ShaderType type;
+    GLenum type;
     GLuint glHandle;
 
     // Shader source
@@ -31,7 +30,7 @@ namespace GLT {
 //====[METHODS]==============================================================//
 
     // Common initialisation
-    void Init(ShaderType type, std::string path, Context& context);
+    void Init(GLenum type, std::string path, Context& context);
 
     // Generates debug prints
     void Compile(void);
@@ -43,8 +42,8 @@ namespace GLT {
   public:
 
     // Constructors
-    Shader(ShaderType type, std::string path, Context& context);
-    Shader(ShaderType type, std::string path);
+    Shader(GLenum type, std::string path, Context& context);
+    Shader(GLenum type, std::string path);
 
     // Get GL handle
     GLuint GetGlHandle(void) {return this->glHandle;}

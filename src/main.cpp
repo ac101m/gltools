@@ -94,8 +94,8 @@ int main(void) {
   window.EnableFpsCounter();
 
   // Build a shader program
-  GLT::Shader vertexShader(GLT_SHADER_VERTEX, "shaders/lighting-vert.glsl");
-  GLT::Shader fragmentShader(GLT_SHADER_FRAGMENT, "shaders/lighting-frag.glsl");
+  GLT::Shader vertexShader(GL_VERTEX_SHADER, "shaders/lighting-vert.glsl");
+  GLT::Shader fragmentShader(GL_FRAGMENT_SHADER, "shaders/lighting-frag.glsl");
   GLT::ShaderProgram shader({vertexShader, fragmentShader});
 
   // Scene uniforms

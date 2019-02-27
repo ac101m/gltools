@@ -7,10 +7,10 @@
 #include <GLT/Master.hpp>
 #endif
 #include <GLT/RefCount.hpp>
-#include <GLT/Context.hpp>
 #include <GLT/ShaderProgram.hpp>
 #include <GLT/Drawable.hpp>
 #include <GLT/Texture.hpp>
+#include <GLT/Context.hpp>
 
 
 // Standard

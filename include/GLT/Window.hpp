@@ -6,7 +6,6 @@
 #ifndef _GLT_MASTER_INCLUDED
 #include <GLT/Master.hpp>
 #endif
-#include <GLT/Context.hpp>
 #include <GLT/Camera.hpp>
 #include <GLT/Drawable.hpp>
 #include <GLT/RenderBehaviour.hpp>

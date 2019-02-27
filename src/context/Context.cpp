@@ -45,6 +45,8 @@ void Context::InitGlew(GLFWwindow* window) {
 void Context::InitGL(void) {
   glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
+  this->currentRenderBehaviour = new RenderBehaviour();
+  this->currentRenderBehaviour->ApplyAll();
 }
 
 
@@ -115,7 +117,7 @@ GLFWwindow* Context::NewGlfwWindow(glm::vec2 size, std::string name, GLFWmonitor
 
 
 // Make a new shader handle within the current context
-GLuint Context::NewShaderHandle(ShaderType type) {
+GLuint Context::NewShaderHandle(const GLenum type) {
   this->MakeCurrent();
   return glCreateShader(type);
 }
@@ -173,8 +175,22 @@ void Context::AddTexture(const std::string& path, const Texture& texture) {
 }
 
 
+// Get current render behaviour
+RenderBehaviour& Context::GetCurrentRenderBehaviour(void) {
+  return *(this->currentRenderBehaviour);
+}
+
+
+// Set current render behaviour
+void Context::SetCurrentRenderBehaviour(const RenderBehaviour& rb) {
+  *(this->currentRenderBehaviour) = rb;
+}
+
 // Context going out of scope
 Context::~Context(void) {
+
+  // Clean up any allocated items
+  delete this->currentRenderBehaviour;
 
   // Decrement reference count
   contextCountMx.lock();

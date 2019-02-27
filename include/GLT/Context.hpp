@@ -6,7 +6,6 @@
 #ifndef _GLT_MASTER_INCLUDED
 #include <GLT/Master.hpp>
 #endif
-#include <GLT/ShaderType.hpp>
 #include <GLT/Texture.hpp>
 #include <GLT/RenderBehaviour.hpp>
 #include <GLT/ElementCache.hpp>
@@ -26,6 +25,7 @@ namespace GLT {
 
   // Forward declarations where neccessary
   class Texture;
+  class RenderBehaviour;
 
 
   // Class encapsulates an opengl context
@@ -39,11 +39,14 @@ namespace GLT {
     // Is glew initialised?
     bool glewInitialised;
 
-    // Pointers to windows attached to this context
+    // Pointers to most recent GLFW window
     GLFWwindow* prevGlfwWindow;
 
     // Texture cache
     ElementCache<std::string, Texture> textureCache;
+
+    // Current render behaviour
+    RenderBehaviour* currentRenderBehaviour;
 
 //====[METHODS]==============================================================//
 
@@ -66,7 +69,7 @@ namespace GLT {
 
     // Create things within this context
     GLFWwindow* NewGlfwWindow(glm::vec2 size, std::string name, GLFWmonitor *mon);
-    GLuint NewShaderHandle(ShaderType type);
+    GLuint NewShaderHandle(const GLenum type);
     GLuint NewShaderProgramHandle(void);
     GLuint NewVertexArrayHandle(void);
     GLuint NewBufferHandle(void);
@@ -76,6 +79,10 @@ namespace GLT {
     bool TextureCached(const std::string& path);
     Texture GetTexture(const std::string& path);
     void AddTexture(const std::string& path, const Texture& texture);
+
+    // Sets and gets for render behaviour
+    RenderBehaviour& GetCurrentRenderBehaviour(void);
+    void SetCurrentRenderBehaviour(const RenderBehaviour& rb);
 
     // Destructor manages termination of glfw
     ~Context(void);

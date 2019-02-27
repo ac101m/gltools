@@ -8,7 +8,7 @@ using namespace GLT;
 
 
 // Common initialisation for constructors
-void Shader::Init(ShaderType type, std::string path, Context& context) {
+void Shader::Init(GLenum type, std::string path, Context& context) {
 
   // Set up type information
   this->type = type;
@@ -49,13 +49,13 @@ void Shader::Compile(void) {
 
 
 // Constructor, specified context
-Shader::Shader(ShaderType type, std::string path, Context& context) {
+Shader::Shader(GLenum type, std::string path, Context& context) {
   this->Init(type, path, context);
 }
 
 
 // Constructor, default context
-Shader::Shader(ShaderType type, std::string path) {
+Shader::Shader(GLenum type, std::string path) {
   this->Init(type, path, defaultContext);
 }
 
