@@ -16,7 +16,6 @@
 
 namespace GLT {
 
-
   // Context will exist, promise
   class Context;
 
@@ -38,6 +37,9 @@ namespace GLT {
 
     // Constructor, from file
     Texture(std::string path);
+
+    // Get the opengl handle
+    GLuint GetGlHandle(void) {return this->glHandle;}
 
     // Bind and unbind the texture
     void Bind(void) {glBindTexture(GL_TEXTURE_2D, this->glHandle);}

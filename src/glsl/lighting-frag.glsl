@@ -1,36 +1,47 @@
 #version 330 core
 
 // Textures
-uniform sampler2D texture0;
+uniform sampler2D texture0;   // colour
+uniform sampler2D texture1;   // Normal
 
-// Inputs
-in vec2 fUV;
-in vec3 fPos;
-in vec3 fNormal;
+// Inputs from vertex shader
+in VS_OUT {
+  vec3 fragPosWs;
+  vec2 fragUV;
+  vec3 nmlWs;
+  mat3 tbnMx;
+} fsIn;
 
 // Lighting inputs
-uniform vec3 ambientLightPow;
-uniform vec3 pointLightPow;
-uniform vec3 pointLightPos;
+uniform vec3 aLightPow;
+uniform vec3 pLightPow;
+uniform vec3 pLightPosWs;
 
 // Outputs
 out vec4 gl_FragColor;
 
 void main() {
 
-  // Colour from the texture
-  vec3 fColour = vec3(texture(texture0, fUV));
+  // Texture sampling
+  vec3 colour = vec3(texture(texture0, fsIn.fragUV)).rgb;
+  vec3 normal = vec3(texture(texture1, fsIn.fragUV)).rgb;
 
-  // Direct lighting component
-  vec3 norm = normalize(fNormal);
-  vec3 pointLightDirection = normalize(pointLightPos - fPos);
-  float diff = max(dot(norm, pointLightDirection), 0.0);
-  vec3 lPointDiffuse = fColour * pointLightPow * diff;
+  // Do normal mapping stuff TODO
+  normal = normalize((normal * 2.0) - 1.0);
+  normal = normalize(fsIn.tbnMx * normal);
 
-  // Ambient lighting component
-  vec3 lAmbient = fColour * ambientLightPow;
+  // Lighting vector and distance
+  vec3 pLightVec = pLightPosWs - fsIn.fragPosWs;
+  float dist = length(pLightVec);
+
+  // Diffuse point light with inverse square
+  float diff = max(dot(normal, normalize(pLightVec)), 0.0) / (dist * dist);
+  vec3 pLightDiffuse = colour * pLightPow * diff;
+
+  // Ambient light
+  vec3 aLight = colour * aLightPow;
 
   // Add up all the lighting terms
-  vec3 lTotal = lAmbient + lPointDiffuse;
+  vec3 lTotal = aLight + pLightDiffuse;
   gl_FragColor = vec4(lTotal, 1.0);
 }

@@ -15,6 +15,7 @@
 
 // Standard
 #include <vector>
+#include <iostream>
 
 
 namespace GLT {
@@ -24,6 +25,15 @@ namespace GLT {
     glm::vec3 position;
     glm::vec2 uv;
     glm::vec3 normal;
+    glm::vec3 tangent;
+    glm::vec3 bitangent;
+    void Print(void) {
+      std::cout << position.x << "," << position.y << "," << position.z << "\t";
+      std::cout << normal.x << "," << normal.y << "," << normal.z << "\t";
+      std::cout << tangent.x << "," << tangent.y << "," << tangent.z << "\t";
+      std::cout << bitangent.x << "," << bitangent.y << "," << bitangent.z << "\t";
+      std::cout << "\n";
+    }
   } vertex_t;
 
 
@@ -81,6 +91,12 @@ namespace GLT {
     // Common initialisation
     void Init(void);
 
+    // Generate tangent basis, assumes valid normals
+    void GenTangentSpaceBasis(void);
+
+    // Bind textures
+    void BindTextureArray(void);
+
   public:
 
     // Initialise geometry and indices
@@ -91,6 +107,9 @@ namespace GLT {
 
     // Generate normals
     void AutoGenerateNormals(void);
+
+    // Yes, really
+    void Print(void);
 
     // Overridden draw method
     void Draw(Camera& camera, ShaderProgram& shader, glm::mat4& transform);

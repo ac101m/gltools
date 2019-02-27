@@ -29,15 +29,28 @@ void VertexBuffer::GenBuffers(std::vector<vertex_t>& vertices,
 
   // Vertex positions
   glEnableVertexAttribArray(0);
-  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(vertex_t), (void*)0);
+  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE,
+                        sizeof(vertex_t), (void*)0);
 
   // Vertex uvs
   glEnableVertexAttribArray(1);
-  glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(vertex_t), (void*)offsetof(vertex_t, uv));
+  glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE,
+                        sizeof(vertex_t), (void*)offsetof(vertex_t, uv));
 
   // Vertex normals
   glEnableVertexAttribArray(2);
-  glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(vertex_t), (void*)offsetof(vertex_t, normal));
+  glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE,
+                        sizeof(vertex_t), (void*)offsetof(vertex_t, normal));
+
+  // Vertex normals
+  glEnableVertexAttribArray(3);
+  glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE,
+                        sizeof(vertex_t), (void*)offsetof(vertex_t, tangent));
+
+  // Vertex normals
+  glEnableVertexAttribArray(4);
+  glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE,
+                        sizeof(vertex_t), (void*)offsetof(vertex_t, bitangent));
 
   // Unbind the vertex array
   glBindVertexArray(0);

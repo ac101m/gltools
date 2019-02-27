@@ -11,16 +11,17 @@ GLT::Mesh GenTestTriangle(void) {
 
   // Vertices
   std::vector<GLT::vertex_t> vertices = {
-    {glm::vec3(-0.5, -0.5, 0),  glm::vec2(0, 0),    glm::vec3(1, 0, 0)},
-    {glm::vec3(0.5, -0.5, 0),   glm::vec2(1, 0),    glm::vec3(0, 1, 0)},
-    {glm::vec3(0, 0.5, 0),      glm::vec2(0.5, 1),  glm::vec3(0, 0, 1)}};
+    {glm::vec3(-0.5, 0, -0.5),  glm::vec2(0, 0),    glm::vec3(1, 0, 0)},
+    {glm::vec3(0.5, 0, -0.5),   glm::vec2(1, 0),    glm::vec3(0, 1, 0)},
+    {glm::vec3(0, 0, 0.5),         glm::vec2(0.5, 1),  glm::vec3(0, 0, 1)}};
 
   // Indices
-  std::vector<unsigned> indices = {0, 1, 2};
+  std::vector<unsigned> indices = {0, 2, 1};
 
   // Textures
   std::vector<GLT::Texture> textures = {
-    GLT::Texture("textures/brownrock/colour.png")};
+    GLT::Texture("textures/brownrock/colour.png"),
+    GLT::Texture("textures/brownrock/normal.png")};
 
   // Package up into mesh
   return GLT::Mesh(vertices, indices, textures);
@@ -77,12 +78,11 @@ GLT::Mesh GenTestCubeIndexed(void) {
 
   // Load the side texture
   std::vector<GLT::Texture> textures = {
-    GLT::Texture("textures/brownrock/colour.png")};
+    GLT::Texture("textures/brownrock/colour.png"),
+    GLT::Texture("textures/brownrock/normal.png")};
 
   // Package up into mesh and return
-  GLT::Mesh mesh(vertices, indices, textures);
-  mesh.AutoGenerateNormals();
-  return mesh;
+  return GLT::Mesh(vertices, indices, textures);
 }
 
 
@@ -99,12 +99,13 @@ int main(void) {
   GLT::ShaderProgram shader({vertexShader, fragmentShader});
 
   // Scene uniforms
-  shader.SetVec3("ambientLightPow", glm::vec3(0.1, 0.1, 0.1));
-  shader.SetVec3("pointLightPow", glm::vec3(1, 1, 1));
-  shader.SetVec3("pointLightPos", glm::vec3(0, 1, -2));
+  shader.SetVec3("aLightPow", glm::vec3(0.1, 0.1, 0.1));
+  shader.SetVec3("pLightPow", glm::vec3(4, 4, 4));
+  shader.SetVec3("pLightPosWs", glm::vec3(0, 1, -2));
 
   // Mesh and model matrix
   GLT::Mesh testMesh = GenTestCubeIndexed();
+  testMesh.AutoGenerateNormals();
 
 
 //====[TEMPORARY]============================================================//
@@ -155,6 +156,7 @@ int main(void) {
       glm::mat4(1.0f),
       (float)window.GetTime() / 2,
       glm::vec3(0, 1, 0));
+    //transform1 = glm::mat4(1.0f);
 
     // Draw the test mesh
     window.Draw(testMesh, shader, transform1);

@@ -59,7 +59,9 @@ namespace GLT {
     void Use(void);
 
     // Set uniforms
+    void SetTexture(unsigned texUnit, std::string name, Texture tex);
     void SetVec3(std::string name, glm::vec3 value);
+    void SetMat3(std::string name, glm::mat3 value);
     void SetMat4(std::string name, glm::mat4 value);
 
     // Destructor, clean up GL handle
