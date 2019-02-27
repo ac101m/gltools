@@ -7,22 +7,6 @@ using namespace GLT;
 #include <iostream>
 
 
-// Common initialisation for constructors
-void Shader::Init(GLenum type, std::string path, Context& context) {
-
-  // Set up type information
-  this->type = type;
-  this->glHandle = context.NewShaderHandle(this->type);
-
-  // Load the shader source
-  this->LoadSource(path);
-
-  // Compile the shader
-  std::cout << "Compiling shader '" << path << "' - ";
-  this->Compile();
-}
-
-
 // Generates debug prints
 void Shader::Compile(void) {
 
@@ -49,19 +33,24 @@ void Shader::Compile(void) {
 
 
 // Constructor, specified context
-Shader::Shader(GLenum type, std::string path, Context& context) {
-  this->Init(type, path, context);
-}
+Shader::Shader(const GLenum type, const std::string path) :
+  parentContext(&defaultContext) {
 
+  // Set up type information
+  this->type = type;
+  this->glHandle = this->parentContext->NewShaderHandle(this->type);
 
-// Constructor, default context
-Shader::Shader(GLenum type, std::string path) {
-  this->Init(type, path, defaultContext);
+  // Load the shader source
+  this->LoadSource(path);
+
+  // Compile the shader
+  std::cout << "Compiling shader '" << path << "' - ";
+  this->Compile();
 }
 
 
 // Gets file from string
-void Shader::LoadSource(std::string path) {
+void Shader::LoadSource(const std::string& path) {
 
   // Open the file
   std::ifstream fp(path, std::ios::in);

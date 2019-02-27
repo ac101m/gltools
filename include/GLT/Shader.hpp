@@ -16,9 +16,16 @@
 
 namespace GLT {
 
+  // Forward declaration of context
+  class Context;
+
+
   // Class encapsulates a shader
   class Shader : public RefCount {
   private:
+
+    // Parent context pointer
+    Context* parentContext;
 
     // OpenGL handle
     GLenum type;
@@ -29,21 +36,17 @@ namespace GLT {
 
 //====[METHODS]==============================================================//
 
-    // Common initialisation
-    void Init(GLenum type, std::string path, Context& context);
-
     // Generates debug prints
     void Compile(void);
 
     // Loads entire file into string and returns it
     void SetSource(std::string src);
-    void LoadSource(std::string path);
+    void LoadSource(const std::string& path);
 
   public:
 
     // Constructors
-    Shader(GLenum type, std::string path, Context& context);
-    Shader(GLenum type, std::string path);
+    Shader(const GLenum type, const std::string path);
 
     // Get GL handle
     GLuint GetGlHandle(void) {return this->glHandle;}
