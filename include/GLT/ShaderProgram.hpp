@@ -31,6 +31,9 @@ namespace GLT {
   class ShaderProgram : public RefCount {
   private:
 
+    // Parent context pointer
+    Context* parentContext;
+
     // OpenGL handle
     GLuint glHandle;
 
@@ -40,29 +43,28 @@ namespace GLT {
 //====[METHODS]==============================================================//
 
     // Links an array of shaders into this program
-    void LinkShaders(std::vector<Shader>& shaders);
+    void LinkShaders(const std::vector<Shader>& shaders);
 
     // Uniform map stuff
-    void LocateUniforms(void);
-    uniform_t GetUniform(std::string& name);
-
-    // Common initialisation
-    void Init(std::vector<Shader>& shaders, Context& context);
+    void BuildUniformMap(void);
+    uniform_t GetUniform(const std::string& name);
 
   public:
 
     // Constructor
-    ShaderProgram(std::vector<Shader> shaders);
-    ShaderProgram(std::vector<Shader> shaders, Context& context);
+    ShaderProgram(const std::vector<Shader> shaders);
 
     // Use this shader program
     void Use(void);
 
     // Set uniforms
-    void SetTexture(unsigned texUnit, std::string name, Texture tex);
-    void SetVec3(std::string name, glm::vec3 value);
-    void SetMat3(std::string name, glm::mat3 value);
-    void SetMat4(std::string name, glm::mat4 value);
+    void SetTexture(const unsigned texUnit,
+                    const std::string name,
+                    const Texture tex);
+                    
+    void SetVec3(const std::string name, const glm::vec3 value);
+    void SetMat3(const std::string name, const glm::mat3 value);
+    void SetMat4(const std::string name, const glm::mat4 value);
 
     // Destructor, clean up GL handle
     ~ShaderProgram(void);

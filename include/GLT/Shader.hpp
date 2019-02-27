@@ -40,7 +40,7 @@ namespace GLT {
     void Compile(void);
 
     // Loads entire file into string and returns it
-    void SetSource(std::string src);
+    void SetSource(const std::string& src);
     void LoadSource(const std::string& path);
 
   public:
@@ -49,7 +49,7 @@ namespace GLT {
     Shader(const GLenum type, const std::string path);
 
     // Get GL handle
-    GLuint GetGlHandle(void) {return this->glHandle;}
+    GLuint GetGlHandle(void) const {return this->glHandle;}
 
     // Deconstruct
     ~Shader(void);

@@ -72,7 +72,7 @@ void Shader::LoadSource(const std::string& path) {
 
 
 // Set shader source
-void Shader::SetSource(std::string src) {
+void Shader::SetSource(const std::string& src) {
   this->source = src;
 }
 

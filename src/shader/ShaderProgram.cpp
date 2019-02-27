@@ -7,7 +7,7 @@ using namespace GLT;
 
 
 // Links a list of shaders into this program
-void ShaderProgram::LinkShaders(std::vector<Shader>& shaders) {
+void ShaderProgram::LinkShaders(const std::vector<Shader>& shaders) {
 	std::cout << "Linking shader program - ";
 
   // Attach the shaders
@@ -41,7 +41,10 @@ void ShaderProgram::LinkShaders(std::vector<Shader>& shaders) {
 
 
 // Fill uniform cache with data
-void ShaderProgram::LocateUniforms(void) {
+void ShaderProgram::BuildUniformMap(void) {
+
+	// Construct a uniform map
+	this->uniformMap = new std::map<std::string, uniform_t>;
 	this->uniformMap->clear();
 
 	// Get uniform count
@@ -86,7 +89,7 @@ void ShaderProgram::LocateUniforms(void) {
 
 
 // Get uniform by name
-uniform_t ShaderProgram::GetUniform(std::string& name) {
+uniform_t ShaderProgram::GetUniform(const std::string& name) {
 	this->Use();
 	if(this->uniformMap->find(name) != this->uniformMap->end()) {
 		return (*(this->uniformMap))[name];
@@ -96,23 +99,13 @@ uniform_t ShaderProgram::GetUniform(std::string& name) {
 	}
 }
 
-// Common initialisation
-void ShaderProgram::Init(std::vector<Shader>& shaders, Context& context) {
-	this->glHandle = context.NewShaderProgramHandle();
-  this->LinkShaders(shaders);
-	this->uniformMap = new std::map<std::string, uniform_t>;
-	this->LocateUniforms();
-}
-
 // Constructor, default context
-ShaderProgram::ShaderProgram(std::vector<Shader> shaders) {
-  this->Init(shaders, defaultContext);
-}
+ShaderProgram::ShaderProgram(std::vector<Shader> shaders) :
+ 														 parentContext(&defaultContext) {
 
-
-// Constructor, custom context
-ShaderProgram::ShaderProgram(std::vector<Shader> shaders, Context& context) {
-  this->Init(shaders, context);
+	this->glHandle = this->parentContext->NewShaderProgramHandle();
+  this->LinkShaders(shaders);
+	this->BuildUniformMap();
 }
 
 
@@ -126,21 +119,21 @@ void ShaderProgram::SetTexture(unsigned texUnit, std::string name, Texture tex) 
 
 
 // Set 3 element vector uniform
-void ShaderProgram::SetVec3(std::string name, glm::vec3 value) {
+void ShaderProgram::SetVec3(const std::string name, const glm::vec3 value) {
 	uniform_t uniform = this->GetUniform(name);
 	glUniform3f(uniform.handle, value.x, value.y, value.z);
 }
 
 
 // Set matrix uniform
-void ShaderProgram::SetMat3(std::string name, glm::mat3 value) {
+void ShaderProgram::SetMat3(std::string name, const glm::mat3 value) {
 	uniform_t uniform = this->GetUniform(name);
 	glUniformMatrix3fv(uniform.handle, 1, GL_FALSE, &value[0][0]);
 }
 
 
 // Set matrix uniform
-void ShaderProgram::SetMat4(std::string name, glm::mat4 value) {
+void ShaderProgram::SetMat4(const std::string name, const glm::mat4 value) {
 	uniform_t uniform = this->GetUniform(name);
 	glUniformMatrix4fv(uniform.handle, 1, GL_FALSE, &value[0][0]);
 }
