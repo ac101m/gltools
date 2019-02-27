@@ -41,25 +41,28 @@ namespace GLT {
   class VertexBuffer : public RefCount {
   private:
 
+    // Reference to local context
+    Context* parentContext;
+
     // OpenGL handles
     GLuint vao, vbo, ebo;
 
     // Buffer lengths
-    GLsizei *vBufLen;
-    GLsizei *iBufLen;
+    GLsizei* vBufLen;
+    GLsizei* iBufLen;
 
 //====[METHODS]==============================================================//
 
     // Sets up the mesh opengl buffers
-    void GenBuffers(std::vector<vertex_t>& vertices,
-                    std::vector<unsigned>& indices,
-                    Context& context);
+    void GenBuffers(const std::vector<vertex_t>& vertices,
+                    const std::vector<unsigned>& indices);
 
   public:
 
     // Constructors with context initialisation
     VertexBuffer(void);
-    VertexBuffer(std::vector<vertex_t>& vertices, std::vector<unsigned>& indices);
+    VertexBuffer(const std::vector<vertex_t>& vertices,
+                 const std::vector<unsigned>& indices);
 
     // Bind this vertex buffer
     void Bind(void) {glBindVertexArray(this->vao);}

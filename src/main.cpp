@@ -6,6 +6,10 @@
 #include <GLT/Texture.hpp>
 
 
+// Standard
+#include <unistd.h>
+
+
 // Generates a single triangle test mesh
 GLT::Mesh GenTestTriangle(void) {
 
@@ -156,7 +160,6 @@ int main(void) {
       glm::mat4(1.0f),
       (float)window.GetTime() / 2,
       glm::vec3(0, 1, 0));
-    //transform1 = glm::mat4(1.0f);
 
     // Draw the test mesh
     window.Draw(testMesh, shader, transform1);

@@ -3,16 +3,15 @@ using namespace GLT;
 
 
 // Sets up the mesh opengl buffers
-void VertexBuffer::GenBuffers(std::vector<vertex_t>& vertices,
-                              std::vector<unsigned>& indices,
-                              Context& context) {
+void VertexBuffer::GenBuffers(const std::vector<vertex_t>& vertices,
+                              const std::vector<unsigned>& indices) {
 
   // Create vertex array object buffer
-  this->vao = context.NewVertexArrayHandle();
+  this->vao = this->parentContext->NewVertexArrayHandle();
   glBindVertexArray(this->vao);
 
   // Set up vertex buffer
-  this->vbo = context.NewBufferHandle();
+  this->vbo = this->parentContext->NewBufferHandle();
   glBindBuffer(GL_ARRAY_BUFFER, this->vbo);
   glBufferData(GL_ARRAY_BUFFER,
                vertices.size() * sizeof(vertex_t),
@@ -20,7 +19,7 @@ void VertexBuffer::GenBuffers(std::vector<vertex_t>& vertices,
                GL_STATIC_DRAW);
 
   // Set up index buffer
-  this->ebo = context.NewBufferHandle();
+  this->ebo = this->parentContext->NewBufferHandle();
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->ebo);
   glBufferData(GL_ELEMENT_ARRAY_BUFFER,
                indices.size() * sizeof(unsigned),
@@ -58,7 +57,7 @@ void VertexBuffer::GenBuffers(std::vector<vertex_t>& vertices,
 
 
 // Blank constructor, no data
-VertexBuffer::VertexBuffer(void) {
+VertexBuffer::VertexBuffer(void) : parentContext(&defaultContext) {
   this->vao = this->vbo = this->ebo = 0;
   this->vBufLen = new GLsizei(0);
   this->iBufLen = new GLsizei(0);
@@ -66,8 +65,11 @@ VertexBuffer::VertexBuffer(void) {
 
 
 // Initialise vertex positions
-VertexBuffer::VertexBuffer(std::vector<vertex_t>& vertices, std::vector<unsigned>& indices) {
-  this->GenBuffers(vertices, indices, GLT::defaultContext);
+VertexBuffer::VertexBuffer(const std::vector<vertex_t>& vertices,
+                           const std::vector<unsigned>& indices) :
+                           parentContext(&defaultContext) {
+
+  this->GenBuffers(vertices, indices);
   this->vBufLen = new GLsizei(vertices.size());
   this->iBufLen = new GLsizei(indices.size());
 }

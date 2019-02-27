@@ -18,6 +18,7 @@ Mesh::Mesh(std::vector<vertex_t> vertices,
            std::vector<unsigned> indices,
            std::vector<Texture> textures) :
            vertices(vertices), indices(indices), textures(textures) {
+
   this->vertexBuffer = VertexBuffer(this->vertices, this->indices);
 }
 
