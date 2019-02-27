@@ -156,21 +156,20 @@ GLuint Context::NewTextureHandle(void) {
 
 
 // Check if a texture has been previously loaded
-bool Context::TextureLoaded(std::string& path) {
-  auto iterator = this->textures.find(path);
-  return (iterator != this->textures.end());
+bool Context::TextureCached(std::string& path) {
+  return this->textureCache.Exists(path);
 }
 
 
 // Get a loaded texture, segfaults if it doesn't exist
-Texture Context::GetLoadedTexture(std::string& path) {
-  return this->textures.find(path)->second;
+Texture Context::GetTexture(std::string& path) {
+  return this->textureCache.Get(path);
 }
 
 
 // Add a loaded texture to the
 void Context::AddTexture(std::string& path, Texture& texture) {
-  this->textures.insert(std::pair<std::string, Texture>(path, texture));
+  return this->textureCache.Add(path, texture);
 }
 
 

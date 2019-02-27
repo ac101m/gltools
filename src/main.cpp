@@ -13,7 +13,7 @@ GLT::Mesh GenTestTriangle(void) {
   std::vector<GLT::vertex_t> vertices = {
     {glm::vec3(-0.5, 0, -0.5),  glm::vec2(0, 0),    glm::vec3(1, 0, 0)},
     {glm::vec3(0.5, 0, -0.5),   glm::vec2(1, 0),    glm::vec3(0, 1, 0)},
-    {glm::vec3(0, 0, 0.5),         glm::vec2(0.5, 1),  glm::vec3(0, 0, 1)}};
+    {glm::vec3(0, 0, 0.5),      glm::vec2(0.5, 1),  glm::vec3(0, 0, 1)}};
 
   // Indices
   std::vector<unsigned> indices = {0, 2, 1};
@@ -100,7 +100,7 @@ int main(void) {
 
   // Scene uniforms
   shader.SetVec3("aLightPow", glm::vec3(0.1, 0.1, 0.1));
-  shader.SetVec3("pLightPow", glm::vec3(4, 4, 4));
+  shader.SetVec3("pLightPow", glm::vec3(3, 3, 3));
   shader.SetVec3("pLightPosWs", glm::vec3(0, 1, -2));
 
   // Mesh and model matrix

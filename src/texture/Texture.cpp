@@ -15,18 +15,19 @@ using namespace GLT;
 void Texture::Init(std::string& path, Context& context) {
 
   // Load the texture from file unless already loaded
-  if(!context.TextureLoaded(path)) {
-    this->LoadFromFile(path, context);
-    context.AddTexture(path, *this);
-  } else {
-    *this = context.GetLoadedTexture(path);
-  }
+  this->LoadFromFile(path, context);
 }
 
 
 // Load texture from file
 void Texture::LoadFromFile(std::string& path, Context& context) {
   std::cout << "Loading texture '" << path << "' - ";
+
+  // Check the context texture cache first
+  if(context.TextureCached(path)) {
+    *this = context.GetTexture(path);
+    return;
+  }
 
   // Load image data
   int width, height, channelCount;
@@ -37,7 +38,7 @@ void Texture::LoadFromFile(std::string& path, Context& context) {
 
   // Only continue if the texture load was successful
   if(!data) {
-    std::cout << "ERROR\n";
+    std::cout << "Error, stbi_load failed. Unsupported texture format?\n";
     exit(1);
   }
 
@@ -62,6 +63,9 @@ void Texture::LoadFromFile(std::string& path, Context& context) {
 
   // Done with the texture data
   stbi_image_free(data);
+
+  // Add the texture to the context texture path
+  context.AddTexture(path, *this);
 
   // Loading complete
   std::cout << "SUCCESS\n";

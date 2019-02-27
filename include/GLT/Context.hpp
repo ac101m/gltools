@@ -9,6 +9,7 @@
 #include <GLT/ShaderType.hpp>
 #include <GLT/Texture.hpp>
 #include <GLT/RenderBehaviour.hpp>
+#include <GLT/ElementCache.hpp>
 
 
 // Standard
@@ -23,9 +24,8 @@
 
 namespace GLT {
 
-  // Forward declarations
+  // Forward declarations where neccessary
   class Texture;
-  class RenderBehaviour;
 
 
   // Class encapsulates an opengl context
@@ -43,15 +43,15 @@ namespace GLT {
     GLFWwindow* prevGlfwWindow;
 
     // Texture cache
-    std::map<std::string, Texture> textures;
+    ElementCache<std::string, Texture> textureCache;
 
 //====[METHODS]==============================================================//
 
     // GLFW Error callback
-    static void Error(int error, const char* description);
+    static void Error(int error, const char *description);
 
     // Common initialisation
-    void InitGlew(GLFWwindow* window);
+    void InitGlew(GLFWwindow *window);
 
     // Initialise opengl
     void InitGL(void);
@@ -65,7 +65,7 @@ namespace GLT {
     void MakeCurrent(void);
 
     // Create things within this context
-    GLFWwindow* NewGlfwWindow(glm::vec2 size, std::string name, GLFWmonitor* mon);
+    GLFWwindow* NewGlfwWindow(glm::vec2 size, std::string name, GLFWmonitor *mon);
     GLuint NewShaderHandle(ShaderType type);
     GLuint NewShaderProgramHandle(void);
     GLuint NewVertexArrayHandle(void);
@@ -73,8 +73,8 @@ namespace GLT {
     GLuint NewTextureHandle(void);
 
     // Texture caching routines
-    bool TextureLoaded(std::string& path);
-    Texture GetLoadedTexture(std::string& path);
+    bool TextureCached(std::string& path);
+    Texture GetTexture(std::string& path);
     void AddTexture(std::string& path, Texture& texture);
 
     // Destructor manages termination of glfw
