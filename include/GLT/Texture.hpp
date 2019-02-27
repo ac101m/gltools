@@ -24,19 +24,22 @@ namespace GLT {
   class Texture : public RefCount {
   private:
 
+    // Pointer to local context
+    Context* parentContext;
+
     // Texture path, used as name
     GLuint glHandle;
 
 //====[METHODS]==============================================================//
 
     // Common initialisation
-    void Init(std::string& path, Context& context);
-    void LoadFromFile(std::string& path, Context& context);
+    void Init(const std::string& path);
+    void LoadFromFile(const std::string& path);
 
   public:
 
     // Constructor, from file
-    Texture(std::string path);
+    Texture(const std::string path);
 
     // Get the opengl handle
     GLuint GetGlHandle(void) {return this->glHandle;}

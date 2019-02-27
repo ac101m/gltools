@@ -12,26 +12,26 @@ using namespace GLT;
 
 
 // Common initialisation
-void Texture::Init(std::string& path, Context& context) {
+void Texture::Init(const std::string& path) {
 
   // Load the texture from file unless already loaded
-  this->LoadFromFile(path, context);
+  this->LoadFromFile(path);
 }
 
 
 // Load texture from file
-void Texture::LoadFromFile(std::string& path, Context& context) {
+void Texture::LoadFromFile(const std::string& path) {
   std::cout << "Loading texture '" << path << "' - ";
 
   // Check the context texture cache first
-  if(context.TextureCached(path)) {
-    *this = context.GetTexture(path);
+  if(this->parentContext->TextureCached(path)) {
+    *this = this->parentContext->GetTexture(path);
     return;
   }
 
   // Load image data
   int width, height, channelCount;
-  unsigned char *data = stbi_load(
+  unsigned char* data = stbi_load(
     path.c_str(),
     &width, &height,
     &channelCount, 0);
@@ -43,10 +43,10 @@ void Texture::LoadFromFile(std::string& path, Context& context) {
   }
 
   // Load the texture
-  this->glHandle = context.NewTextureHandle();
+  this->glHandle = this->parentContext->NewTextureHandle();
   this->Bind();
 
-  // Sampling behaviour
+  // Sampling behaviour, may generalize later
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
@@ -65,7 +65,7 @@ void Texture::LoadFromFile(std::string& path, Context& context) {
   stbi_image_free(data);
 
   // Add the texture to the context texture path
-  context.AddTexture(path, *this);
+  this->parentContext->AddTexture(path, *this);
 
   // Loading complete
   std::cout << "SUCCESS\n";
@@ -73,8 +73,9 @@ void Texture::LoadFromFile(std::string& path, Context& context) {
 
 
 // Constructor, loads the image from file
-Texture::Texture(std::string path) {
-  this->Init(path, defaultContext);
+Texture::Texture(const std::string path) :
+  parentContext(&defaultContext) {
+  this->Init(path);
 }
 
 

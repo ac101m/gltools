@@ -73,9 +73,9 @@ namespace GLT {
     GLuint NewTextureHandle(void);
 
     // Texture caching routines
-    bool TextureCached(std::string& path);
-    Texture GetTexture(std::string& path);
-    void AddTexture(std::string& path, Texture& texture);
+    bool TextureCached(const std::string& path);
+    Texture GetTexture(const std::string& path);
+    void AddTexture(const std::string& path, const Texture& texture);
 
     // Destructor manages termination of glfw
     ~Context(void);
