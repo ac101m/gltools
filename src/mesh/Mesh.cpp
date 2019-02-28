@@ -116,8 +116,8 @@ void Mesh::Draw(Camera& camera, ShaderProgram& shader, glm::mat4& m) {
 
   // Shader uniform setup
   shader.GetUniform("mMx").SetFMat4(m);
-  //shader.SetMat4("vMx", camera.GetViewMat());
-  //shader.SetMat3("mv3Mx", mv3);
+  shader.GetUniform("vMx").SetFMat4(camera.GetViewMat());
+  shader.GetUniform("mv3Mx").SetFMat3(mv3);
   shader.GetUniform("mvpMx").SetFMat4(mvp);
 
   // Bind textures to texture units

@@ -91,11 +91,12 @@ GLT::Mesh GenTestCubeIndexed(void) {
 
 
 int main(void) {
-  
+
   // Create window
-  GLT::Window window(glm::vec2(800, 600), "GLT Test");
+  GLT::Window window(glm::vec2(1280, 720), "GLT Test");
   window.camera.SetPos(0, 0, -2);
   window.EnableFpsCounter();
+  glfwSwapInterval(0);
 
   // Build a shader program
   GLT::Shader vertexShader(GL_VERTEX_SHADER, "shaders/lighting-vert.glsl");
@@ -160,7 +161,7 @@ int main(void) {
     // Generate transform matrix
     glm::mat4 transform1 = glm::rotate(
       glm::mat4(1.0f),
-      (float)window.GetTime() / 2,
+      (float)window.GetTime() / 3,
       glm::vec3(0, 1, 0));
 
     // Draw the test mesh

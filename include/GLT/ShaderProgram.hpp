@@ -29,12 +29,18 @@ namespace GLT {
     GLint elemCount;
 
     // Data and element count
-    unsigned dataSize;
-    void* data;
+    unsigned bufSize;
+    void* buf;
+
+    // Name string
+    std::string* name;
+
+//====[METHODS]==============================================================//
 
     // Allocate memory based on type and size
-    void AllocateDataMemory(void);
-    unsigned GetTypeSize(void);
+    void AllocateBuffer(void);
+    static unsigned GetTypeSize(GLenum const type);
+    static std::string GetTypeName(GLenum const type);
 
     // Assert that we have the right type
     inline void AssertType(GLenum const type);
@@ -45,12 +51,13 @@ namespace GLT {
 
     // Constructors
     Uniform(void);
-    Uniform(GLuint const handle,
+    Uniform(std::string const name,
+            GLuint const handle,
             GLenum const type,
             GLint const elemCount);
 
     // Texture samplers                       IMPLEMENTED?
-    void SetTex2D(int const value);           //   Y
+    void SetTex2D(int const value);           //    Y
 
     // Single 4/8
     void SetF1(float const value);            //
@@ -65,7 +72,7 @@ namespace GLT {
     void SetDVec2(glm::dvec2 const value);    //
 
     // 3 element vector 12/24
-    void SetFVec3(glm::fvec3 const value);    //   Y
+    void SetFVec3(glm::fvec3 const value);    //    Y
     void SetIVec3(glm::ivec3 const value);    //
     void SetUVec3(glm::uvec3 const value);    //
     void SetDVec3(glm::dvec3 const value);    //
@@ -81,11 +88,11 @@ namespace GLT {
     void SetDMat2(glm::dmat2 const value);    //
 
     // 3 by 3 matrix 36/72
-    void SetFMat3(glm::fmat3 const value);    //
+    void SetFMat3(glm::fmat3 const value);    //    Y
     void SetDMat3(glm::dmat3 const value);    //
 
     // 4 by 4 matrix 64/128
-    void SetFMat4(glm::fmat4 const value);    //   Y
+    void SetFMat4(glm::fmat4 const value);    //    Y
     void SetDMat4(glm::dmat4 const value);    //
 
     // Destructor, cleans up data memory

@@ -83,7 +83,10 @@ void ShaderProgram::FillUniformCache(void) {
 		std::cout << ", type " << uniformType << "\n";
 
 		// Add the uniform to the cache
-		Uniform uniform(uniformHandle, uniformType, uniformElementCount);
+		Uniform uniform(std::string(nameBuf),
+										uniformHandle,
+										uniformType,
+										uniformElementCount);
 		this->uniformCache->Add(std::string(nameBuf), uniform);
 	}
 }
@@ -92,7 +95,13 @@ void ShaderProgram::FillUniformCache(void) {
 // Get uniform by name
 Uniform ShaderProgram::GetUniform(const std::string name) {
 	this->Use();
-	return this->uniformCache->Get(name);
+	if(this->uniformCache->Contains(name)) {
+		return this->uniformCache->Get(name);
+	} else {
+		std::cout << "Shader uniform error, uniform id '" << name;
+		std::cout << "' not found, ignoring\n";
+		return Uniform();
+	}
 }
 
 // Constructor, default context

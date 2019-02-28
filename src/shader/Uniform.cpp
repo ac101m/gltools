@@ -3,8 +3,8 @@ using namespace GLT;
 
 
 // Get the size of the datatype
-unsigned Uniform::GetTypeSize(void) {
-  switch(this->type) {
+unsigned Uniform::GetTypeSize(GLenum const type) {
+  switch(type) {
     case GL_FLOAT:
     case GL_INT:
     case GL_UNSIGNED_INT:
@@ -53,7 +53,53 @@ unsigned Uniform::GetTypeSize(void) {
     case GL_DOUBLE_MAT4:
       return 128;
     default:
-      std::cout << "Uniform error, type enum " << this->type;
+      std::cout << "Shader uniform error, type enum value " << type;
+      std::cout << " not recognised\n";
+      exit(1);
+  }
+}
+
+
+// Get the size of the datatype
+std::string Uniform::GetTypeName(GLenum const type) {
+  switch(type) {
+    case GL_FLOAT:              return "GL_FLOAT";
+    case GL_INT:                return "GL_INT";
+    case GL_UNSIGNED_INT:       return "GL_UNSIGNED_INT";
+    case GL_SAMPLER_2D:         return "GL_SAMPLER_2D";
+    case GL_FLOAT_VEC2:         return "GL_FLOAT_VEC2";
+    case GL_INT_VEC2:           return "GL_INT_VEC2";
+    case GL_UNSIGNED_INT_VEC2:  return "GL_UNSIGNED_INT_VEC2";
+    case GL_DOUBLE:             return "GL_DOUBLE";
+    case GL_FLOAT_VEC3:         return "GL_FLOAT_VEC3";
+    case GL_INT_VEC3:           return "GL_INT_VEC3";
+    case GL_UNSIGNED_INT_VEC3:  return "GL_UNSIGNED_INT_VEC3";
+    case GL_FLOAT_VEC4:         return "GL_FLOAT_VEC4";
+    case GL_FLOAT_MAT2:         return "GL_FLOAT_MAT2";
+    case GL_INT_VEC4:           return "GL_INT_VEC4";
+    case GL_UNSIGNED_INT_VEC4:  return "GL_UNSIGNED_INT_VEC4";
+    case GL_DOUBLE_VEC2:        return "GL_DOUBLE_VEC2";
+    //case GL_FLOAT_MAT2x3:
+    //case GL_FLOAT_MAT3x2:
+    case GL_DOUBLE_VEC3:        return "GL_DOUBLE_VEC3";
+    //case GL_FLOAT_MAT2x4:
+    //case GL_FLOAT_MAT4x2:
+    case GL_DOUBLE_VEC4:        return "GL_DOUBLE_VEC4";
+    case GL_DOUBLE_MAT2:        return "GL_DOUBLE_MAT2";
+    case GL_FLOAT_MAT3:         return "GL_FLOAT_MAT3";
+    //case GL_FLOAT_MAT3x4:
+    //case GL_FLOAT_MAT4x3:
+    //case GL_DOUBLE_MAT2x3:
+    //case GL_DOUBLE_MAT3x2:
+    case GL_FLOAT_MAT4:         return "GL_FLOAT_MAT4";
+    //case GL_DOUBLE_MAT2x4:
+    //case GL_DOUBLE_MAT4x2:
+    case GL_DOUBLE_MAT3:        return "GL_DOUBLE_MAT3";
+    //case GL_DOUBLE_MAT3x4:
+    //case GL_DOUBLE_MAT4x3:
+    case GL_DOUBLE_MAT4:        return "GL_DOUBLE_MAT4";
+    default:
+      std::cout << "Shader uniform error, type enum value " << type;
       std::cout << " not recognised\n";
       exit(1);
   }
@@ -65,37 +111,39 @@ Uniform::Uniform(void) {
   this->handle = 0;
   this->type = 0;
   this->elemCount = 0;
-  this->data = (void*)0;
+  this->buf = (void*)0;
+  this->bufSize = 0;
+  this->name = new std::string("GLT_NULL_UNIFORM");
 }
 
 
 // Constructor, initialising
-Uniform::Uniform(GLuint const handle,
+Uniform::Uniform(std::string const name,
+                 GLuint const handle,
                  GLenum const type,
-                 GLint const elemCount) {
+                 GLint const elemCount) :
+                 handle(handle), type(type), elemCount(elemCount) {
 
-  // Initialise basic data
-  this->handle = handle;
-  this->type = type;
-  this->elemCount = elemCount;
+  // Initialise the uniform name
+  this->name = new std::string(name);
 
-  //  Multi-element uniform buffers not yet implemented
+  // TODO
   if(elemCount != 1) {
-    std::cout << "Uniform error, multi-element uniforms not implemented yet!\n";
+    std::cout << "Shader uniform error, multi-element uniforms not implemented!\n";
     exit(1);
   }
 
   // Allocate memory for uniform
-  this->AllocateDataMemory();
+  this->AllocateBuffer();
 }
 
 
 // Allocate data memory
-void Uniform::AllocateDataMemory(void) {
-  this->dataSize = this->elemCount * this->GetTypeSize();
-  this->data = new char[this->dataSize];
-  for(unsigned i = 0; i < this->dataSize; i++) {
-    ((char*)this->data)[i] = 0;
+void Uniform::AllocateBuffer(void) {
+  this->bufSize = this->elemCount * GetTypeSize(this->type);
+  this->buf = new char[this->bufSize];
+  for(unsigned i = 0; i < this->bufSize; i++) {
+    ((char*)this->buf)[i] = 0;
   }
 }
 
@@ -103,7 +151,9 @@ void Uniform::AllocateDataMemory(void) {
 // Type check
 void Uniform::AssertType(GLenum const type) {
   if(this->type != type) {
-    std::cout << "Uniform error, type mismatch\n";
+    std::cout << "Error, shader uniform '" << *(this->name) << "' ";
+    std::cout << "expects " << this->GetTypeName(this->type);
+    std::cout << ", but got " << this->GetTypeName(type) << "\n";
     exit(1);
   }
 }
@@ -111,8 +161,8 @@ void Uniform::AssertType(GLenum const type) {
 
 // Data buffer size check
 void Uniform::AssertDataSize(unsigned const size) {
-  if(this->dataSize != size) {
-    std::cout << "Uniform error, size mismatch\n";
+  if(this->bufSize != size) {
+    std::cout << "Shader uniform error, size mismatch\n";
     exit(1);
   }
 }
@@ -127,30 +177,44 @@ void Uniform::AssertMatch(GLenum const type, unsigned const size) {
 
 // single integer
 void Uniform::SetTex2D(int const value) {
+  if(this->handle == 0) return;
   this->AssertMatch(GL_SAMPLER_2D, sizeof(int));
-  if(value != *((int*)this->data)) {
+  if(value != *((int*)this->buf)) {
      glUniform1i(this->handle, value);
-     *((int*)this->data) = value;
+     *((int*)this->buf) = value;
   }
 }
 
 
 // 3 element float vector
 void Uniform::SetFVec3(glm::fvec3 const value) {
+  if(this->handle == 0) return;
   this->AssertMatch(GL_FLOAT_VEC3, sizeof(glm::fvec3));
-  if(value != *((glm::fvec3*)this->data)) {
+  if(value != *((glm::fvec3*)this->buf)) {
 	   glUniform3fv(this->handle, 1, &value[0]);
-     *((glm::fvec3*)this->data) = value;
+     *((glm::fvec3*)this->buf) = value;
+  }
+}
+
+
+// 4 x 4 float matrix
+void Uniform::SetFMat3(glm::fmat3 const value) {
+  if(this->handle == 0) return;
+  this->AssertMatch(GL_FLOAT_MAT4, sizeof(glm::fmat3));
+  if(value != *((glm::fmat3*)this->buf)) {
+	   glUniformMatrix3fv(this->handle, 1, GL_FALSE, &value[0][0]);
+     *((glm::fmat3*)this->buf) = value;
   }
 }
 
 
 // 4 x 4 float matrix
 void Uniform::SetFMat4(glm::fmat4 const value) {
+  if(this->handle == 0) return;
   this->AssertMatch(GL_FLOAT_MAT4, sizeof(glm::fmat4));
-  if(value != *((glm::fmat4*)this->data)) {
+  if(value != *((glm::fmat4*)this->buf)) {
 	   glUniformMatrix4fv(this->handle, 1, GL_FALSE, &value[0][0]);
-     *((glm::fmat4*)this->data) = value;
+     *((glm::fmat4*)this->buf) = value;
   }
 }
 
@@ -158,8 +222,9 @@ void Uniform::SetFMat4(glm::fmat4 const value) {
 // Destructor, deallocates memory
 Uniform::~Uniform(void) {
   if(!this->ReferencedElsewhere()) {
-    if(this->data) {
-      delete [] (char*)this->data;
+    delete this->name;
+    if(this->buf) {
+      delete [] (char*)this->buf;
     }
   }
 }

@@ -32,13 +32,13 @@ namespace GLT {
     void Clear(void) {this->map.clear();}
 
     // Does the given element exist
-    bool Exists(const Tkey& key) {
+    bool Contains(const Tkey& key) {
       return (this->map.find(key) != this->map.end());
     }
 
     // Get an element, error if not present
     Tvalue Get(const Tkey& key) {
-      if(!this->Exists(key)) {
+      if(!this->Contains(key)) {
         std::cout << "Cache error, no matching key\n";
         exit(1);
       }
@@ -47,7 +47,7 @@ namespace GLT {
 
     // Add an element, error if already present
     void Add(const Tkey& key, const Tvalue& value) {
-      if(this->Exists(key)) {
+      if(this->Contains(key)) {
         std::cout << "Cache error, key already exists\n";
         exit(1);
       }

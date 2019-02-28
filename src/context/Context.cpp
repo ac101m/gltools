@@ -162,7 +162,7 @@ GLuint Context::NewTextureHandle(void) {
 
 // Check if a texture has been previously loaded
 bool Context::TextureCached(const std::string& path) {
-  return this->textureCache.Exists(path);
+  return this->textureCache.Contains(path);
 }
 
 
