@@ -37,6 +37,9 @@ namespace GLT {
   class Window {
   private:
 
+    // Parent context
+    Context* parentContext;
+
     // Is the window active?
     bool active;
 
@@ -66,15 +69,8 @@ namespace GLT {
 //====[METHODS]==============================================================//
 
     // Get frame buffer size
-    glm::vec2 GetFrameBufferSize(void);
-    glm::vec2 GetWindowSize(void);
-
-    // Window and framebuffer resize callbacks
-    static void WindowSizeCallback(GLFWwindow *window, int x, int y);
-    static void FrameBufferSizeCallback(GLFWwindow *window, int x, int y);
-
-    // Common initialisation
-    void Init(glm::vec2 size, std::string name, Context& context);
+    glm::vec2 GetFrameBufferSize(void) const;
+    glm::vec2 GetWindowSize(void) const;
 
     // General refresh routines
     void InitCursor(void);
@@ -101,45 +97,42 @@ namespace GLT {
 
 //====[METHODS]==============================================================//
 
-    // Constructors
-    Window(glm::vec2 size, std::string title, Context& context);
-    Window(glm::vec2 size, std::string title);
+    // Constructor
+    Window(const glm::vec2 size, const std::string title);
 
     // Set the window title
-    void SetTitle(std::string title);
-    std::string GetTitle(void) {return this->title;}
+    void SetTitle(const std::string title);
+    std::string GetTitle(void) const {return this->title;}
 
     // Option routines
-    void EnableFpsCounter();
-    void DisableFpsCounter();
-
-    // Window open & close methods
-    void Close(void);
+    void EnableFpsCounter(void);
+    void DisableFpsCounter(void);
 
     // Select the context associated with this window
     void MakeCurrent(void);
 
-    // General utility
-    bool ShouldClose(void);
-
     // Cursor routines
-    glm::vec2 GetCursorPos(void);
-    glm::vec2 GetCursorDelta(void);
+    glm::vec2 GetCursorPos(void) const;
+    glm::vec2 GetCursorDelta(void) const;
     void SetCursorPos(glm::vec2 pos);
     void CenterCursor(void);
     void CaptureCursor(void);
     void FreeCursor(void);
 
-    // Time routines
-    double GetTime(void) {return glfwGetTime() - this->windowCreationTime;}
-    double GetTimeDelta(void) {return this->timeDelta;}
-
     // Keypresses
     bool KeyPressed(int key);
+
+    // Time routines
+    double GetTime(void) const {return glfwGetTime() - this->windowCreationTime;}
+    double GetTimeDelta(void) const {return this->timeDelta;}
 
     // Drawing routines
     void Draw(Drawable& object, ShaderProgram& shader, glm::mat4& transform);
     void Refresh(void);
+
+    // Window closing
+    bool ShouldClose(void) const;
+    void Close(void);
 
     // Destructor, clean things up
     ~Window(void);

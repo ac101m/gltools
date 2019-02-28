@@ -8,29 +8,15 @@ using namespace GLT;
 using namespace std;
 
 
-// Window resize callback
-void Window::WindowSizeCallback(GLFWwindow *window, int x, int y) {
+// Constructor, with default context
+Window::Window(const glm::vec2 size, const string title) :
+               parentContext(&defaultContext) {
 
-}
-
-
-// Frame buffer resize callback
-void Window::FrameBufferSizeCallback(GLFWwindow *window, int x, int y) {
-
-}
-
-
-// Common initialisation
-void Window::Init(glm::vec2 size, string title, Context& context) {
-  this->glfwWindow = context.NewGlfwWindow(size, title, NULL);
+  this->glfwWindow = this->parentContext->NewGlfwWindow(size, title, NULL);
   this->active = true;
   this->title = title;
   this->size = this->GetWindowSize();
   this->camera.SetViewRatio(this->GetFrameBufferSize());
-
-  // Set window and frame buffer resize callbacks
-  glfwSetWindowSizeCallback(this->glfwWindow, this->WindowSizeCallback);
-  glfwSetFramebufferSizeCallback(this->glfwWindow, this->FrameBufferSizeCallback);
 
   // General run-to-run state data setup
   this->InitCursor();
@@ -41,27 +27,15 @@ void Window::Init(glm::vec2 size, string title, Context& context) {
 }
 
 
-// Constructor, with specified context
-Window::Window(glm::vec2 size, string title, Context& context) {
-  this->Init(size, title, context);
-}
-
-
-// Constructor, with default context
-Window::Window(glm::vec2 size, string title) {
-  this->Init(size, title, defaultContext);
-}
-
-
 // Set the window title
-void Window::SetTitle(std::string title) {
+void Window::SetTitle(const std::string title) {
   glfwSetWindowTitle(this->glfwWindow, title.c_str());
   this->title = title;
 }
 
 
 // Get frame buffer size
-glm::vec2 Window::GetFrameBufferSize(void) {
+glm::vec2 Window::GetFrameBufferSize(void) const {
   int x, y;
   glfwGetFramebufferSize(this->glfwWindow, &x, &y);
   return glm::vec2(x, y);
@@ -69,7 +43,7 @@ glm::vec2 Window::GetFrameBufferSize(void) {
 
 
 // Get frame buffer size
-glm::vec2 Window::GetWindowSize(void) {
+glm::vec2 Window::GetWindowSize(void) const {
   int x, y;
   glfwGetWindowSize(this->glfwWindow, &x, &y);
   return glm::vec2(x, y);
@@ -100,7 +74,7 @@ void Window::Close() {
 
 
 // Returns true if the window should close
-bool Window::ShouldClose(void) {
+bool Window::ShouldClose(void) const {
   return glfwWindowShouldClose(this->glfwWindow);
 }
 
@@ -152,7 +126,7 @@ void Window::FreeCursor(void) {
 
 
 // Get position of the cursor
-glm::vec2 Window::GetCursorPos(void) {
+glm::vec2 Window::GetCursorPos(void) const {
   double x, y;
   glfwGetCursorPos(this->glfwWindow, &x, &y);
   return glm::vec2(x, y);
@@ -172,7 +146,7 @@ void Window::CenterCursor(void) {
 
 
 // How much has the cursor moved?
-glm::vec2 Window::GetCursorDelta(void) {
+glm::vec2 Window::GetCursorDelta(void) const {
   return this->cursorDelta;
 }
 

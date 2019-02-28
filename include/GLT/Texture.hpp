@@ -42,11 +42,11 @@ namespace GLT {
     Texture(const std::string path);
 
     // Get the opengl handle
-    GLuint GetGlHandle(void) {return this->glHandle;}
+    GLuint GetGlHandle(void) const {return this->glHandle;}
 
     // Bind and unbind the texture
-    void Bind(void) {glBindTexture(GL_TEXTURE_2D, this->glHandle);}
-    void Unbind(void) {glBindTexture(GL_TEXTURE_2D, 0);}
+    void Bind(void) const {glBindTexture(GL_TEXTURE_2D, this->glHandle);}
+    void Unbind(void) const {glBindTexture(GL_TEXTURE_2D, 0);}
 
     // Destructor, uses reference count
     ~Texture(void);
