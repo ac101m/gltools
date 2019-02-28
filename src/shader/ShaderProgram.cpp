@@ -41,18 +41,17 @@ void ShaderProgram::LinkShaders(const std::vector<Shader>& shaders) {
 
 
 // Fill uniform cache with data
-void ShaderProgram::BuildUniformMap(void) {
+void ShaderProgram::FillUniformCache(void) {
 
 	// Construct a uniform map
-	this->uniformMap = new std::map<std::string, uniform_t>;
-	this->uniformMap->clear();
+	this->uniformCache = new ElementCache<std::string, Uniform>;
 
 	// Get uniform count
 	GLint uniformCount = 0;
 	glGetProgramiv(this->glHandle, GL_ACTIVE_UNIFORMS, &uniformCount);
 
-	// Struct to contain uniform data
-	uniform_t uniformData;
+	// Uniform class
+	Uniform uniformData;
 
 	// Uniform name constants
 	const GLsizei nameBufSize = 16;
@@ -82,21 +81,15 @@ void ShaderProgram::BuildUniformMap(void) {
 		std::cout << ", handleID " << uniformData.handle << "\n";
 
 		// Add the uniform to the uniform map
-		this->uniformMap->insert(
-			std::pair<std::string, uniform_t>(std::string(nameBuf), uniformData));
+		this->uniformCache->Add(std::string(nameBuf), uniformData);
 	}
 }
 
 
 // Get uniform by name
-uniform_t ShaderProgram::GetUniform(const std::string& name) {
+Uniform ShaderProgram::GetUniform(const std::string& name) {
 	this->Use();
-	if(this->uniformMap->find(name) != this->uniformMap->end()) {
-		return (*(this->uniformMap))[name];
-	} else {
-		std::cout << "Error, uniform '" << name << "' does not exist\n";
-		exit(1);
-	}
+	return this->uniformCache->Get(name);
 }
 
 // Constructor, default context
@@ -105,13 +98,16 @@ ShaderProgram::ShaderProgram(std::vector<Shader> shaders) :
 
 	this->glHandle = this->parentContext->NewShaderProgramHandle();
   this->LinkShaders(shaders);
-	this->BuildUniformMap();
+	this->FillUniformCache();
 }
 
 
 // Bind a texture to a uniform
-void ShaderProgram::SetTexture(unsigned texUnit, std::string name, Texture tex) {
-	uniform_t uniform = this->GetUniform(name);
+void ShaderProgram::SetTexture(unsigned const texUnit,
+															 std::string const& name,
+															 Texture const& tex) {
+
+	Uniform uniform = this->GetUniform(name);
 	glActiveTexture(GL_TEXTURE0 + texUnit);
 	glUniform1i(uniform.handle, texUnit);
 	tex.Bind();
@@ -119,22 +115,22 @@ void ShaderProgram::SetTexture(unsigned texUnit, std::string name, Texture tex) 
 
 
 // Set 3 element vector uniform
-void ShaderProgram::SetVec3(const std::string name, const glm::vec3 value) {
-	uniform_t uniform = this->GetUniform(name);
+void ShaderProgram::SetVec3(std::string const name, glm::vec3 const value) {
+	Uniform uniform = this->GetUniform(name);
 	glUniform3f(uniform.handle, value.x, value.y, value.z);
 }
 
 
 // Set matrix uniform
-void ShaderProgram::SetMat3(std::string name, const glm::mat3 value) {
-	uniform_t uniform = this->GetUniform(name);
+void ShaderProgram::SetMat3(std::string const name, glm::mat3 const value) {
+	Uniform uniform = this->GetUniform(name);
 	glUniformMatrix3fv(uniform.handle, 1, GL_FALSE, &value[0][0]);
 }
 
 
 // Set matrix uniform
-void ShaderProgram::SetMat4(const std::string name, const glm::mat4 value) {
-	uniform_t uniform = this->GetUniform(name);
+void ShaderProgram::SetMat4(std::string const name, glm::mat4 const value) {
+	Uniform uniform = this->GetUniform(name);
 	glUniformMatrix4fv(uniform.handle, 1, GL_FALSE, &value[0][0]);
 }
 
@@ -148,7 +144,7 @@ void ShaderProgram::Use(void) {
 // Delete the shader program
 ShaderProgram::~ShaderProgram(void) {
   if(!this->ReferencedElsewhere()) {
-		delete this->uniformMap;
+		delete this->uniformCache;
     glDeleteProgram(this->glHandle);
   }
 }

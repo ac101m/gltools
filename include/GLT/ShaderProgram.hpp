@@ -8,6 +8,7 @@
 #endif
 #include <GLT/Shader.hpp>
 #include <GLT/RefCount.hpp>
+#include <GLT/ElementCache.hpp>
 
 
 // Standard
@@ -19,12 +20,33 @@
 namespace GLT {
 
 
-  // Struct to contain uniform data
-  typedef struct {
+  // Class to contain uniform data
+  class Uniform : public RefCount {
+  private:
+
+    // Allocate memory based on type and size
+    void AllocateDataMemory(void);
+
+  public:
+
+    // Uniform data
     GLint size;
     GLenum type;
     GLuint handle;
-  } uniform_t;
+    void* data;
+
+//====[METHODS]==============================================================//
+
+    // Constructors
+    Uniform(void);
+    Uniform(GLint const size,
+            GLenum const type,
+            GLuint const handle,
+            void const * const data);
+
+    // Destructor, cleans up data memory
+    ~Uniform(void);
+  };
 
 
   // Class wraps an opengl shader program handle
@@ -38,7 +60,7 @@ namespace GLT {
     GLuint glHandle;
 
     // Uniform locations in shader, raw pointer for shallow copy
-    std::map<std::string, uniform_t> *uniformMap;
+    ElementCache<std::string, Uniform>* uniformCache;
 
 //====[METHODS]==============================================================//
 
@@ -46,8 +68,8 @@ namespace GLT {
     void LinkShaders(const std::vector<Shader>& shaders);
 
     // Uniform map stuff
-    void BuildUniformMap(void);
-    uniform_t GetUniform(const std::string& name);
+    void FillUniformCache(void);
+    Uniform GetUniform(const std::string& name);
 
   public:
 
@@ -57,14 +79,15 @@ namespace GLT {
     // Use this shader program
     void Use(void);
 
-    // Set uniforms
-    void SetTexture(const unsigned texUnit,
-                    const std::string name,
-                    const Texture tex);
-                    
-    void SetVec3(const std::string name, const glm::vec3 value);
-    void SetMat3(const std::string name, const glm::mat3 value);
-    void SetMat4(const std::string name, const glm::mat4 value);
+    // Set texture uniform
+    void SetTexture(unsigned const texUnit,
+                    std::string const& name,
+                    Texture const& tex);
+
+    // Set other uniforms
+    void SetVec3(std::string const name, glm::vec3 const value);
+    void SetMat3(std::string const name, glm::mat3 const value);
+    void SetMat4(std::string const name, glm::mat4 const value);
 
     // Destructor, clean up GL handle
     ~ShaderProgram(void);
