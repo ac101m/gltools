@@ -91,10 +91,7 @@ GLT::Mesh GenTestCubeIndexed(void) {
 
 
 int main(void) {
-
-  std::cout << GL_TEXTURE << "\n";
-  //return 0;
-
+  
   // Create window
   GLT::Window window(glm::vec2(800, 600), "GLT Test");
   window.camera.SetPos(0, 0, -2);
@@ -121,28 +118,30 @@ int main(void) {
 	float moveSpeed = 1.0f;
 	float mouseSensitivity = 0.003f;
   float dFwd, dRight, dUp, dr = 0.0f;     // camera movement
+
+  // Frame cap stuff
+  unsigned fc = 0;
+  unsigned fcl = 36000;
+  double st = window.GetTime();
 //====[TEMPORARY]============================================================//
 
 
   // Window 2 loop
   while(!window.ShouldClose()) {
+    if(fc++ > fcl) break;
 
 
 //====[TEMPORARY]============================================================//
-    // get current time and print out fps
+    // get current time
     float dt = window.GetTimeDelta();
 
-    // reset input control deltas
-    dr = dFwd = dRight = dUp = 0.0f;
-
-    // get mouse position delta
+    // Cursor capture control
     glm::vec2 cursorDelta = window.GetCursorDelta() * mouseSensitivity;
-
-    // Cursor captured?
     if(window.KeyPressed(GLFW_KEY_ESCAPE)) window.FreeCursor();
     if(window.KeyPressed(GLFW_KEY_M)) window.CaptureCursor();
 
-    // do input handling
+    // Camera translation & rotation
+    dr = dFwd = dRight = dUp = 0.0f;
     if(window.KeyPressed(GLFW_KEY_W)) dFwd += (dt * moveSpeed);
     if(window.KeyPressed(GLFW_KEY_S)) dFwd -= (dt * moveSpeed);
     if(window.KeyPressed(GLFW_KEY_A)) dRight += (dt * moveSpeed);
@@ -152,7 +151,7 @@ int main(void) {
     if(window.KeyPressed(GLFW_KEY_E)) dr += (dt * rotateSpeed);
     if(window.KeyPressed(GLFW_KEY_Q)) dr -= (dt * rotateSpeed);
 
-    // update camera orientation
+    // Update window camera
     window.camera.Move(dRight, dUp, dFwd);
     window.camera.MoveLook(-cursorDelta.x, cursorDelta.y, dr);
 //====[TEMPORARY]============================================================//
@@ -170,6 +169,14 @@ int main(void) {
     // Display output
     window.Refresh();
   }
+
+
+//====[TEMPORARY]============================================================//
+  // Print out average fps
+  double et = window.GetTime();
+  std::cout << "Average FPS: " << fc / (et - st) << "\n";
+//====[TEMPORARY]============================================================//
+
 
   // All done
   return 0;

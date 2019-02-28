@@ -24,13 +24,13 @@ namespace GLT {
   private:
 
     // Uniform data
-    GLenum type;
     GLuint handle;
-    void* data;
+    GLenum type;
+    GLint elemCount;
 
     // Data and element count
     unsigned dataSize;
-    GLint elemCount;
+    void* data;
 
     // Allocate memory based on type and size
     void AllocateDataMemory(void);
@@ -43,15 +43,13 @@ namespace GLT {
 
   public:
 
-//====[METHODS]==============================================================//
-
     // Constructors
     Uniform(void);
     Uniform(GLuint const handle,
             GLenum const type,
             GLint const elemCount);
 
-    // Set texture                            IMPLEMENTED?
+    // Texture samplers                       IMPLEMENTED?
     void SetTex2D(int const value);           //   Y
 
     // Single 4/8
@@ -131,11 +129,6 @@ namespace GLT {
 
     // Set other uniforms
     Uniform GetUniform(const std::string name);
-    /*
-    void SetVec3(std::string const name, glm::vec3 const value);
-    void SetMat3(std::string const name, glm::mat3 const value);
-    void SetMat4(std::string const name, glm::mat4 const value);
-    */
 
     // Destructor, clean up GL handle
     ~ShaderProgram(void);

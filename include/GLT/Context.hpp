@@ -48,6 +48,9 @@ namespace GLT {
     // Current render behaviour
     RenderBehaviour* currentRenderBehaviour;
 
+    // Currently active shader program
+    GLuint activeShaderProgram;
+
 //====[METHODS]==============================================================//
 
     // GLFW Error callback
@@ -83,6 +86,9 @@ namespace GLT {
     // Sets and gets for render behaviour
     RenderBehaviour& GetCurrentRenderBehaviour(void);
     void SetCurrentRenderBehaviour(const RenderBehaviour& rb);
+
+    GLuint GetCurrentShaderProgram(void);
+    void SetCurrentShaderProgram(GLuint const sp);
 
     // Destructor manages termination of glfw
     ~Context(void);

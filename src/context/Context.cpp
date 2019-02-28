@@ -53,7 +53,7 @@ void Context::InitGL(void) {
 // Common initialisation
 Context::Context(void) {
 
-  // Lock the context count static variable
+  // Begin context lock
   contextCountMx.lock();
 
   // If we are the first context, do GLFW setup
@@ -71,16 +71,19 @@ Context::Context(void) {
     glfwSetErrorCallback(Context::Error);
   }
 
-  // Increment the context count
+  // End context lock
   contextCount++;
   contextCountMx.unlock();
 
   // Last window handle, NULL means glfwCreateWindow will
-  // kick off a new opengl context.
+  // kick off a new opengl context when called
   this->prevGlfwWindow = NULL;
 
   // Glew hasn't been intialised yet (we can't until we have a context)
   this->glewInitialised = false;
+
+  // 0 indicates no bound shader
+  this->activeShaderProgram = 0;
 }
 
 
@@ -170,7 +173,7 @@ Texture Context::GetTexture(const std::string& path) {
 
 
 // Add a loaded texture to the
-void Context::AddTexture(const std::string& path, const Texture& texture) {
+void Context::AddTexture(std::string const& path, Texture const& texture) {
   return this->textureCache.Add(path, texture);
 }
 
@@ -182,9 +185,22 @@ RenderBehaviour& Context::GetCurrentRenderBehaviour(void) {
 
 
 // Set current render behaviour
-void Context::SetCurrentRenderBehaviour(const RenderBehaviour& rb) {
+void Context::SetCurrentRenderBehaviour(RenderBehaviour const& rb) {
   *(this->currentRenderBehaviour) = rb;
 }
+
+
+// Get current shader program
+GLuint Context::GetCurrentShaderProgram(void) {
+  return this->activeShaderProgram;
+}
+
+
+// Set current shader program
+void Context::SetCurrentShaderProgram(GLuint const sp) {
+  this->activeShaderProgram = sp;
+}
+
 
 // Context going out of scope
 Context::~Context(void) {

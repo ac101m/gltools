@@ -62,9 +62,9 @@ unsigned Uniform::GetTypeSize(void) {
 
 // Constructor, nil
 Uniform::Uniform(void) {
-  this->elemCount = 0;
-  this->type = 0;
   this->handle = 0;
+  this->type = 0;
+  this->elemCount = 0;
   this->data = (void*)0;
 }
 

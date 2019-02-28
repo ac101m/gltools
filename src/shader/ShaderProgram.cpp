@@ -115,31 +115,14 @@ void ShaderProgram::SetTexture(unsigned const texUnit,
 	tex.Bind();
 }
 
-/*
-// Set 3 element vector uniform
-void ShaderProgram::SetVec3(std::string const name, glm::vec3 const value) {
-	Uniform uniform = this->GetUniform(name);
-	glUniform3f(uniform.handle, value.x, value.y, value.z);
-}
-
-
-// Set matrix uniform
-void ShaderProgram::SetMat3(std::string const name, glm::mat3 const value) {
-	Uniform uniform = this->GetUniform(name);
-	glUniformMatrix3fv(uniform.handle, 1, GL_FALSE, &value[0][0]);
-}
-
-
-// Set matrix uniform
-void ShaderProgram::SetMat4(std::string const name, glm::mat4 const value) {
-	Uniform uniform = this->GetUniform(name);
-	glUniformMatrix4fv(uniform.handle, 1, GL_FALSE, &value[0][0]);
-}
-*/
 
 // Use this shader program
 void ShaderProgram::Use(void) {
-  glUseProgram(this->glHandle);
+	this->parentContext->MakeCurrent();
+	if(this->parentContext->GetCurrentShaderProgram() != this->glHandle) {
+  	glUseProgram(this->glHandle);
+		this->parentContext->SetCurrentShaderProgram(this->glHandle);
+	}
 }
 
 
