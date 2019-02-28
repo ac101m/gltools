@@ -50,8 +50,10 @@ void ShaderProgram::FillUniformCache(void) {
 	GLint uniformCount = 0;
 	glGetProgramiv(this->glHandle, GL_ACTIVE_UNIFORMS, &uniformCount);
 
-	// Uniform class
-	Uniform uniformData;
+	// Uniform data
+	GLuint uniformHandle;
+	GLenum uniformType;
+	GLint uniformElementCount;
 
 	// Uniform name constants
 	const GLsizei nameBufSize = 16;
@@ -67,27 +69,28 @@ void ShaderProgram::FillUniformCache(void) {
 			(GLuint)i,
 			nameBufSize,
 			&nameLength,
-			&uniformData.size,
-			&uniformData.type,
-			nameBuf
-		);
+			&uniformElementCount,
+			&uniformType,
+			nameBuf);
 
 		// Get GL handle for uniform (redundant? i good enough?)
-		uniformData.handle = glGetUniformLocation(this->glHandle, nameBuf);
+		uniformHandle = glGetUniformLocation(this->glHandle, nameBuf);
 
 		// Print out uniform stuff, temporary, to confirm the above
 		std::cout << i << " - Found uniform '" << nameBuf;
-		std::cout << "', length " << uniformData.size;
-		std::cout << ", handleID " << uniformData.handle << "\n";
+		std::cout << "', elements " << uniformElementCount;
+		std::cout << ", handleID " << uniformHandle;
+		std::cout << ", type " << uniformType << "\n";
 
-		// Add the uniform to the uniform map
-		this->uniformCache->Add(std::string(nameBuf), uniformData);
+		// Add the uniform to the cache
+		Uniform uniform(uniformHandle, uniformType, uniformElementCount);
+		this->uniformCache->Add(std::string(nameBuf), uniform);
 	}
 }
 
 
 // Get uniform by name
-Uniform ShaderProgram::GetUniform(const std::string& name) {
+Uniform ShaderProgram::GetUniform(const std::string name) {
 	this->Use();
 	return this->uniformCache->Get(name);
 }
@@ -107,13 +110,12 @@ void ShaderProgram::SetTexture(unsigned const texUnit,
 															 std::string const& name,
 															 Texture const& tex) {
 
-	Uniform uniform = this->GetUniform(name);
 	glActiveTexture(GL_TEXTURE0 + texUnit);
-	glUniform1i(uniform.handle, texUnit);
+	this->GetUniform(name).SetTex2D(texUnit);
 	tex.Bind();
 }
 
-
+/*
 // Set 3 element vector uniform
 void ShaderProgram::SetVec3(std::string const name, glm::vec3 const value) {
 	Uniform uniform = this->GetUniform(name);
@@ -133,7 +135,7 @@ void ShaderProgram::SetMat4(std::string const name, glm::mat4 const value) {
 	Uniform uniform = this->GetUniform(name);
 	glUniformMatrix4fv(uniform.handle, 1, GL_FALSE, &value[0][0]);
 }
-
+*/
 
 // Use this shader program
 void ShaderProgram::Use(void) {

@@ -7,7 +7,7 @@
 
 
 // Standard
-#include <unistd.h>
+#include <iostream>
 
 
 // Generates a single triangle test mesh
@@ -92,6 +92,9 @@ GLT::Mesh GenTestCubeIndexed(void) {
 
 int main(void) {
 
+  std::cout << GL_TEXTURE << "\n";
+  //return 0;
+
   // Create window
   GLT::Window window(glm::vec2(800, 600), "GLT Test");
   window.camera.SetPos(0, 0, -2);
@@ -103,9 +106,9 @@ int main(void) {
   GLT::ShaderProgram shader({vertexShader, fragmentShader});
 
   // Scene uniforms
-  shader.SetVec3("aLightPow", glm::vec3(0.1, 0.1, 0.1));
-  shader.SetVec3("pLightPow", glm::vec3(3, 3, 3));
-  shader.SetVec3("pLightPosWs", glm::vec3(0, 1, -2));
+  shader.GetUniform("aLightPow").SetFVec3(glm::vec3(0.1, 0.1, 0.1));
+  shader.GetUniform("pLightPow").SetFVec3(glm::vec3(3, 3, 3));
+  shader.GetUniform("pLightPosWs").SetFVec3(glm::vec3(0, 1, -2));
 
   // Mesh and model matrix
   GLT::Mesh testMesh = GenTestCubeIndexed();
