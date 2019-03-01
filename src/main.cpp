@@ -84,7 +84,8 @@ GLT::Mesh GenTestCubeIndexed(void) {
   // Load the side texture
   std::vector<GLT::Texture> textures = {
     GLT::Texture("textures/brownrock/colour.png"),
-    GLT::Texture("textures/brownrock/normal.png")};
+    GLT::Texture("textures/brownrock/normal.png"),
+    GLT::Texture("textures/brownrock/depth.png")};
 
   // Package up into mesh and return
   return GLT::Mesh(vertices, indices, textures);
@@ -108,6 +109,7 @@ int main(void) {
   shader.GetUniform("aLightPow").SetFVec3(glm::vec3(0.1, 0.1, 0.1));
   shader.GetUniform("pLightPow").SetFVec3(glm::vec3(3, 3, 3));
   shader.GetUniform("pLightPosWs").SetFVec3(glm::vec3(0, 1, -2));
+  shader.GetUniform("parallaxCoeff").SetF1(0.1f);
 
   // Mesh and model matrix
   GLT::Mesh testMesh = GenTestCubeIndexed();

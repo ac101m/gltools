@@ -193,6 +193,17 @@ void Uniform::SetTex2D(int const value) {
 }
 
 
+// single integer
+void Uniform::SetF1(float const value) {
+  if(this->type == GLT_NULL_UNIFORM) return;
+  this->AssertMatch(GL_FLOAT, sizeof(float));
+  if(value != *((float*)this->buf)) {
+     glUniform1f(this->handle, value);
+     *((float*)this->buf) = value;
+  }
+}
+
+
 // 3 element float vector
 void Uniform::SetFVec3(glm::fvec3 const value) {
   if(this->type == GLT_NULL_UNIFORM) return;

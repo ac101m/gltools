@@ -20,6 +20,7 @@ uniform vec3 pLightPosWs;
 out VS_OUT {
   vec2 fragUV;
   vec3 fragPosWs;
+  vec3 fragPosTs;
   vec3 viewPosCs;
   vec3 viewPosTs;
   vec3 pLightPosCs;
@@ -32,14 +33,15 @@ void main() {
   // Pass through UVs
   vsOut.fragUV = vertUV;
 
-  // Fragment position in world space, for lighting
-  vsOut.fragPosWs = vec3(mMx * vec4(vertPosMs, 1.0));
-
   // Compute transpose TBN matrix
   vec3 vertNmlCs = mv3Mx * normalize(vertNmlMs);
   vec3 vertTanCs = mv3Mx * normalize(vertTanMs);
   vec3 vertBitanCs = mv3Mx * normalize(vertBitanMs);
   mat3 tbnMx = transpose(mat3(vertTanCs, vertBitanCs, vertNmlCs));
+
+  // Fragment position in world space, for lighting
+  vsOut.fragPosWs = vec3(mMx * vec4(vertPosMs, 1.0));
+  vsOut.fragPosTs = tbnMx * vec3(vMx * vec4(vsOut.fragPosWs, 1.0));
 
   // Vector from vertex to camera
   vec3 vertPosCs = vec3(vMx * mMx * vec4(vertPosMs, 1.0));
