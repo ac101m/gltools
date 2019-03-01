@@ -98,8 +98,9 @@ Uniform ShaderProgram::GetUniform(const std::string name) {
 	if(this->uniformCache->Contains(name)) {
 		return this->uniformCache->Get(name);
 	} else {
-		std::cout << "Shader uniform error, uniform id '" << name;
-		std::cout << "' not found, ignoring\n";
+		std::cout << "Error, shader uniform id '" << name;
+		std::cout << "' not found, substituting null uniform\n";
+		this->uniformCache->Add(name, Uniform());
 		return Uniform();
 	}
 }

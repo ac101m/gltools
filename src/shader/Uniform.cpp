@@ -2,9 +2,15 @@
 using namespace GLT;
 
 
+// Null uniform
+#define GLT_NULL_UNIFORM 0
+
+
 // Get the size of the datatype
 unsigned Uniform::GetTypeSize(GLenum const type) {
   switch(type) {
+    case GLT_NULL_UNIFORM:
+      return 0;
     case GL_FLOAT:
     case GL_INT:
     case GL_UNSIGNED_INT:
@@ -63,6 +69,7 @@ unsigned Uniform::GetTypeSize(GLenum const type) {
 // Get the size of the datatype
 std::string Uniform::GetTypeName(GLenum const type) {
   switch(type) {
+    case GLT_NULL_UNIFORM:      return "GLT_NULL_UNIFORM";
     case GL_FLOAT:              return "GL_FLOAT";
     case GL_INT:                return "GL_INT";
     case GL_UNSIGNED_INT:       return "GL_UNSIGNED_INT";
@@ -109,11 +116,11 @@ std::string Uniform::GetTypeName(GLenum const type) {
 // Constructor, nil
 Uniform::Uniform(void) {
   this->handle = 0;
-  this->type = 0;
+  this->type = GLT_NULL_UNIFORM;
   this->elemCount = 0;
   this->buf = (void*)0;
   this->bufSize = 0;
-  this->name = new std::string("GLT_NULL_UNIFORM");
+  this->name = new std::string(this->GetTypeName(this->type));
 }
 
 
@@ -177,7 +184,7 @@ void Uniform::AssertMatch(GLenum const type, unsigned const size) {
 
 // single integer
 void Uniform::SetTex2D(int const value) {
-  if(this->handle == 0) return;
+  if(this->type == GLT_NULL_UNIFORM) return;
   this->AssertMatch(GL_SAMPLER_2D, sizeof(int));
   if(value != *((int*)this->buf)) {
      glUniform1i(this->handle, value);
@@ -188,7 +195,7 @@ void Uniform::SetTex2D(int const value) {
 
 // 3 element float vector
 void Uniform::SetFVec3(glm::fvec3 const value) {
-  if(this->handle == 0) return;
+  if(this->type == GLT_NULL_UNIFORM) return;
   this->AssertMatch(GL_FLOAT_VEC3, sizeof(glm::fvec3));
   if(value != *((glm::fvec3*)this->buf)) {
 	   glUniform3fv(this->handle, 1, &value[0]);
@@ -199,7 +206,7 @@ void Uniform::SetFVec3(glm::fvec3 const value) {
 
 // 4 x 4 float matrix
 void Uniform::SetFMat3(glm::fmat3 const value) {
-  if(this->handle == 0) return;
+  if(this->type == GLT_NULL_UNIFORM) return;
   this->AssertMatch(GL_FLOAT_MAT4, sizeof(glm::fmat3));
   if(value != *((glm::fmat3*)this->buf)) {
 	   glUniformMatrix3fv(this->handle, 1, GL_FALSE, &value[0][0]);
@@ -210,7 +217,7 @@ void Uniform::SetFMat3(glm::fmat3 const value) {
 
 // 4 x 4 float matrix
 void Uniform::SetFMat4(glm::fmat4 const value) {
-  if(this->handle == 0) return;
+  if(this->type == GLT_NULL_UNIFORM) return;
   this->AssertMatch(GL_FLOAT_MAT4, sizeof(glm::fmat4));
   if(value != *((glm::fmat4*)this->buf)) {
 	   glUniformMatrix4fv(this->handle, 1, GL_FALSE, &value[0][0]);

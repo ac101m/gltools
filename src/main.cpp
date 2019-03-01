@@ -121,15 +121,13 @@ int main(void) {
   float dFwd, dRight, dUp, dr = 0.0f;     // camera movement
 
   // Frame cap stuff
-  unsigned fc = 0;
-  unsigned fcl = 36000;
-  double st = window.GetTime();
+  unsigned frameCount = 0;
+  double tStart = window.GetTime();
 //====[TEMPORARY]============================================================//
 
 
   // Window 2 loop
   while(!window.ShouldClose()) {
-    if(fc++ > fcl) break;
 
 
 //====[TEMPORARY]============================================================//
@@ -169,13 +167,14 @@ int main(void) {
 
     // Display output
     window.Refresh();
+    frameCount++;
   }
 
 
 //====[TEMPORARY]============================================================//
   // Print out average fps
-  double et = window.GetTime();
-  std::cout << "Average FPS: " << fc / (et - st) << "\n";
+  double tEnd = window.GetTime();
+  std::cout << "Average FPS: " << frameCount / (tEnd - tStart) << "\n";
 //====[TEMPORARY]============================================================//
 
 
