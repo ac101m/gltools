@@ -7,35 +7,47 @@ layout (location = 2) in vec3 vertNmlMs;
 layout (location = 3) in vec3 vertTanMs;
 layout (location = 4) in vec3 vertBitanMs;
 
-// Uniforms
+// Uniform matrices
 uniform mat4 mMx;
-//uniform mat4 vMx;
-//uniform mat3 mv3Mx;
+uniform mat4 vMx;
+uniform mat3 mv3Mx;
 uniform mat4 mvpMx;
+
+// Uniform light position
+uniform vec3 pLightPosWs;
 
 // Outputs from the vertex shader
 out VS_OUT {
-  vec3 fragPosWs;
   vec2 fragUV;
-  vec3 nmlWs;
-  mat3 tbnMx;
+  vec3 fragPosWs;
+  vec3 viewPosCs;
+  vec3 viewPosTs;
+  vec3 pLightPosCs;
+  vec3 pLightPosTs;
 } vsOut;
 
 void main() {
   gl_Position = mvpMx * vec4(vertPosMs, 1.0);
 
-  // Generate TBN matrix
-  vec3 T = normalize(vec3(mMx * vec4(vertTanMs, 0.0)));
-  vec3 B = normalize(vec3(mMx * vec4(vertBitanMs, 0.0)));
-  vec3 N = normalize(vec3(mMx * vec4(vertNmlMs, 0.0)));
-  vsOut.tbnMx = mat3(T, B, N);
-
-  // Legacy normals
-  vsOut.nmlWs = vec3(mMx * vec4(vertNmlMs, 1.0));
+  // Pass through UVs
+  vsOut.fragUV = vertUV;
 
   // Fragment position in world space, for lighting
   vsOut.fragPosWs = vec3(mMx * vec4(vertPosMs, 1.0));
 
-  // Pass through UVs
-  vsOut.fragUV = vertUV;
+  // Compute transpose TBN matrix
+  vec3 vertNmlCs = mv3Mx * normalize(vertNmlMs);
+  vec3 vertTanCs = mv3Mx * normalize(vertTanMs);
+  vec3 vertBitanCs = mv3Mx * normalize(vertBitanMs);
+  mat3 tbnMx = transpose(mat3(vertTanCs, vertBitanCs, vertNmlCs));
+
+  // Vector from vertex to camera
+  vec3 vertPosCs = vec3(vMx * mMx * vec4(vertPosMs, 1.0));
+  vsOut.viewPosCs = vec3(0.0, 0.0, 0.0) - vertPosCs;
+  vsOut.viewPosTs = tbnMx * vsOut.viewPosCs;
+
+  // Vector from vertex to light
+  vec3 pLightPosCs = vec3(vMx * vec4(pLightPosWs, 1.0));
+  vsOut.pLightPosCs = pLightPosCs + vsOut.viewPosCs;
+  vsOut.pLightPosTs = tbnMx * vsOut.pLightPosCs;
 }

@@ -8,6 +8,7 @@
 
 // Standard
 #include <iostream>
+#include <unistd.h>
 
 
 // Generates a single triangle test mesh
@@ -166,6 +167,7 @@ int main(void) {
     window.Draw(testMesh, shader, transform1);
 
     // Display output
+    usleep(1000);
     window.Refresh();
     frameCount++;
   }

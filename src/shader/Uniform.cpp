@@ -207,7 +207,7 @@ void Uniform::SetFVec3(glm::fvec3 const value) {
 // 4 x 4 float matrix
 void Uniform::SetFMat3(glm::fmat3 const value) {
   if(this->type == GLT_NULL_UNIFORM) return;
-  this->AssertMatch(GL_FLOAT_MAT4, sizeof(glm::fmat3));
+  this->AssertMatch(GL_FLOAT_MAT3, sizeof(glm::fmat3));
   if(value != *((glm::fmat3*)this->buf)) {
 	   glUniformMatrix3fv(this->handle, 1, GL_FALSE, &value[0][0]);
      *((glm::fmat3*)this->buf) = value;
