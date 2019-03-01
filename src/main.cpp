@@ -85,7 +85,8 @@ GLT::Mesh GenTestCubeIndexed(void) {
   std::vector<GLT::Texture> textures = {
     GLT::Texture("textures/brownrock/colour.png"),
     GLT::Texture("textures/brownrock/normal.png"),
-    GLT::Texture("textures/brownrock/depth.png")};
+    GLT::Texture("textures/brownrock/depth.png"),
+    GLT::Texture("textures/brownrock/ao.png")};
 
   // Package up into mesh and return
   return GLT::Mesh(vertices, indices, textures);
@@ -98,7 +99,6 @@ int main(void) {
   GLT::Window window(glm::vec2(1280, 720), "GLT Test");
   window.camera.SetPos(0, 0, -2);
   window.EnableFpsCounter();
-  glfwSwapInterval(0);
 
   // Build a shader program
   GLT::Shader vertexShader(GL_VERTEX_SHADER, "shaders/lighting-vert.glsl");
