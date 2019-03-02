@@ -58,6 +58,7 @@ namespace GLT {
 
     // Texture samplers                       IMPLEMENTED?
     void SetTex2D(int const value);           //    Y
+    void SetTexCube(int const value);         //    Y
 
     // Single 4/8
     void SetF1(float const value);            //    Y

@@ -4,7 +4,7 @@ using namespace GLT;
 
 // Image loading
 #define STB_IMAGE_IMPLEMENTATION
-#include <sdb_image.h>
+#include <stb_image.h>
 
 
 // Standard
@@ -38,7 +38,8 @@ void Texture::LoadFromFile(const std::string& path) {
 
   // Only continue if the texture load was successful
   if(!data) {
-    std::cout << "Error, stbi_load failed. Unsupported texture format?\n";
+    std::cout << "ERROR\n";
+    std::cout << "stbi_load failure. Unsupported texture format?\n";
     exit(1);
   }
 

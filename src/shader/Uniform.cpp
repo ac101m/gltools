@@ -15,6 +15,7 @@ unsigned Uniform::GetTypeSize(GLenum const type) {
     case GL_INT:
     case GL_UNSIGNED_INT:
     case GL_SAMPLER_2D:
+    case GL_SAMPLER_CUBE:
       return 4;
     case GL_FLOAT_VEC2:
     case GL_INT_VEC2:
@@ -70,10 +71,11 @@ unsigned Uniform::GetTypeSize(GLenum const type) {
 std::string Uniform::GetTypeName(GLenum const type) {
   switch(type) {
     case GLT_NULL_UNIFORM:      return "GLT_NULL_UNIFORM";
+    case GL_SAMPLER_2D:         return "GL_SAMPLER_2D";
+    case GL_SAMPLER_CUBE:       return "GL_SAMPLER_CUBE";
     case GL_FLOAT:              return "GL_FLOAT";
     case GL_INT:                return "GL_INT";
     case GL_UNSIGNED_INT:       return "GL_UNSIGNED_INT";
-    case GL_SAMPLER_2D:         return "GL_SAMPLER_2D";
     case GL_FLOAT_VEC2:         return "GL_FLOAT_VEC2";
     case GL_INT_VEC2:           return "GL_INT_VEC2";
     case GL_UNSIGNED_INT_VEC2:  return "GL_UNSIGNED_INT_VEC2";
@@ -186,6 +188,17 @@ void Uniform::AssertMatch(GLenum const type, unsigned const size) {
 void Uniform::SetTex2D(int const value) {
   if(this->type == GLT_NULL_UNIFORM) return;
   this->AssertMatch(GL_SAMPLER_2D, sizeof(int));
+  if(value != *((int*)this->buf)) {
+     glUniform1i(this->handle, value);
+     *((int*)this->buf) = value;
+  }
+}
+
+
+// single integer
+void Uniform::SetTexCube(int const value) {
+  if(this->type == GLT_NULL_UNIFORM) return;
+  this->AssertMatch(GL_SAMPLER_CUBE, sizeof(int));
   if(value != *((int*)this->buf)) {
      glUniform1i(this->handle, value);
      *((int*)this->buf) = value;

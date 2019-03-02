@@ -24,10 +24,11 @@ void Shader::Compile(void) {
 	if(!logLength) {
     std::cout << "SUCCESS\n";
   } else {
-    std::cout << "ERROR:\n";
+    std::cout << "ERROR\n";
 		std::vector<char> log(logLength + 1);
 		glGetShaderInfoLog(this->glHandle, logLength, NULL, &log[0]);
     std::cout << &log[0] << "\n";
+    exit(1);
 	}
 }
 

@@ -29,8 +29,12 @@ uniform float parallaxCoeff;
 out vec4 gl_FragColor;
 
 
-// My novel recursive parallax algorithm
+// Recursive deep parallax mapping
+// - No branches in loop
+// - Accuracy increases with 2^n where n is iteration count
+// - Could use some interpolation at the end, otherwise I'm dead chuffed
 vec2 ParallaxMapping3(vec2 texCoords, vec3 viewDir) {
+  const float iterationCount = 8;
 
   // View parallax coefficient
   vec2 viewParallaxCoeff = viewDir.xy * parallaxCoeff;
@@ -52,7 +56,6 @@ vec2 ParallaxMapping3(vec2 texCoords, vec3 viewDir) {
   float layerDepthDeltaCurrent = sampleCurrent - layerDepthCurrent;
 
   // Iterate in towards result
-  const float iterationCount = 8;
   for(int i = 0; i < iterationCount; i++) {
 
     // Compute new depth delta
@@ -76,7 +79,7 @@ vec2 ParallaxMapping3(vec2 texCoords, vec3 viewDir) {
     layerDepthDeltaCurrent = sampleCurrent - layerDepthCurrent;
   }
 
-  // May be able to use a bit of linear algebra here to make it even cleaner
+  // May be able to use a bit of linear algebra here to make it cleaner
   // Until then we'll just output the current uv delta, it's close enough
   return texCoords - uvDeltaCurrent;
 }

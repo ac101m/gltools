@@ -4,6 +4,7 @@
 #include <GLT/ShaderProgram.hpp>
 #include <GLT/Mesh.hpp>
 #include <GLT/Texture.hpp>
+#include <GLT/CubeMap.hpp>
 
 
 // Standard
@@ -99,21 +100,36 @@ int main(void) {
   GLT::Window window(glm::vec2(1280, 720), "GLT Test");
   window.camera.SetPos(0, 0, -2);
   window.EnableFpsCounter();
+  window.renderBehaviour.SetDepthTestFunction(GL_LEQUAL);
 
-  // Build a shader program
+  // Build object shader program
   GLT::Shader vertexShader(GL_VERTEX_SHADER, "shaders/lighting-vert.glsl");
   GLT::Shader fragmentShader(GL_FRAGMENT_SHADER, "shaders/lighting-frag.glsl");
-  GLT::ShaderProgram shader({vertexShader, fragmentShader});
+  GLT::ShaderProgram objectShader({vertexShader, fragmentShader});
+
+  // Build skybox shader program
+  vertexShader = GLT::Shader(GL_VERTEX_SHADER, "shaders/skybox-vert.glsl");
+  fragmentShader = GLT::Shader(GL_FRAGMENT_SHADER, "shaders/skybox-frag.glsl");
+  GLT::ShaderProgram skyboxShader({vertexShader, fragmentShader});
 
   // Scene uniforms
-  shader.GetUniform("aLightPow").SetFVec3(glm::vec3(0.1, 0.1, 0.1));
-  shader.GetUniform("pLightPow").SetFVec3(glm::vec3(3, 3, 3));
-  shader.GetUniform("pLightPosWs").SetFVec3(glm::vec3(0, 1, -2));
-  shader.GetUniform("parallaxCoeff").SetF1(0.1f);
+  objectShader.GetUniform("aLightPow").SetFVec3(glm::vec3(0.1, 0.1, 0.1));
+  objectShader.GetUniform("pLightPow").SetFVec3(glm::vec3(3, 3, 3));
+  objectShader.GetUniform("pLightPosWs").SetFVec3(glm::vec3(0, 1, -2));
+  objectShader.GetUniform("parallaxCoeff").SetF1(0.1f);
 
-  // Mesh and model matrix
+  // Test mesh
   GLT::Mesh testMesh = GenTestCubeIndexed();
   testMesh.AutoGenerateNormals();
+
+  // Skybox
+  GLT::CubeMap skybox({
+    "textures/skybox/right.jpg",
+    "textures/skybox/left.jpg",
+    "textures/skybox/top.jpg",
+    "textures/skybox/bottom.jpg",
+    "textures/skybox/front.jpg",
+    "textures/skybox/back.jpg"});
 
 
 //====[TEMPORARY]============================================================//
@@ -160,13 +176,15 @@ int main(void) {
 
 
     // Generate transform matrix
-    glm::mat4 transform1 = glm::rotate(
+    glm::mat4 skyboxTransform = glm::mat4(1.0f);
+    glm::mat4 objectTransform = glm::rotate(
       glm::mat4(1.0f),
       (float)window.GetTime() / 3,
       glm::vec3(0, 1, 0));
 
-    // Draw the test mesh
-    window.Draw(testMesh, shader, transform1);
+    // Draw the mesh first, then the skybox
+    window.Draw(testMesh, objectShader, objectTransform);
+    window.Draw(skybox, skyboxShader, skyboxTransform);
 
     // Display output
     usleep(1000);
