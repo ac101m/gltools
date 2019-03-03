@@ -79,9 +79,15 @@ vec2 ParallaxMapping3(vec2 texCoords, vec3 viewDir) {
     layerDepthDeltaCurrent = sampleCurrent - layerDepthCurrent;
   }
 
-  // May be able to use a bit of linear algebra here to make it cleaner
-  // Until then we'll just output the current uv delta, it's close enough
-  return texCoords - uvDeltaCurrent;
+  // A bit of linear algebra
+  float x1 = layerDepthCurrent;   float y1 = sampleCurrent;
+  float x2 = layerDepthLast;      float y2 = sampleLast;
+
+  float layerDepthEst =
+    ((x1*y2)-(y1*x2)) /
+    ((x1-x2)-(y1-y2));
+
+  return texCoords - (viewParallaxCoeff * layerDepthEst);
 }
 
 

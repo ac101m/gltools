@@ -101,6 +101,7 @@ int main(void) {
   window.camera.SetPos(0, 0, -2);
   window.EnableFpsCounter();
   window.renderBehaviour.SetDepthTestFunction(GL_LEQUAL);
+  glfwSwapInterval(0);
 
   // Build object shader program
   GLT::Shader vertexShader(GL_VERTEX_SHADER, "shaders/lighting-vert.glsl");
