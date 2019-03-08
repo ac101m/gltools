@@ -112,7 +112,7 @@ void __attribute__((weak)) CubeMap::Draw(
   ShaderProgram& shader,
   glm::mat4& m) {
 
-  std::cout << "Error, draw method not specified (GLT::Mesh)\n";
+  std::cout << "Error, draw method not specified (GLT::CubeMap)\n";
   std::cout << "Please provide a draw method\n";
   exit(1);
 }

@@ -135,7 +135,7 @@ void GLT::Mesh::Draw(
 void GLT::CubeMap::Draw(
   GLT::Camera& camera,
   GLT::ShaderProgram& shader,
-  glm::Mat4& m) {
+  glm::mat4& m) {
 
   // Strip the translation component from the view matrix
   glm::mat4 vMx(glm::mat3(camera.GetViewMat()));
