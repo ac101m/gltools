@@ -106,35 +106,12 @@ void Mesh::Print(void) {
 }
 
 
-// Draw routine
-void Mesh::Draw(Camera& camera, ShaderProgram& shader, glm::mat4& m) {
-
-  // Multiply out the matrices IN THE RIGHT FUCKING ORDER THIS TIME
-  // GOD DMAN NON-COMMUTATIVE BASTARDS FKN 4 HOURS RIGHT THERE
-  glm::mat4 mvp = camera.GetProjMat() * camera.GetViewMat() * m;
-  glm::mat3 mv3 = glm::mat3(camera.GetViewMat() * m);
-
-  // Shader uniform setup
-  shader.GetUniform("mMx").SetFMat4(m);
-  shader.GetUniform("vMx").SetFMat4(camera.GetViewMat());
-  shader.GetUniform("mv3Mx").SetFMat3(mv3);
-  shader.GetUniform("mvpMx").SetFMat4(mvp);
-
-  // Bind textures to texture units
-  std::string name = "texture0";
-  for(unsigned i = 0; i < this->textures.size(); i++) {
-    name[7] = 48 + i;
-    shader.SetTexture(i, name, this->textures[i]);
-  }
-
-  // Draw the things
-  this->vertexBuffer.Bind();
-  glDrawElements(
-    GL_TRIANGLES,
-    this->vertexBuffer.GetIndexBufferLength(),
-    GL_UNSIGNED_INT, 0);
-  this->vertexBuffer.Unbind();
-
-  // Set texture back to texture 0
-  glActiveTexture(GL_TEXTURE0);
+// Weak draw routine, just there to indicate to the user that the draw method
+// for this class isn't actually written yet
+void __attribute__((weak)) Mesh::Draw(Camera& camera,
+                                      ShaderProgram& shader,
+                                      glm::mat4& m) {
+                                        
+  std::cout << "Error, draw method not specified (GLT::Mesh)\n";
+  exit(1);
 }
