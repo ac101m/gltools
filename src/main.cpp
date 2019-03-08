@@ -95,9 +95,10 @@ GLT::Mesh GenTestCubeIndexed(void) {
 
 
 // Mesh draw override
-void GLT::Mesh::Draw(GLT::Camera& camera,
-                     GLT::ShaderProgram& shader,
-                     glm::mat4& m) {
+void GLT::Mesh::Draw(
+  GLT::Camera& camera,
+  GLT::ShaderProgram& shader,
+  glm::mat4& m) {
 
   // Multiply out the matrices IN THE RIGHT FUCKING ORDER THIS TIME
   // GOD DMAN NON-COMMUTATIVE BASTARDS FKN 4 HOURS RIGHT THERE
@@ -127,6 +128,30 @@ void GLT::Mesh::Draw(GLT::Camera& camera,
 
   // Set texture back to texture 0
   glActiveTexture(GL_TEXTURE0);
+}
+
+
+// Cube map draw override
+void GLT::CubeMap::Draw(
+  GLT::Camera& camera,
+  GLT::ShaderProgram& shader,
+  glm::Mat4& m) {
+
+  // Strip the translation component from the view matrix
+  glm::mat4 vMx(glm::mat3(camera.GetViewMat()));
+  shader.GetUniform("vMx").SetFMat4(vMx);
+  shader.GetUniform("pMx").SetFMat4(camera.GetProjMat());
+
+  // Bind cube map texture
+  glBindTexture(GL_TEXTURE_CUBE_MAP, this->glHandle);
+
+  // Execute the actual draw call
+  this->vertexBuffer.Bind();
+  glDrawElements(
+    GL_TRIANGLES,
+    this->vertexBuffer.GetIndexBufferLength(),
+    GL_UNSIGNED_INT, 0);
+  this->vertexBuffer.Unbind();
 }
 
 

@@ -106,12 +106,14 @@ void Mesh::Print(void) {
 }
 
 
-// Weak draw routine, just there to indicate to the user that the draw method
-// for this class isn't actually written yet
-void __attribute__((weak)) Mesh::Draw(Camera& camera,
-                                      ShaderProgram& shader,
-                                      glm::mat4& m) {
-                                        
+// Default draw routine. Just a polite reminder to the developer
+// that they need to provide their own draw code
+void __attribute__((weak)) Mesh::Draw(
+  Camera& camera,
+  ShaderProgram& shader,
+  glm::mat4& m) {
+
   std::cout << "Error, draw method not specified (GLT::Mesh)\n";
+  std::cout << "Please provide a draw method\n";
   exit(1);
 }

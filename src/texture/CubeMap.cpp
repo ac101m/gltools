@@ -105,24 +105,16 @@ CubeMap::CubeMap(std::vector<std::string> const texPaths) :
 }
 
 
-// Overridden draw method
-void CubeMap::Draw(Camera& camera, ShaderProgram& shader, glm::mat4& m) {
+// Default draw routine. Just a polite reminder to the developer
+// that they need to provide their own draw code
+void __attribute__((weak)) CubeMap::Draw(
+  Camera& camera,
+  ShaderProgram& shader,
+  glm::mat4& m) {
 
-  // Strip the translation component from the view matrix
-  glm::mat4 vMx(glm::mat3(camera.GetViewMat()));
-  shader.GetUniform("vMx").SetFMat4(vMx);
-  shader.GetUniform("pMx").SetFMat4(camera.GetProjMat());
-
-  // Bind cube map texture
-  glBindTexture(GL_TEXTURE_CUBE_MAP, this->glHandle);
-
-  // Execute the actual draw call
-  this->vertexBuffer.Bind();
-  glDrawElements(
-    GL_TRIANGLES,
-    this->vertexBuffer.GetIndexBufferLength(),
-    GL_UNSIGNED_INT, 0);
-  this->vertexBuffer.Unbind();
+  std::cout << "Error, draw method not specified (GLT::Mesh)\n";
+  std::cout << "Please provide a draw method\n";
+  exit(1);
 }
 
 
