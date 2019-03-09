@@ -1,4 +1,7 @@
 # gltools
-A helper library I wrote to make implementing casual opengl programs less of a hassle.
+A simple opengl framework for quickly chucking things on the screen.
 
 Features:
+- Window creation
+- Shader encapsulation and uniform caching
+- Texture loading and caching
