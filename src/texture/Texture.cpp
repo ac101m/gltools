@@ -4,7 +4,7 @@ using namespace GLT;
 
 // Image loading
 #define STB_IMAGE_IMPLEMENTATION
-#include <stb_image.h>
+#include <GLT/stb_image.h>
 
 
 // Standard
