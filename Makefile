@@ -1,15 +1,20 @@
-# Output files
+# Output executables
 RELEASE_EXEC ?= bin/gltools
 DEBUG_EXEC ?= bin/gltools-debug
+
+# Output libraries
+LIB_HEADER_PATH ?= include/GLT/
+STATIC_LIB ?= install/gltools.a
 
 # Directory controls
 OBJ_DIR_BASE ?= build
 OBJ_DIR_RELEASE ?= $(OBJ_DIR_BASE)/release
 OBJ_DIR_DEBUG ?= $(OBJ_DIR_BASE)/debug
 SRC_DIRS ?= src
-INC_DIRS ?= include $(shell find $(SRC_DIRS) -name *.hpp -printf '%h\n' | sort -u)
+INC_DIRS ?= include
 
 # Compiler configuration
+AR = ar
 CXX = g++
 INC_FLAGS := $(addprefix -I,$(INC_DIRS))
 LD_FLAGS ?= -lglfw -lGLEW -lGL
@@ -58,8 +63,21 @@ move_shaders:
 	@$(MKDIR_P) $(SHADER_BIN_DIR)
 	cp $(GLSL_SRCS) $(SHADER_BIN_DIR)
 
+#
+LIB_HEADERS := $(shell find $(LIB_HEADER_PATH) -name *.hpp)
+INSTALL_HEADER_PATH := install/GLT
+move_headers: $(LIB_HEADERS)
+	@$(MKDIR_P) $(INSTALL_HEADER_PATH)
+	cp $(LIB_HEADERS) $(INSTALL_HEADER_PATH)
+
+# Build static library
+LIB_STATIC_OBJS := $(SUB_OBJS_RELEASE)
+lib_static: move_headers $(LIB_STATIC_OBJS)
+	@$(MKDIR_P) $(dir $(STATIC_LIB))
+	$(AR) rcs $(STATIC_LIB) $(LIB_STATIC_OBJS)
+
 # Make all targets
-all: move_shaders release debug
+all: release debug lib_static
 
 # Clean, be careful with this
 .PHONY: clean
