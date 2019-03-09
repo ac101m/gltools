@@ -5,17 +5,16 @@ using namespace GLT;
 // Standard
 #include <iostream>
 #include <sstream>
-using namespace std;
 
 
-// Constructor, with default context
-Window::Window(const glm::vec2 size, const string title) :
+// Constructor
+Window::Window(unsigned const x, unsigned const y, std::string const title) :
                parentContext(&defaultContext) {
 
-  this->glfwWindow = this->parentContext->NewGlfwWindow(size, title, NULL);
+  this->size = glm::vec2(x, y);
+  this->glfwWindow = this->parentContext->NewGlfwWindow(this->size, title, NULL);
   this->active = true;
   this->title = title;
-  this->size = this->GetWindowSize();
   this->camera.SetViewRatio(this->GetFrameBufferSize());
 
   // General run-to-run state data setup

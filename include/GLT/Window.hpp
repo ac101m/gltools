@@ -97,8 +97,8 @@ namespace GLT {
 
 //====[METHODS]==============================================================//
 
-    // Constructor
-    Window(const glm::vec2 size, const std::string title);
+    // Constructors
+    Window(unsigned const x, unsigned const y, std::string const title);
 
     // Set the window title
     void SetTitle(const std::string title);

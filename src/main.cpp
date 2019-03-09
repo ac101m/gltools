@@ -158,7 +158,7 @@ void GLT::CubeMap::Draw(
 int main(void) {
 
   // Create window
-  GLT::Window window(glm::vec2(1280, 720), "GLT Test");
+  GLT::Window window(1280, 720, "GLT Test");
   window.camera.SetPos(0, 0, -2);
   window.EnableFpsCounter();
   window.renderBehaviour.SetDepthTestFunction(GL_LEQUAL);
