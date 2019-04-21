@@ -9,6 +9,7 @@ using namespace GLT;
 
 // Generates debug prints
 void Shader::Compile(void) {
+  std::cout << "Compiling shader '" << path << "' - ";
 
   // Perform compilation
   const char * srcPtr = this->source.c_str();
@@ -45,7 +46,6 @@ Shader::Shader(const GLenum type, const std::string path) :
   this->LoadSource(path);
 
   // Compile the shader
-  std::cout << "Compiling shader '" << path << "' - ";
   this->Compile();
 }
 
