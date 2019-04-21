@@ -28,7 +28,7 @@ RELEASE_FLAGS ?= $(INC_FLAGS) $(BASE_FLAGS) $(LD_FLAGS) -O3
 MAIN_SRCS := $(shell find $(SRC_DIRS) -maxdepth 1 -name *.cpp)
 MAIN_OBJS_RELEASE := $(MAIN_SRCS:%=$(OBJ_DIR_RELEASE)/%.o)
 MAIN_OBJS_DEBUG := $(MAIN_SRCS:%=$(OBJ_DIR_DEBUG)/%.o)
-MAIN_DEPS := $(MAIN_OBJS_DEBUG:.o=.d) $(SUB_OBJS_RELEASE:.o=.d)
+MAIN_DEPS := $(MAIN_OBJS_DEBUG:.o=.d) $(MAIN_OBJS_RELEASE:.o=.d)
 
 # "Subordinate" sources which do not define mains
 SUB_SRCS := $(shell find $(SRC_DIRS) -mindepth 2 -name *.cpp)
