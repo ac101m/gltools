@@ -13,7 +13,6 @@ It cannot:
 - Cook your dinner
 
 Planned future features:
-- Texture from data
 - Defaults for missing textures
 - Updatable vertex buffers
 - Render to texture

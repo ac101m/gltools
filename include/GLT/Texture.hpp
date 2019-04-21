@@ -12,6 +12,7 @@
 
 // Standard
 #include <string>
+#include <vector>
 
 
 namespace GLT {
@@ -30,23 +31,32 @@ namespace GLT {
     // Texture path, used as name
     GLuint glHandle;
 
-//====[METHODS]==============================================================//
-
-    // Common initialisation
-    void Init(const std::string& path);
-    void LoadFromFile(const std::string& path);
-
   public:
 
     // Constructor, from file
-    Texture(const std::string path);
+    Texture(std::string const path);
+    Texture(
+      int const width, int const height,
+      std::vector<unsigned char> const data);
 
-    // Get the opengl handle
-    GLuint GetGlHandle(void) const {return this->glHandle;}
+    // Set texture data
+    void SetData(
+      int const width, int const height,
+      std::vector<unsigned char> const data);
+    void SetData(
+      int const width, int const height,
+      unsigned char const * const data);
+
+    // Texture properties
+    void Parameteri(GLenum const pname, GLint const param);
+    void GenerateMipmaps(void);
 
     // Bind and unbind the texture
     void Bind(void) const {glBindTexture(GL_TEXTURE_2D, this->glHandle);}
     void Unbind(void) const {glBindTexture(GL_TEXTURE_2D, 0);}
+
+    // Get the opengl handle
+    GLuint GetGlHandle(void) const {return this->glHandle;}
 
     // Destructor, uses reference count
     ~Texture(void);

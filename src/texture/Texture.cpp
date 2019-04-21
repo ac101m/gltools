@@ -11,16 +11,10 @@ using namespace GLT;
 #include <iostream>
 
 
-// Common initialisation
-void Texture::Init(const std::string& path) {
+// Constructor, loads the image from file
+Texture::Texture(const std::string path) :
+  parentContext(&defaultContext) {
 
-  // Load the texture from file unless already loaded
-  this->LoadFromFile(path);
-}
-
-
-// Load texture from file
-void Texture::LoadFromFile(const std::string& path) {
   std::cout << "Loading texture '" << path << "' - ";
 
   // Check the context texture cache first
@@ -45,25 +39,14 @@ void Texture::LoadFromFile(const std::string& path) {
 
   // Load the texture
   this->glHandle = this->parentContext->NewTextureHandle();
-  this->Bind();
-
-  // Sampling behaviour, may generalize later
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-  // Texture data
-  glTexImage2D(
-    GL_TEXTURE_2D,
-    0, GL_RGB,
-    width, height,
-    0, GL_RGB,
-    GL_UNSIGNED_BYTE,
-    data);
-  glGenerateMipmap(GL_TEXTURE_2D);
-  this->Unbind();
+  this->SetData(width, height, data);
 
   // Done with the texture data
   stbi_image_free(data);
+
+  // Use nearest neighbour filtering by default
+  this->Parameteri(GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+  this->Parameteri(GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
   // Add the texture to the context texture path
   this->parentContext->AddTexture(path, *this);
@@ -73,10 +56,60 @@ void Texture::LoadFromFile(const std::string& path) {
 }
 
 
-// Constructor, loads the image from file
-Texture::Texture(const std::string path) :
-  parentContext(&defaultContext) {
-  this->Init(path);
+// Constructor, loads image from string of bytes
+Texture::Texture(int const width, int const height,
+                 std::vector<unsigned char> const data) :
+                 parentContext(&defaultContext) {
+
+  this->glHandle = this->parentContext->NewTextureHandle();
+  this->SetData(width, height, data);
+
+  // Use nearest neighbour filtering by default
+  this->Parameteri(GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+  this->Parameteri(GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+}
+
+
+// Set texture data from raw pointer
+void Texture::SetData(
+  int const width, int const height,
+  unsigned char const * const data) {
+
+  this->Bind();
+
+  // Texture data
+  glTexImage2D(
+    GL_TEXTURE_2D,
+    0, GL_RGB,
+    width, height,
+    0, GL_RGB,
+    GL_UNSIGNED_BYTE,
+    data);
+
+  this->Unbind();
+}
+
+
+void Texture::Parameteri(GLenum const pname, GLint const param) {
+  this->Bind();
+  glTexParameteri(GL_TEXTURE_2D, pname, param);
+  this->Unbind();
+}
+
+
+void Texture::GenerateMipmaps(void) {
+  this->Bind();
+  glGenerateMipmap(GL_TEXTURE_2D);
+  this->Unbind();
+}
+
+
+// Set texture data from vector of chars
+void Texture::SetData(
+  int const width, int const height,
+  std::vector<unsigned char> const data) {
+
+  this->SetData(width, height, data.data());
 }
 
 
