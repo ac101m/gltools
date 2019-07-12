@@ -96,6 +96,30 @@ namespace GLT {
     void SetFMat4(glm::fmat4* data, unsigned n = 1);      //    Y
     void SetDMat4(glm::dmat4* data, unsigned n = 1);      //
 
+    // 2 by 4 matrix
+    void SetFMat4x2(glm::fmat4x2* data, unsigned n = 1);  //
+    void SetDMat4x2(glm::dmat4x2* data, unsigned n = 1);  //
+
+    // 4 by 2 matrix
+    void SetFMat2x4(glm::fmat2x4* data, unsigned n = 1);  //
+    void SetDMat2x4(glm::dmat2x4* data, unsigned n = 1);  //
+
+    // 2 by 3 matrix 24/48
+    void SetFMat2x3(glm::fmat2x3* data, unsigned n = 1);  //
+    void SetDMat2x3(glm::dmat2x3* data, unsigned n = 1);  //
+
+    // 3 by 2 matrix 24/48
+    void SetFMat3x2(glm::fmat3x2* data, unsigned n = 1);  //
+    void SetDMat3x2(glm::dmat3x2* data, unsigned n = 1);  //
+
+    // 3 by 4 matrix 48/96
+    void SetFMat3x4(glm::fmat3x4* data, unsigned n = 1);  //
+    void SetDMat3x4(glm::dmat3x4* data, unsigned n = 1);  //
+
+    // 4 by 3 matrix 48/96
+    void SetFMat4x3(glm::fmat4x3* data, unsigned n = 1);  //
+    void SetDMat4x3(glm::dmat4x3* data, unsigned n = 1);  //
+
     // Destructor, cleans up data memory
     ~Uniform(void);
   };
