@@ -265,6 +265,26 @@ void Uniform::SetFMat4(glm::fmat4* data, unsigned n) {
 }
 
 
+// 2 x 3 float matrix
+void Uniform::SetFMat2x3(glm::fmat2x3* data, unsigned n) {
+  if(this->type == GLT_NULL_UNIFORM) return;
+  this->AssertMatch(GL_FLOAT_MAT2x3, sizeof(glm::fmat2x3));
+  if(this->UpdateBuffer(data, n)) {
+    glUniformMatrix2x3fv(this->handle, this->elemCount, GL_FALSE, &data[0][0][0]);
+  }
+}
+
+
+// 3 x 2 float matrix
+void Uniform::SetFMat3x2(glm::fmat3x2* data, unsigned n) {
+  if(this->type == GLT_NULL_UNIFORM) return;
+  this->AssertMatch(GL_FLOAT_MAT2x3, sizeof(glm::fmat3x2));
+  if(this->UpdateBuffer(data, n)) {
+    glUniformMatrix3x2fv(this->handle, this->elemCount, GL_FALSE, &data[0][0][0]);
+  }
+}
+
+
 // Destructor, deallocates memory
 Uniform::~Uniform(void) {
   if(!this->ReferencedElsewhere()) {
