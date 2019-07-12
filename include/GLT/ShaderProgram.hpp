@@ -39,12 +39,13 @@ namespace GLT {
 
     // Allocate memory based on type and size
     void AllocateBuffer(void);
+    bool UpdateBuffer(void const * const data, unsigned const n);
     static unsigned GetTypeSize(GLenum const type);
     static std::string GetTypeName(GLenum const type);
 
     // Assert that we have the right type
     inline void AssertType(GLenum const type);
-    inline void AssertDataSize(unsigned const size);
+    inline void AssertElementSize(unsigned const size);
     inline void AssertMatch(GLenum const type, unsigned const size);
 
   public:
