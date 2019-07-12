@@ -35,9 +35,21 @@ namespace GLT {
 
     // Constructor, from file
     Texture(std::string const path);
+
+    // Constructor, from data
     Texture(
       int const width, int const height,
       std::vector<unsigned char> const data);
+
+    // Constructor, full initialisation
+    Texture(
+      GLint const mipMapLevel,
+      GLint const internalFormat,
+      GLsizei const width,
+      GLsizei const height,
+      GLenum const format,
+      GLenum const type,
+      GLvoid const * data);
 
     // Set texture data
     void SetData(

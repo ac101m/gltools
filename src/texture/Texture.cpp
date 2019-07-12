@@ -70,6 +70,34 @@ Texture::Texture(int const width, int const height,
 }
 
 
+// Constructor, full initialisation
+Texture::Texture(GLint const mipMapLevel,
+                 GLint const internalFormat,
+                 GLsizei const width,
+                 GLsizei const height,
+                 GLenum const format,
+                 GLenum const type,
+                 GLvoid const * data) :
+                 parentContext(&defaultContext) {
+
+  this->glHandle = this->parentContext->NewTextureHandle();
+  glTexImage2D(
+    GL_TEXTURE_2D,
+    mipMapLevel,
+    internalFormat,
+    width,
+    height,
+    0,
+    format,
+    type,
+    data);
+
+  // Use nearest neighbour filtering by default
+  this->Parameteri(GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+  this->Parameteri(GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+}
+
+
 // Set texture data from raw pointer
 void Texture::SetData(
   int const width, int const height,
