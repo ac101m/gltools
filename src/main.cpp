@@ -106,10 +106,10 @@ void GLT::Mesh::Draw(
   glm::mat3 mv3 = glm::mat3(camera.GetViewMat() * m);
 
   // Shader uniform setup
-  shader.GetUniform("mMx").SetFMat4(m);
-  shader.GetUniform("vMx").SetFMat4(camera.GetViewMat());
-  shader.GetUniform("mv3Mx").SetFMat3(mv3);
-  shader.GetUniform("mvpMx").SetFMat4(mvp);
+  shader.GetUniform("mMx").SetFMat4(&m);
+  shader.GetUniform("vMx").SetFMat4(&camera.GetViewMat());
+  shader.GetUniform("mv3Mx").SetFMat3(&mv3);
+  shader.GetUniform("mvpMx").SetFMat4(&mvp);
 
   // Bind textures to texture units
   std::string name = "texture0";
@@ -139,8 +139,8 @@ void GLT::CubeMap::Draw(
 
   // Strip the translation component from the view matrix
   glm::mat4 vMx(glm::mat3(camera.GetViewMat()));
-  shader.GetUniform("vMx").SetFMat4(vMx);
-  shader.GetUniform("pMx").SetFMat4(camera.GetProjMat());
+  shader.GetUniform("vMx").SetFMat4(&vMx);
+  shader.GetUniform("pMx").SetFMat4(&camera.GetProjMat());
 
   // Bind cube map texture
   glBindTexture(GL_TEXTURE_CUBE_MAP, this->glHandle);
@@ -175,10 +175,13 @@ int main(void) {
   GLT::ShaderProgram skyboxShader({vertexShader, fragmentShader});
 
   // Scene uniforms
-  objectShader.GetUniform("aLightPow").SetFVec3(glm::vec3(0.1, 0.1, 0.1));
-  objectShader.GetUniform("pLightPow").SetFVec3(glm::vec3(3, 3, 3));
-  objectShader.GetUniform("pLightPosWs").SetFVec3(glm::vec3(0, 1, -2));
-  objectShader.GetUniform("parallaxCoeff").SetF1(0.1f);
+  glm::vec3 ambientLightPow = glm::vec3(0.1, 0.1, 0.1);
+  glm::vec3 pointLightPow = glm::vec3(3, 3, 3);
+  glm::vec3 lightPos = glm::vec3(0, 1, -2);
+  objectShader.GetUniform("aLightPow").SetFVec3(&ambientLightPow);
+  objectShader.GetUniform("pLightPow").SetFVec3(&pointLightPow);
+  objectShader.GetUniform("pLightPosWs").SetFVec3(&lightPos);
+  objectShader.GetUniform("parallaxCoeff").SetF1(0.05f);
 
   // Test mesh
   GLT::Mesh testMesh = GenTestCubeIndexed();

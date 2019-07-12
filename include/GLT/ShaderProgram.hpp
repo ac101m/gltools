@@ -56,45 +56,45 @@ namespace GLT {
             GLenum const type,
             GLint const elemCount);
 
-    // Texture samplers                       IMPLEMENTED?
-    void SetTex2D(int const value);           //    Y
-    void SetTexCube(int const value);         //    Y
+    // Texture samplers                                   IMPLEMENTED?
+    void SetTex2D(int const value);                       //    Y
+    void SetTexCube(int const value);                     //    Y
 
     // Single 4/8
-    void SetF1(float const value);            //    Y
-    void SetI1(int const value);              //
-    void SetU1(unsigned const value);         //
-    void SetD1(double const value);           //
+    void SetF1(float const value);                        //    Y
+    void SetI1(int const value);                          //
+    void SetU1(unsigned const value);                     //
+    void SetD1(double const value);                       //
 
     // 2 element vector 8/16
-    void SetFVec2(glm::fvec2 const value);    //
-    void SetIVec2(glm::ivec2 const value);    //
-    void SetUVec2(glm::uvec2 const value);    //
-    void SetDVec2(glm::dvec2 const value);    //
+    void SetFVec2(glm::fvec2* data, unsigned n = 1);      //
+    void SetIVec2(glm::ivec2* data, unsigned n = 1);      //
+    void SetUVec2(glm::uvec2* data, unsigned n = 1);      //
+    void SetDVec2(glm::dvec2* data, unsigned n = 1);      //
 
     // 3 element vector 12/24
-    void SetFVec3(glm::fvec3 const value);    //    Y
-    void SetIVec3(glm::ivec3 const value);    //
-    void SetUVec3(glm::uvec3 const value);    //
-    void SetDVec3(glm::dvec3 const value);    //
+    void SetFVec3(glm::fvec3* data, unsigned n = 1);      //    Y
+    void SetIVec3(glm::ivec3* data, unsigned n = 1);      //
+    void SetUVec3(glm::uvec3* data, unsigned n = 1);      //
+    void SetDVec3(glm::dvec3* data, unsigned n = 1);      //
 
     // 4 element vector 16/32
-    void SetFVec4(glm::fvec4 const value);    //
-    void SetIVec4(glm::ivec4 const value);    //
-    void SetUVec4(glm::uvec4 const value);    //
-    void SetDVec4(glm::dvec4 const value);    //
+    void SetFVec4(glm::fvec4* data, unsigned n = 1);      //
+    void SetIVec4(glm::ivec4* data, unsigned n = 1);      //
+    void SetUVec4(glm::uvec4* data, unsigned n = 1);      //
+    void SetDVec4(glm::dvec4* data, unsigned n = 1);      //
 
     // 2 by 2 matrix 16/32
-    void SetFMat2(glm::fmat2 const value);    //
-    void SetDMat2(glm::dmat2 const value);    //
+    void SetFMat2(glm::fmat2* data, unsigned n = 1);      //
+    void SetDMat2(glm::dmat2* data, unsigned n = 1);      //
 
     // 3 by 3 matrix 36/72
-    void SetFMat3(glm::fmat3 const value);    //    Y
-    void SetDMat3(glm::dmat3 const value);    //
+    void SetFMat3(glm::fmat3* data, unsigned n = 1);      //    Y
+    void SetDMat3(glm::dmat3* data, unsigned n = 1);      //
 
     // 4 by 4 matrix 64/128
-    void SetFMat4(glm::fmat4 const value);    //    Y
-    void SetDMat4(glm::dmat4 const value);    //
+    void SetFMat4(glm::fmat4* data, unsigned n = 1);      //    Y
+    void SetDMat4(glm::dmat4* data, unsigned n = 1);      //
 
     // Destructor, cleans up data memory
     ~Uniform(void);

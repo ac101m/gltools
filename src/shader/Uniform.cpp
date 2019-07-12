@@ -169,9 +169,9 @@ void Uniform::AssertType(GLenum const type) {
 
 
 // Data buffer size check
-void Uniform::AssertDataSize(unsigned const size) {
-  if(this->bufSize != size) {
-    std::cout << "Shader uniform error, size mismatch\n";
+void Uniform::AssertElementSize(unsigned const size) {
+  if(this->GetTypeSize(this->type) != size) {
+    std::cout << "Shader uniform error, element size mismatch\n";
     exit(1);
   }
 }
@@ -180,72 +180,87 @@ void Uniform::AssertDataSize(unsigned const size) {
 // Check data buffer and such
 void Uniform::AssertMatch(GLenum const type, unsigned const size) {
   this->AssertType(type);
-  this->AssertDataSize(size);
+  this->AssertElementSize(size);
 }
 
 
-// single integer
+// Update uniform buffer and return true if it changed
+bool Uniform::UpdateBuffer(void const * const data, unsigned const n) {
+  bool bufferChanged = false;
+
+  // Maximum iterator
+  unsigned max;
+  if(n > this->elemCount) {
+    max = (this->GetTypeSize(this->type) * this->elemCount) / sizeof(int);
+  } else {
+    max = (this->GetTypeSize(this->type) * n) / sizeof(int);
+  }
+
+  // Iterate over buffer, treat as array of ints
+  for(unsigned i = 0; i < max; i++) {
+    bufferChanged |= (((int*)data)[i] != ((int*)this->buf)[i]);
+    ((int*)this->buf)[i] = ((int*)data)[i];
+  }
+  return bufferChanged;
+}
+
+
+// 2d texture sampler
 void Uniform::SetTex2D(int const value) {
   if(this->type == GLT_NULL_UNIFORM) return;
   this->AssertMatch(GL_SAMPLER_2D, sizeof(int));
-  if(value != *((int*)this->buf)) {
-     glUniform1i(this->handle, value);
-     *((int*)this->buf) = value;
+  if(this->UpdateBuffer(&value, 1)) {
+    glUniform1i(this->handle, value);
   }
 }
 
 
-// single integer
+// Cube map sampler
 void Uniform::SetTexCube(int const value) {
   if(this->type == GLT_NULL_UNIFORM) return;
   this->AssertMatch(GL_SAMPLER_CUBE, sizeof(int));
-  if(value != *((int*)this->buf)) {
-     glUniform1i(this->handle, value);
-     *((int*)this->buf) = value;
+  if(this->UpdateBuffer(&value, 1)) {
+    glUniform1i(this->handle, value);
   }
 }
 
 
-// single integer
+// single float
 void Uniform::SetF1(float const value) {
   if(this->type == GLT_NULL_UNIFORM) return;
   this->AssertMatch(GL_FLOAT, sizeof(float));
-  if(value != *((float*)this->buf)) {
-     glUniform1f(this->handle, value);
-     *((float*)this->buf) = value;
+  if(this->UpdateBuffer(&value, 1)) {
+    glUniform1f(this->handle, value);
   }
 }
 
 
 // 3 element float vector
-void Uniform::SetFVec3(glm::fvec3 const value) {
+void Uniform::SetFVec3(glm::fvec3* data, unsigned n) {
   if(this->type == GLT_NULL_UNIFORM) return;
-  this->AssertMatch(GL_FLOAT_VEC3, sizeof(glm::fvec3));
-  if(value != *((glm::fvec3*)this->buf)) {
-	   glUniform3fv(this->handle, 1, &value[0]);
-     *((glm::fvec3*)this->buf) = value;
+  this->AssertMatch(GL_FLOAT_VEC3, sizeof(glm::vec3));
+  if(this->UpdateBuffer(data, n)) {
+    glUniform3fv(this->handle, this->elemCount, &data[0][0]);
   }
 }
 
 
-// 4 x 4 float matrix
-void Uniform::SetFMat3(glm::fmat3 const value) {
+// 3 x 3 float matrix
+void Uniform::SetFMat3(glm::fmat3* data, unsigned n) {
   if(this->type == GLT_NULL_UNIFORM) return;
   this->AssertMatch(GL_FLOAT_MAT3, sizeof(glm::fmat3));
-  if(value != *((glm::fmat3*)this->buf)) {
-	   glUniformMatrix3fv(this->handle, 1, GL_FALSE, &value[0][0]);
-     *((glm::fmat3*)this->buf) = value;
+  if(this->UpdateBuffer(data, n)) {
+    glUniformMatrix3fv(this->handle, this->elemCount, GL_FALSE, &data[0][0][0]);
   }
 }
 
 
 // 4 x 4 float matrix
-void Uniform::SetFMat4(glm::fmat4 const value) {
+void Uniform::SetFMat4(glm::fmat4* data, unsigned n) {
   if(this->type == GLT_NULL_UNIFORM) return;
   this->AssertMatch(GL_FLOAT_MAT4, sizeof(glm::fmat4));
-  if(value != *((glm::fmat4*)this->buf)) {
-	   glUniformMatrix4fv(this->handle, 1, GL_FALSE, &value[0][0]);
-     *((glm::fmat4*)this->buf) = value;
+  if(this->UpdateBuffer(data, n)) {
+    glUniformMatrix4fv(this->handle, this->elemCount, GL_FALSE, &data[0][0][0]);
   }
 }
 
