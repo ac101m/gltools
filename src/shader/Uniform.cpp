@@ -136,12 +136,6 @@ Uniform::Uniform(std::string const name,
   // Initialise the uniform name
   this->name = new std::string(name);
 
-  // TODO
-  if(elemCount != 1) {
-    std::cout << "Shader uniform error, multi-element uniforms not implemented!\n";
-    exit(1);
-  }
-
   // Allocate memory for uniform
   this->AllocateBuffer();
 }
