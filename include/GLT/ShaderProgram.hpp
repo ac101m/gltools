@@ -63,7 +63,7 @@ namespace GLT {
 
     // Single 4/8
     void SetF1(float const value);                        //    Y
-    void SetI1(int const value);                          //
+    void SetI1(int const value);                          //    Y
     void SetU1(unsigned const value);                     //
     void SetD1(double const value);                       //
 

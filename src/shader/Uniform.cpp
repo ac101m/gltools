@@ -229,6 +229,16 @@ void Uniform::SetF1(float const value) {
 }
 
 
+// single int
+void Uniform::SetI1(int const value) {
+  if(this->type == GLT_NULL_UNIFORM) return;
+  this->AssertMatch(GL_INT, sizeof(int));
+  if(this->UpdateBuffer(&value, 1)) {
+    glUniform1i(this->handle, value);
+  }
+}
+
+
 // 3 element float vector
 void Uniform::SetFVec3(glm::fvec3* data, unsigned n) {
   if(this->type == GLT_NULL_UNIFORM) return;
