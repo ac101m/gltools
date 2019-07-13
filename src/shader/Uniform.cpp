@@ -244,7 +244,7 @@ void Uniform::SetFVec3(glm::fvec3* data, unsigned n) {
   if(this->type == GLT_NULL_UNIFORM) return;
   this->AssertMatch(GL_FLOAT_VEC3, sizeof(glm::vec3));
   if(this->UpdateBuffer(data, n)) {
-    glUniform3fv(this->handle, this->elemCount, &data[0][0]);
+    glUniform3fv(this->handle, n, &data[0][0]);
   }
 }
 
@@ -254,7 +254,7 @@ void Uniform::SetFMat3(glm::fmat3* data, unsigned n) {
   if(this->type == GLT_NULL_UNIFORM) return;
   this->AssertMatch(GL_FLOAT_MAT3, sizeof(glm::fmat3));
   if(this->UpdateBuffer(data, n)) {
-    glUniformMatrix3fv(this->handle, this->elemCount, GL_FALSE, &data[0][0][0]);
+    glUniformMatrix3fv(this->handle, n, GL_FALSE, &data[0][0][0]);
   }
 }
 
@@ -264,7 +264,7 @@ void Uniform::SetFMat4(glm::fmat4* data, unsigned n) {
   if(this->type == GLT_NULL_UNIFORM) return;
   this->AssertMatch(GL_FLOAT_MAT4, sizeof(glm::fmat4));
   if(this->UpdateBuffer(data, n)) {
-    glUniformMatrix4fv(this->handle, this->elemCount, GL_FALSE, &data[0][0][0]);
+    glUniformMatrix4fv(this->handle, n, GL_FALSE, &data[0][0][0]);
   }
 }
 
@@ -274,7 +274,7 @@ void Uniform::SetFMat2x3(glm::fmat2x3* data, unsigned n) {
   if(this->type == GLT_NULL_UNIFORM) return;
   this->AssertMatch(GL_FLOAT_MAT2x3, sizeof(glm::fmat2x3));
   if(this->UpdateBuffer(data, n)) {
-    glUniformMatrix2x3fv(this->handle, this->elemCount, GL_FALSE, &data[0][0][0]);
+    glUniformMatrix2x3fv(this->handle, n, GL_FALSE, &data[0][0][0]);
   }
 }
 
@@ -284,7 +284,7 @@ void Uniform::SetFMat3x2(glm::fmat3x2* data, unsigned n) {
   if(this->type == GLT_NULL_UNIFORM) return;
   this->AssertMatch(GL_FLOAT_MAT2x3, sizeof(glm::fmat3x2));
   if(this->UpdateBuffer(data, n)) {
-    glUniformMatrix3x2fv(this->handle, this->elemCount, GL_FALSE, &data[0][0][0]);
+    glUniformMatrix3x2fv(this->handle, n, GL_FALSE, &data[0][0][0]);
   }
 }
 
