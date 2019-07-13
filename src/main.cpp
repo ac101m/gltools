@@ -89,6 +89,12 @@ GLT::Mesh GenTestCubeIndexed(void) {
     GLT::Texture("textures/brownrock/depth.png"),
     GLT::Texture("textures/brownrock/ao.png")};
 
+  // Set sampling modes on the textures
+  for(unsigned i = 0; i < textures.size(); i++) {
+    textures[i].Parameteri(GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    textures[i].Parameteri(GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+  }
+
   // Package up into mesh and return
   return GLT::Mesh(vertices, indices, textures);
 }
