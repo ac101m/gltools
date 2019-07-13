@@ -68,10 +68,6 @@ namespace GLT {
 
 //====[METHODS]==============================================================//
 
-    // Get frame buffer size
-    glm::vec2 GetFrameBufferSize(void) const;
-    glm::vec2 GetWindowSize(void) const;
-
     // General refresh routines
     void InitCursor(void);
     void RefreshCursor(void);
@@ -133,6 +129,10 @@ namespace GLT {
     // Window closing
     bool ShouldClose(void) const;
     void Close(void);
+
+    // Get frame buffer and window size
+    glm::vec2 GetFrameBufferSize(void) const;
+    glm::vec2 GetWindowSize(void) const;
 
     // Destructor, clean things up
     ~Window(void);
