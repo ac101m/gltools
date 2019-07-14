@@ -94,7 +94,9 @@ namespace GLT {
 //====[METHODS]==============================================================//
 
     // Constructors
-    Window(unsigned const x, unsigned const y, std::string const title);
+    Window(unsigned const x, unsigned const y,
+           std::string const title,
+           GLFWMonitor* mon = NULL);
 
     // Set the window title
     void SetTitle(const std::string title);

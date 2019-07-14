@@ -8,11 +8,13 @@ using namespace GLT;
 
 
 // Constructor
-Window::Window(unsigned const x, unsigned const y, std::string const title) :
+Window::Window(unsigned const x, unsigned const y,
+               std::string const title,
+               GLFWMonitor* mon) :
                parentContext(&defaultContext) {
 
   this->size = glm::vec2(x, y);
-  this->glfwWindow = this->parentContext->NewGlfwWindow(this->size, title, NULL);
+  this->glfwWindow = this->parentContext->NewGlfwWindow(this->size, title, mon);
   this->active = true;
   this->title = title;
   this->camera.SetViewRatio(this->GetFrameBufferSize());
