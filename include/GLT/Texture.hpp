@@ -64,7 +64,6 @@ namespace GLT {
 
     // Texture properties
     void Parameteri(GLenum const pname, GLint const param);
-    void GenerateMipmaps(void);
 
     // Bind and unbind the texture
     void Bind(void) const {glBindTexture(GL_TEXTURE_2D, this->glHandle);}

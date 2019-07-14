@@ -133,13 +133,6 @@ void Texture::Parameteri(GLenum const pname, GLint const param) {
 }
 
 
-void Texture::GenerateMipmaps(void) {
-  this->Bind();
-  glGenerateMipmap(GL_TEXTURE_2D);
-  this->Unbind();
-}
-
-
 // Set texture data from vector of chars
 void Texture::SetData(
   int const width, int const height,
