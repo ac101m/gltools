@@ -10,7 +10,7 @@ using namespace GLT;
 // Constructor
 Window::Window(unsigned const x, unsigned const y,
                std::string const title,
-               GLFWMonitor* mon) :
+               GLFWmonitor* mon) :
                parentContext(&defaultContext) {
 
   this->size = glm::vec2(x, y);
