@@ -41,6 +41,9 @@ namespace GLT {
       int const width, int const height,
       std::vector<unsigned char> const data);
 
+    // Constructor, from initialised handle
+    Texture(GLuint const textureHandle);
+
     // Constructor, full initialisation
     Texture(
       GLint const mipMapLevel,

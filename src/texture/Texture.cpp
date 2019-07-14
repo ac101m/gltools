@@ -70,6 +70,14 @@ Texture::Texture(int const width, int const height,
 }
 
 
+// Constructor, from pre initialised GLuint
+Texture::Texture(GLuint const textureHandle) :
+                 parentContext(&defaultContext) {
+                   
+  this->glHandle = textureHandle;
+}
+
+
 // Constructor, full initialisation
 Texture::Texture(GLint const mipMapLevel,
                  GLint const internalFormat,
