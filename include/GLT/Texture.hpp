@@ -34,7 +34,9 @@ namespace GLT {
   public:
 
     // Constructor, from file
-    Texture(std::string const path);
+    Texture(
+      std::string const path,
+      unsigned const mipMapLevel = 0);
 
     // Constructor, from data
     Texture(
@@ -42,7 +44,8 @@ namespace GLT {
       std::vector<unsigned char> const data);
 
     // Constructor, from initialised handle
-    Texture(GLuint const textureHandle);
+    Texture(
+      GLuint const textureHandle);
 
     // Constructor, full initialisation
     Texture(
@@ -57,10 +60,12 @@ namespace GLT {
     // Set texture data
     void SetData(
       int const width, int const height,
-      std::vector<unsigned char> const data);
+      std::vector<unsigned char> const data,
+      unsigned const mipMapLevel = 0);
     void SetData(
       int const width, int const height,
-      unsigned char const * const data);
+      unsigned char const * const data,
+      unsigned const mipMapLevel = 0);
 
     // Texture properties
     void Parameteri(GLenum const pname, GLint const param);

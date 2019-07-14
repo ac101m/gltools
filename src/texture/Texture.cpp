@@ -12,8 +12,9 @@ using namespace GLT;
 
 
 // Constructor, loads the image from file
-Texture::Texture(const std::string path) :
-  parentContext(&defaultContext) {
+Texture::Texture(const std::string path,
+                 unsigned const mipMapLevel) :
+                 parentContext(&defaultContext) {
 
   std::cout << "Loading texture '" << path << "' - ";
 
@@ -39,14 +40,18 @@ Texture::Texture(const std::string path) :
 
   // Load the texture
   this->glHandle = this->parentContext->NewTextureHandle();
-  this->SetData(width, height, data);
+  this->SetData(width, height, data, mipMapLevel);
 
   // Done with the texture data
   stbi_image_free(data);
 
   // Use nearest neighbour filtering by default
   this->Parameteri(GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-  this->Parameteri(GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+  if(mipMapLevel) {
+    this->Parameteri(GL_TEXTURE_MAG_FILTER, GL_NEAREST_MIPMAP_NEAREST);
+  } else {
+    this->Parameteri(GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+  }
 
   // Add the texture to the context texture path
   this->parentContext->AddTexture(path, *this);
@@ -73,7 +78,7 @@ Texture::Texture(int const width, int const height,
 // Constructor, from pre initialised GLuint
 Texture::Texture(GLuint const textureHandle) :
                  parentContext(&defaultContext) {
-                   
+
   this->glHandle = textureHandle;
 }
 
@@ -109,7 +114,8 @@ Texture::Texture(GLint const mipMapLevel,
 // Set texture data from raw pointer
 void Texture::SetData(
   int const width, int const height,
-  unsigned char const * const data) {
+  unsigned char const * const data,
+  unsigned const mipMapLevel) {
 
   this->Bind();
 
@@ -121,6 +127,11 @@ void Texture::SetData(
     0, GL_RGB,
     GL_UNSIGNED_BYTE,
     data);
+
+  // Generate mipmaps if apropriate
+  if(mipMapLevel) {
+    glGenerateMipmap(GL_TEXTURE_2D);
+  }
 
   this->Unbind();
 }
