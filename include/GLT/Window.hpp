@@ -126,6 +126,7 @@ namespace GLT {
 
     // Drawing routines
     void Draw(Drawable& object, ShaderProgram& shader, glm::mat4& transform);
+    void Clear(GLuint const bufferFlags);
     void Refresh(void);
 
     // Window closing

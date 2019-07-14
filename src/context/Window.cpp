@@ -200,10 +200,17 @@ void Window::Draw(Drawable& object, ShaderProgram& shader, glm::mat4& transform)
 }
 
 
+// Clear the window
+void Window::Clear(GLuint const bufferFlags) {
+  this->MakeCurrent();
+  glClear(bufferFlags);
+}
+
+
 // Refresh the display
 void Window::RefreshDisplay(void) {
   glfwSwapBuffers(this->glfwWindow);
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  this->Clear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 
