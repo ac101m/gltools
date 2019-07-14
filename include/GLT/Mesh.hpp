@@ -79,7 +79,7 @@ namespace GLT {
 
   // Container class for meshes
   class Mesh : public Drawable {
-  private:
+  protected:
 
     // Mesh data
     std::vector<vertex_t> vertices;
