@@ -136,7 +136,8 @@ void Texture::Parameteri(GLenum const pname, GLint const param) {
 // Set texture data from vector of chars
 void Texture::SetData(
   int const width, int const height,
-  std::vector<unsigned char> const data) {
+  std::vector<unsigned char> const data,
+  unsigned const mipMapLevel) {
 
   this->SetData(width, height, data.data());
 }
