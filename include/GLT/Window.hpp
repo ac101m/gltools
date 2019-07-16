@@ -25,14 +25,6 @@ namespace GLT {
   class Context;
 
 
-  // Struct to contain draw queue entry
-  typedef struct  {
-    Drawable& object;
-    ShaderProgram& shader;
-    glm::mat4& transform;
-  } drawQueue_t;
-
-
   // Class to wrap GLFW context and window
   class Window {
   private:
@@ -60,9 +52,6 @@ namespace GLT {
     double prevRefreshTime;
     double timeDelta;
 
-    // Drawing stuff
-    std::vector<drawQueue_t> drawQueue;
-
     // FPS counter enabled?
     bool fpsCounterEnabled;
 
@@ -79,7 +68,6 @@ namespace GLT {
     // General window handling
     void RefreshSize(void);
     void PollEvents(void);
-    void EmptyDrawQueue(void);
     void RefreshDisplay(void);
     void RefreshFpsCounter(void);
 

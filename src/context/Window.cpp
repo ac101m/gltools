@@ -182,21 +182,9 @@ void Window::RefreshSize(void) {
 }
 
 
-// Empty the draw queue
-void Window::EmptyDrawQueue(void) {
-  for(unsigned i = 0; i < this->drawQueue.size(); i++) {
-    this->drawQueue[i].object.Draw(
-      this->camera,
-      this->drawQueue[i].shader,
-      this->drawQueue[i].transform);
-  }
-  this->drawQueue.clear();
-}
-
-
 // Draw a drawable object (well, add it to the draw queue)
 void Window::Draw(Drawable& object, ShaderProgram& shader, glm::mat4& transform) {
-  this->drawQueue.push_back({object, shader, transform});
+  object.Draw(this->camera, shader, transform);
 }
 
 
@@ -250,9 +238,6 @@ bool Window::KeyPressed(int key) {
 // Perform window refresh cycle
 void Window::Refresh(void) {
   this->MakeCurrent();
-
-  // Majority of refresh cycle should be here
-  this->EmptyDrawQueue();
   this->PollEvents();
 
   // Refresh beginning-of-loop things
