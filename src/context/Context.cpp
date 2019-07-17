@@ -119,20 +119,6 @@ GLFWwindow* Context::NewGlfwWindow(glm::vec2 size, std::string name, GLFWmonitor
 }
 
 
-// Make a new shader handle within the current context
-GLuint Context::NewShaderHandle(const GLenum type) {
-  this->MakeCurrent();
-  return glCreateShader(type);
-}
-
-
-// Make a new shader handle within the current context
-GLuint Context::NewShaderProgramHandle(void) {
-  this->MakeCurrent();
-  return glCreateProgram();
-}
-
-
 // Make a new vertex buffer object within the current context
 GLuint Context::NewVertexArrayHandle(void) {
   this->MakeCurrent();

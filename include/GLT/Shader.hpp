@@ -7,25 +7,22 @@
 #include <GLT/Master.hpp>
 #endif
 #include <GLT/RefCount.hpp>
-#include <GLT/Context.hpp>
 
 
 // Standard
 #include <string>
+#include <vector>
+
+
+// External
+#include <glm/glm.hpp>
 
 
 namespace GLT {
 
-  // Forward declaration of context
-  class Context;
-
-
   // Class encapsulates a shader
   class Shader : public RefCount {
   private:
-
-    // Parent context pointer
-    Context* parentContext;
 
     // OpenGL handle
     GLenum type;

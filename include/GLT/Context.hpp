@@ -72,8 +72,6 @@ namespace GLT {
 
     // Create things within this context
     GLFWwindow* NewGlfwWindow(glm::vec2 size, std::string name, GLFWmonitor *mon);
-    GLuint NewShaderHandle(const GLenum type);
-    GLuint NewShaderProgramHandle(void);
     GLuint NewVertexArrayHandle(void);
     GLuint NewBufferHandle(void);
     GLuint NewTextureHandle(void);

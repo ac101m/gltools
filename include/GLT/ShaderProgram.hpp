@@ -6,6 +6,7 @@
 #ifndef _GLT_MASTER_INCLUDED
 #include <GLT/Master.hpp>
 #endif
+#include <GLT/Texture.hpp>
 #include <GLT/Shader.hpp>
 #include <GLT/RefCount.hpp>
 #include <GLT/ElementCache.hpp>
@@ -129,9 +130,6 @@ namespace GLT {
   // Class wraps an opengl shader program handle
   class ShaderProgram : public RefCount {
   private:
-
-    // Parent context pointer
-    Context* parentContext;
 
     // OpenGL handle
     GLuint glHandle;

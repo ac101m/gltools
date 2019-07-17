@@ -34,12 +34,11 @@ void Shader::Compile(void) {
 
 
 // Constructor, specified context
-Shader::Shader(const GLenum type, const std::string path) :
-  parentContext(&defaultContext) {
+Shader::Shader(GLenum const type, std::string const path) {
 
   // Set up type information
   this->type = type;
-  this->glHandle = this->parentContext->NewShaderHandle(this->type);
+  this->glHandle = glCreateShader(type);
 
   // Load the shader source
   this->LoadSource(path);

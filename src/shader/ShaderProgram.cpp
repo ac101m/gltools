@@ -106,10 +106,8 @@ Uniform ShaderProgram::GetUniform(const std::string name) {
 }
 
 // Constructor, default context
-ShaderProgram::ShaderProgram(std::vector<Shader> shaders) :
- 														 parentContext(&defaultContext) {
-
-	this->glHandle = this->parentContext->NewShaderProgramHandle();
+ShaderProgram::ShaderProgram(std::vector<Shader> const shaders) {
+	this->glHandle = glCreateProgram();
   this->LinkShaders(shaders);
 	this->FillUniformCache();
 }
@@ -128,11 +126,7 @@ void ShaderProgram::SetTexture(unsigned const texUnit,
 
 // Use this shader program
 void ShaderProgram::Use(void) {
-	this->parentContext->MakeCurrent();
-	if(this->parentContext->GetCurrentShaderProgram() != this->glHandle) {
-  	glUseProgram(this->glHandle);
-		this->parentContext->SetCurrentShaderProgram(this->glHandle);
-	}
+  glUseProgram(this->glHandle);
 }
 
 
