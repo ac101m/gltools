@@ -54,7 +54,7 @@ namespace GLT {
 //====[METHODS]==============================================================//
 
     // GLFW Error callback
-    static void Error(int error, const char *description);
+    static void GLFWError(int error, const char *description);
 
     // Common initialisation
     void InitGlew(GLFWwindow *window);

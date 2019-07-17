@@ -17,8 +17,8 @@ Context GLT::defaultContext;
 
 
 // GLFW error callback
-void Context::Error(int error, const char* description) {
-  std::cerr << "GLFW: " << description << "\n";
+void Context::GLFWError(int error, const char* description) {
+  std::cerr << "GLFW ERROR: " << description << "\n";
 }
 
 
@@ -68,7 +68,7 @@ Context::Context(void) {
     }
 
     // Add glfw error callback
-    glfwSetErrorCallback(Context::Error);
+    glfwSetErrorCallback(Context::GLFWError);
   }
 
   // End context lock
