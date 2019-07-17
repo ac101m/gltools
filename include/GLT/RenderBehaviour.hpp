@@ -19,9 +19,6 @@ namespace GLT {
   class RenderBehaviour {
   private:
 
-    // Parent context pointer
-    Context* parentContext;
-
     // Polygon mode
     GLenum polyFaceMode;
     GLenum polyDrawMode;

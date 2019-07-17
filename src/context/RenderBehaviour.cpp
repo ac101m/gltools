@@ -3,7 +3,7 @@ using namespace GLT;
 
 
 // Constructor with default context
-RenderBehaviour::RenderBehaviour(void) : parentContext(&defaultContext) {
+RenderBehaviour::RenderBehaviour(void) {
 
   // Default polygon modes
   this->polyFaceMode = GL_FRONT_AND_BACK;
@@ -16,8 +16,8 @@ RenderBehaviour::RenderBehaviour(void) : parentContext(&defaultContext) {
 
 // Apply method for normal usage
 void RenderBehaviour::Apply(void) {
-  this->ApplyDifference(this->parentContext->GetCurrentRenderBehaviour());
-  this->parentContext->SetCurrentRenderBehaviour(*this);
+  this->ApplyDifference(defaultContext.GetCurrentRenderBehaviour());
+  defaultContext.SetCurrentRenderBehaviour(*this);
 }
 
 
