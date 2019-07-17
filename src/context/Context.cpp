@@ -119,33 +119,6 @@ GLFWwindow* Context::NewGlfwWindow(glm::vec2 size, std::string name, GLFWmonitor
 }
 
 
-// Make a new vertex buffer object within the current context
-GLuint Context::NewTextureHandle(void) {
-  this->MakeCurrent();
-  GLuint id;
-  glGenTextures(1, &id);
-  return id;
-}
-
-
-// Check if a texture has been previously loaded
-bool Context::TextureCached(const std::string& path) {
-  return this->textureCache.Contains(path);
-}
-
-
-// Get a loaded texture, segfaults if it doesn't exist
-Texture Context::GetTexture(const std::string& path) {
-  return this->textureCache.Get(path);
-}
-
-
-// Add a loaded texture to the
-void Context::AddTexture(std::string const& path, Texture const& texture) {
-  return this->textureCache.Add(path, texture);
-}
-
-
 // Get current render behaviour
 RenderBehaviour& Context::GetCurrentRenderBehaviour(void) {
   return *(this->currentRenderBehaviour);

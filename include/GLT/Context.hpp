@@ -42,9 +42,6 @@ namespace GLT {
     // Pointers to most recent GLFW window
     GLFWwindow* prevGlfwWindow;
 
-    // Texture cache
-    ElementCache<std::string, Texture> textureCache;
-
     // Current render behaviour
     RenderBehaviour* currentRenderBehaviour;
 
@@ -73,11 +70,6 @@ namespace GLT {
     // Create things within this context
     GLFWwindow* NewGlfwWindow(glm::vec2 size, std::string name, GLFWmonitor *mon);
     GLuint NewTextureHandle(void);
-
-    // Texture caching routines
-    bool TextureCached(const std::string& path);
-    Texture GetTexture(const std::string& path);
-    void AddTexture(const std::string& path, const Texture& texture);
 
     // Sets and gets for render behaviour
     RenderBehaviour& GetCurrentRenderBehaviour(void);
