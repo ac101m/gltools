@@ -8,7 +8,6 @@
 #endif
 #include <GLT/Drawable.hpp>
 #include <GLT/Mesh.hpp>
-#include <GLT/Context.hpp>
 #include <GLT/RefCount.hpp>
 
 
@@ -21,7 +20,6 @@ namespace GLT {
 
   class CubeMap : public Drawable, public RefCount {
   private:
-    Context* parentContext;
 
     // Vertex and cubemap handles
     VertexBuffer vertexBuffer;

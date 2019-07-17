@@ -22,7 +22,7 @@ void CubeMap::LoadTextures(std::vector<std::string> const& texPaths) {
   }
 
   // Create opengl handles
-  this->glHandle = this->parentContext->NewTextureHandle();
+  glGenTextures(1, &this->glHandle);
   glBindTexture(GL_TEXTURE_CUBE_MAP, this->glHandle);
 
   // Load the textures
@@ -62,8 +62,7 @@ void CubeMap::LoadTextures(std::vector<std::string> const& texPaths) {
 
 
 // Constructor
-CubeMap::CubeMap(std::vector<std::string> const texPaths) :
-                 parentContext(&defaultContext) {
+CubeMap::CubeMap(std::vector<std::string> const texPaths) {
 
   // Raw vertex data
   std::vector<float> v = {
