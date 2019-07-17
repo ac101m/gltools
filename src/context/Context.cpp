@@ -131,18 +131,6 @@ void Context::SetCurrentRenderBehaviour(RenderBehaviour const& rb) {
 }
 
 
-// Get current shader program
-GLuint Context::GetCurrentShaderProgram(void) {
-  return this->activeShaderProgram;
-}
-
-
-// Set current shader program
-void Context::SetCurrentShaderProgram(GLuint const sp) {
-  this->activeShaderProgram = sp;
-}
-
-
 // Context going out of scope
 Context::~Context(void) {
 

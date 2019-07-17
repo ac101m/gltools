@@ -75,9 +75,6 @@ namespace GLT {
     RenderBehaviour& GetCurrentRenderBehaviour(void);
     void SetCurrentRenderBehaviour(const RenderBehaviour& rb);
 
-    GLuint GetCurrentShaderProgram(void);
-    void SetCurrentShaderProgram(GLuint const sp);
-
     // Destructor manages termination of glfw
     ~Context(void);
   };
