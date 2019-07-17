@@ -17,16 +17,9 @@
 
 namespace GLT {
 
-  // Context will exist, promise
-  class Context;
-
-
   // Class represents a texture handle
   class Texture : public RefCount {
   private:
-
-    // Pointer to local context
-    Context* parentContext;
 
     // Texture path, used as name
     GLuint glHandle;

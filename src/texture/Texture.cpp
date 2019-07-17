@@ -11,16 +11,20 @@ using namespace GLT;
 #include <iostream>
 
 
+// Texture cache
+ElementCache<std::string, Texture> textureCache;
+
+
 // Constructor, loads the image from file
 Texture::Texture(const std::string path,
-                 unsigned const mipMapLevel) :
-                 parentContext(&defaultContext) {
+                 unsigned const mipMapLevel) {
 
   std::cout << "Loading texture '" << path << "' - ";
 
-  // Check the context texture cache first
-  if(this->parentContext->TextureCached(path)) {
-    *this = this->parentContext->GetTexture(path);
+  // Check the texture cache first
+  if(textureCache.Contains(path)) {
+    *this = textureCache.Get(path);
+    std::cout << "CACHED\n";
     return;
   }
 
@@ -39,7 +43,7 @@ Texture::Texture(const std::string path,
   }
 
   // Load the texture
-  this->glHandle = this->parentContext->NewTextureHandle();
+  glGenTextures(1, &this->glHandle);
   this->SetData(width, height, data, mipMapLevel);
 
   // Done with the texture data
@@ -53,8 +57,8 @@ Texture::Texture(const std::string path,
     this->Parameteri(GL_TEXTURE_MAG_FILTER, GL_NEAREST);
   }
 
-  // Add the texture to the context texture path
-  this->parentContext->AddTexture(path, *this);
+  // Add the texture to the texture cache
+  textureCache.Add(path, *this);
 
   // Loading complete
   std::cout << "SUCCESS\n";
@@ -63,10 +67,9 @@ Texture::Texture(const std::string path,
 
 // Constructor, loads image from string of bytes
 Texture::Texture(int const width, int const height,
-                 std::vector<unsigned char> const data) :
-                 parentContext(&defaultContext) {
+                 std::vector<unsigned char> const data) {
 
-  this->glHandle = this->parentContext->NewTextureHandle();
+  glGenTextures(1, &this->glHandle);
   this->SetData(width, height, data);
 
   // Use nearest neighbour filtering by default
@@ -76,9 +79,7 @@ Texture::Texture(int const width, int const height,
 
 
 // Constructor, from pre initialised GLuint
-Texture::Texture(GLuint const textureHandle) :
-                 parentContext(&defaultContext) {
-
+Texture::Texture(GLuint const textureHandle) {
   this->glHandle = textureHandle;
 }
 
