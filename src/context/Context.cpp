@@ -120,24 +120,6 @@ GLFWwindow* Context::NewGlfwWindow(glm::vec2 size, std::string name, GLFWmonitor
 
 
 // Make a new vertex buffer object within the current context
-GLuint Context::NewVertexArrayHandle(void) {
-  this->MakeCurrent();
-  GLuint vao;
-  glGenVertexArrays(1, &vao);
-  return vao;
-}
-
-
-// Make a new vertex buffer object within the current context
-GLuint Context::NewBufferHandle(void) {
-  this->MakeCurrent();
-  GLuint buf;
-  glGenBuffers(1, &buf);
-  return buf;
-}
-
-
-// Make a new vertex buffer object within the current context
 GLuint Context::NewTextureHandle(void) {
   this->MakeCurrent();
   GLuint id;

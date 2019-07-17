@@ -10,7 +10,6 @@
 #include <GLT/ShaderProgram.hpp>
 #include <GLT/Drawable.hpp>
 #include <GLT/Texture.hpp>
-#include <GLT/Context.hpp>
 
 
 // Standard
@@ -40,9 +39,6 @@ namespace GLT {
   // Container class for vertex buffer
   class VertexBuffer : public RefCount {
   private:
-
-    // Reference to local context
-    Context* parentContext;
 
     // OpenGL handles
     GLuint vao, vbo, ebo;
