@@ -85,16 +85,20 @@ Texture::Texture(GLuint const textureHandle) {
 
 
 // Constructor, full initialisation
-Texture::Texture(GLint const mipMapLevel,
-                 GLint const internalFormat,
-                 GLsizei const width,
-                 GLsizei const height,
-                 GLenum const format,
-                 GLenum const type,
-                 GLvoid const * data) :
-                 parentContext(&defaultContext) {
+Texture::Texture(
+  GLint const mipMapLevel,
+  GLint const internalFormat,
+  GLsizei const width,
+  GLsizei const height,
+  GLenum const format,
+  GLenum const type,
+  GLvoid const * data) {
 
-  this->glHandle = this->parentContext->NewTextureHandle();
+  // Generate and bind handle
+  glGenTextures(1, &this->glHandle);
+  this->Bind();
+
+  // Generate our texture
   glTexImage2D(
     GL_TEXTURE_2D,
     mipMapLevel,
@@ -109,6 +113,7 @@ Texture::Texture(GLint const mipMapLevel,
   // Use nearest neighbour filtering by default
   this->Parameteri(GL_TEXTURE_MIN_FILTER, GL_NEAREST);
   this->Parameteri(GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+  this->Unbind();
 }
 
 
