@@ -7,7 +7,6 @@
 #include <GLT/Master.hpp>
 #endif
 #include <GLT/Texture.hpp>
-#include <GLT/RenderBehaviour.hpp>
 #include <GLT/ElementCache.hpp>
 
 
@@ -23,10 +22,6 @@
 
 
 namespace GLT {
-
-  // Forward declarations where neccessary
-  class RenderBehaviour;
-
 
   // Class encapsulates an opengl context
   class Context {
