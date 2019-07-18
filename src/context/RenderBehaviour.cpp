@@ -14,15 +14,8 @@ RenderBehaviour::RenderBehaviour(void) {
 }
 
 
-// Apply method for normal usage
-void RenderBehaviour::Apply(void) {
-  this->ApplyDifference(Context::GetCurrentRenderBehaviour());
-  Context::SetCurrentRenderBehaviour(*this);
-}
-
-
 // Apply everything indiscriminately
-void RenderBehaviour::ApplyAll(void) {
+void RenderBehaviour::Apply(void) {
   glPolygonMode(this->polyFaceMode, this->polyDrawMode);
   glDepthFunc(this->depthTestFunction);
 }

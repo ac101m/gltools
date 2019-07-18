@@ -35,9 +35,6 @@ namespace GLT {
     // Pointers to open GLFW windows
     static std::list<GLFWwindow*> openWindows;
 
-    // Current render behaviour
-    static RenderBehaviour* currentRenderBehaviour;
-
 //====[METHODS]==============================================================//
 
     // GLFW Error callback
@@ -64,10 +61,6 @@ namespace GLT {
 
     // Close a glfw window and remove it from the window list
     static void CloseGlfwWindow(GLFWwindow* const window);
-
-    // Sets and gets for render behaviour
-    static RenderBehaviour& GetCurrentRenderBehaviour(void);
-    static void SetCurrentRenderBehaviour(const RenderBehaviour& rb);
 
     // Destructor closes active windows and manages final glfw termination
     ~Context(void);

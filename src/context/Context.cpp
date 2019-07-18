@@ -13,7 +13,6 @@ Context cxt;
 
 // Static member variables
 std::list<GLFWwindow*> Context::openWindows;
-RenderBehaviour* Context::currentRenderBehaviour;
 
 
 // GLFW error callback
@@ -57,8 +56,6 @@ void Context::InitGlew(void) {
 void Context::InitGL(void) {
   glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
-  Context::currentRenderBehaviour = new RenderBehaviour();
-  Context::currentRenderBehaviour->ApplyAll();
 }
 
 
@@ -125,22 +122,9 @@ void Context::CloseGlfwWindow(GLFWwindow* const window) {
 }
 
 
-// Get current render behaviour
-RenderBehaviour& Context::GetCurrentRenderBehaviour(void) {
-  return *(Context::currentRenderBehaviour);
-}
-
-
-// Set current render behaviour
-void Context::SetCurrentRenderBehaviour(RenderBehaviour const& rb) {
-  *(Context::currentRenderBehaviour) = rb;
-}
-
-
 // Context is (conceptually) static and global, [TODO]
 // this only runs when the program exits. Context really needs a rework...
 Context::~Context(void) {
-  delete Context::currentRenderBehaviour;
   if(!Context::openWindows.empty()) {
     std::cout << "GLT Terminated with " << Context::openWindows.size();
     std::cout << " remaining GLFW windows\n";

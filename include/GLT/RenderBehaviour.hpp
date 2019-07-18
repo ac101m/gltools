@@ -41,7 +41,6 @@ namespace GLT {
 
     // Apply methods
     void Apply(void);
-    void ApplyAll(void);
     void ApplyDifference(RenderBehaviour& other);
   };
 
