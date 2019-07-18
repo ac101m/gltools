@@ -11,7 +11,7 @@ using namespace GLT;
 Context cxt;
 
 
-// Static member variables
+// List of open windows
 std::list<GLFWwindow*> Context::openWindows;
 
 
