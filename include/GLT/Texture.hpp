@@ -32,7 +32,8 @@ namespace GLT {
 
     // Constructor, from data
     Texture(
-      int const width, int const height,
+      int const width,
+      int const height,
       std::vector<unsigned char> const data);
 
     // Constructor, from initialised handle
@@ -51,26 +52,28 @@ namespace GLT {
 
     // Set texture data
     void SetData(
-      int const width, int const height,
+      int const width,
+      int const height,
       std::vector<unsigned char> const data,
       unsigned const mipMapLevel = 0);
     void SetData(
-      int const width, int const height,
+      int const width,
+      int const height,
       unsigned char const * const data,
       unsigned const mipMapLevel = 0);
 
-    // Texture properties
+    // Set texture integer parameter
     void Parameteri(GLenum const pname, GLint const param);
 
     // Bind and unbind the texture
-    void Bind(void) const {glBindTexture(GL_TEXTURE_2D, this->glHandle);}
-    void Unbind(void) const {glBindTexture(GL_TEXTURE_2D, 0);}
+    void Bind() const;
+    void Unbind() const;
 
     // Get the opengl handle
-    GLuint GetGlHandle(void) const {return this->glHandle;}
+    GLuint GetGlHandle() const {return this->glHandle;}
 
     // Destructor, uses reference count
-    ~Texture(void);
+    ~Texture();
   };
 
 } // namespace GLT

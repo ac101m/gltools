@@ -20,8 +20,9 @@ ElementCache<std::string, Texture> textureCache;
 
 
 // Constructor, loads the image from file
-Texture::Texture(const std::string path,
-                 unsigned const mipMapLevel) {
+Texture::Texture(
+  std::string const path,
+  unsigned const mipMapLevel) {
 
   std::cout << "Loading texture '" << path << "' - ";
 
@@ -70,8 +71,10 @@ Texture::Texture(const std::string path,
 
 
 // Constructor, loads image from string of bytes
-Texture::Texture(int const width, int const height,
-                 std::vector<unsigned char> const data) {
+Texture::Texture(
+  int const width,
+  int const height,
+  std::vector<unsigned char> const data) {
 
   glGenTextures(1, &this->glHandle);
   this->SetData(width, height, data);
@@ -123,7 +126,8 @@ Texture::Texture(
 
 // Set texture data from raw pointer
 void Texture::SetData(
-  int const width, int const height,
+  int const width,
+  int const height,
   unsigned char const * const data,
   unsigned const mipMapLevel) {
 
@@ -147,16 +151,10 @@ void Texture::SetData(
 }
 
 
-void Texture::Parameteri(GLenum const pname, GLint const param) {
-  this->Bind();
-  glTexParameteri(GL_TEXTURE_2D, pname, param);
-  this->Unbind();
-}
-
-
 // Set texture data from vector of chars
 void Texture::SetData(
-  int const width, int const height,
+  int const width,
+  int const height,
   std::vector<unsigned char> const data,
   unsigned const mipMapLevel) {
 
@@ -164,8 +162,28 @@ void Texture::SetData(
 }
 
 
+// Bind texture
+void Texture::Bind() const {
+  glBindTexture(GL_TEXTURE_2D, this->glHandle);
+}
+
+
+// Unbind texture
+void Texture::Unbind() const {
+  glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+
+// Set texture integer parameter
+void Texture::Parameteri(GLenum const pname, GLint const param) {
+  this->Bind();
+  glTexParameteri(GL_TEXTURE_2D, pname, param);
+  this->Unbind();
+}
+
+
 // Reference counting destructor
-Texture::~Texture(void) {
+Texture::~Texture() {
   if(!this->ReferencedElsewhere()) {
     glDeleteTextures(1, &this->glHandle);
   }
