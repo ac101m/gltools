@@ -35,9 +35,6 @@ namespace GLT {
     // Pointers to open GLFW windows
     std::list<GLFWwindow*> openWindows;
 
-    // Is glew initialised?
-    bool glewInitialised;
-
     // Current render behaviour
     RenderBehaviour* currentRenderBehaviour;
 
@@ -47,14 +44,13 @@ namespace GLT {
     static void GLFWError(int error, const char *description);
 
     // Common initialisation
-    void InitGlew(GLFWwindow *window);
-
-    // Initialise opengl
+    void InitGlfw(void);
+    void InitGlew(void);
     void InitGL(void);
 
   public:
 
-    // Constructor/destructor
+    // Constructor
     Context(void);
 
     // Make this context current

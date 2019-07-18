@@ -17,21 +17,33 @@ void Context::GLFWError(int error, const char* description) {
 }
 
 
+// Intialise GLFW
+void Context::InitGlfw(void) {
+  if(!glfwInit()) {
+    std::cerr << "GLFW initialisation failed, nothing to be done\n";
+    exit(1);
+  } else {
+    std::cout << "Initialised GLFW\n";
+  }
+}
+
+
 // Initialise GLEW
-void Context::InitGlew(GLFWwindow* window) {
-  if(!this->glewInitialised) {
+void Context::InitGlew(void) {
 
-    // Make one of the windows from this context active
-    glfwMakeContextCurrent(window);
+  // Check that there is at least one active window
+  if(this->openWindows.empty()) {
+    std::cerr << "GLEW initialisation failed, no active context\n";
+    exit(1);
+  }
 
-    // Do the initialisation
-    if(glewInit() != GLEW_OK) {
-      std::cerr << "Failed to initialise GLEW\n";
-      exit(1);
-    } else {
-      std::cout << "Initialised GLEW\n";
-      this->glewInitialised = true;
-    }
+  // Do the initialisation
+  this->MakeCurrent();
+  if(glewInit() != GLEW_OK) {
+    std::cerr << "GLEW initialisation failed, nothing to be done\n";
+    exit(1);
+  } else {
+    std::cout << "Initialised GLEW\n";
   }
 }
 
@@ -45,27 +57,16 @@ void Context::InitGL(void) {
 }
 
 
-// Common initialisation
+// Constructor, just notifies
 Context::Context(void) {
-
-  // Initialise GLFW
-  if(!glfwInit()) {
-    std::cerr << "Failed to initialise GLFW, nothing to be done\n";
-    exit(1);
-  }
-
-  // Add glfw error callback
-  glfwSetErrorCallback(Context::GLFWError);
-
-  // Glew hasn't been intialised yet (we can't until we have a context)
-  this->glewInitialised = false;
+  std::cout << "GLT context handler initialised\n";
 }
 
 
 // Make the shared context current
 void Context::MakeCurrent(void) {
   if(this->openWindows.empty()) {
-    std::cout << "ERROR: Cannot make context current, no active context\n";
+    std::cerr << "ERROR: Cannot make context current, no active context\n";
     exit(1);
   } else {
     glfwMakeContextCurrent(this->openWindows.front());
@@ -79,29 +80,31 @@ GLFWwindow* Context::NewGlfwWindow(
   std::string const name,
   GLFWmonitor* const mon) {
 
-  // Window to share context with
+  // Initialise GLFW if it isn't already initialised
   GLFWwindow* parentWindow = NULL;
-  if(!this->openWindows.empty()) {
+  if(this->openWindows.empty()) {
+    this->InitGlfw();
+  } else {
     parentWindow = this->openWindows.front();
   }
 
   // Create a new GLFW window handle
-  GLFWwindow* glfwWindow = glfwCreateWindow(
+  GLFWwindow* window = glfwCreateWindow(
     size.x, size.y, name.c_str(), mon, parentWindow);
 
-  // If this is our first window, initialise glew
-  if(this->openWindows.empty()) {
-    this->InitGlew(glfwWindow);
-  }
+  // Add window to window list
+  this->openWindows.push_back(window);
 
-  // Add the newly created window to the window list
-  this->openWindows.push_back(glfwWindow);
+  // If this is our first window, glew must be initialised
+  if(this->openWindows.size() == 1) {
+    this->InitGlew();
+  }
 
   // Initialise some opengl stuff, needs a rework [TODO]
   this->InitGL();
 
   // Return the window handle
-  return glfwWindow;
+  return window;
 }
 
 
@@ -109,6 +112,11 @@ GLFWwindow* Context::NewGlfwWindow(
 void Context::CloseGlfwWindow(GLFWwindow* const window) {
   glfwDestroyWindow(window);
   this->openWindows.remove(window);
+
+  // Terminate glfw if that was our last window
+  if(this->openWindows.empty()) {
+    glfwTerminate();
+  }
 }
 
 
@@ -128,5 +136,12 @@ void Context::SetCurrentRenderBehaviour(RenderBehaviour const& rb) {
 // this only runs when the program exits. Context really needs a rework...
 Context::~Context(void) {
   delete this->currentRenderBehaviour;
-  glfwTerminate();
+  if(!this->openWindows.empty()) {
+    std::cout << "GLT Terminated with " << this->openWindows.size();
+    std::cout << " remaining GLFW windows\n";
+    std::cout << "Tsk tsk, you really ought to close those yourself\n";
+    glfwTerminate();
+  } else {
+    std::cout << "GLT Terminated, bye!\n";
+  }
 }
