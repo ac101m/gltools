@@ -11,10 +11,6 @@
 
 namespace GLT {
 
-  // Context class forward declaration
-  class Context;
-
-
   // Class contains render mode
   class RenderBehaviour {
   private:
