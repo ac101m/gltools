@@ -29,9 +29,6 @@ namespace GLT {
   class Window {
   private:
 
-    // Parent context
-    Context* parentContext;
-
     // Some general window info
     std::string title;
     glm::vec2 size;

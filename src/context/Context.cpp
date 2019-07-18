@@ -7,8 +7,13 @@ using namespace GLT;
 #include <string>
 
 
-// Default global context
-Context GLT::defaultContext;
+// Context object, manages termination of glfw at program exit
+Context cxt;
+
+
+// Static member variables
+std::list<GLFWwindow*> Context::openWindows;
+RenderBehaviour* Context::currentRenderBehaviour;
 
 
 // GLFW error callback
@@ -32,13 +37,13 @@ void Context::InitGlfw(void) {
 void Context::InitGlew(void) {
 
   // Check that there is at least one active window
-  if(this->openWindows.empty()) {
+  if(Context::openWindows.empty()) {
     std::cerr << "GLEW initialisation failed, no active context\n";
     exit(1);
   }
 
   // Do the initialisation
-  this->MakeCurrent();
+  Context::MakeCurrent();
   if(glewInit() != GLEW_OK) {
     std::cerr << "GLEW initialisation failed, nothing to be done\n";
     exit(1);
@@ -52,8 +57,8 @@ void Context::InitGlew(void) {
 void Context::InitGL(void) {
   glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
-  this->currentRenderBehaviour = new RenderBehaviour();
-  this->currentRenderBehaviour->ApplyAll();
+  Context::currentRenderBehaviour = new RenderBehaviour();
+  Context::currentRenderBehaviour->ApplyAll();
 }
 
 
@@ -65,11 +70,11 @@ Context::Context(void) {
 
 // Make the shared context current
 void Context::MakeCurrent(void) {
-  if(this->openWindows.empty()) {
+  if(Context::openWindows.empty()) {
     std::cerr << "ERROR: Cannot make context current, no active context\n";
     exit(1);
   } else {
-    glfwMakeContextCurrent(this->openWindows.front());
+    glfwMakeContextCurrent(Context::openWindows.front());
   }
 }
 
@@ -82,10 +87,10 @@ GLFWwindow* Context::NewGlfwWindow(
 
   // Initialise GLFW if it isn't already initialised
   GLFWwindow* parentWindow = NULL;
-  if(this->openWindows.empty()) {
-    this->InitGlfw();
+  if(Context::openWindows.empty()) {
+    Context::InitGlfw();
   } else {
-    parentWindow = this->openWindows.front();
+    parentWindow = Context::openWindows.front();
   }
 
   // Create a new GLFW window handle
@@ -93,15 +98,15 @@ GLFWwindow* Context::NewGlfwWindow(
     size.x, size.y, name.c_str(), mon, parentWindow);
 
   // Add window to window list
-  this->openWindows.push_back(window);
+  Context::openWindows.push_back(window);
 
   // If this is our first window, glew must be initialised
-  if(this->openWindows.size() == 1) {
-    this->InitGlew();
+  if(Context::openWindows.size() == 1) {
+    Context::InitGlew();
   }
 
   // Initialise some opengl stuff, needs a rework [TODO]
-  this->InitGL();
+  Context::InitGL();
 
   // Return the window handle
   return window;
@@ -111,10 +116,10 @@ GLFWwindow* Context::NewGlfwWindow(
 // Close a glfw window and remove it from the window list
 void Context::CloseGlfwWindow(GLFWwindow* const window) {
   glfwDestroyWindow(window);
-  this->openWindows.remove(window);
+  Context::openWindows.remove(window);
 
   // Terminate glfw if that was our last window
-  if(this->openWindows.empty()) {
+  if(Context::openWindows.empty()) {
     glfwTerminate();
   }
 }
@@ -122,22 +127,22 @@ void Context::CloseGlfwWindow(GLFWwindow* const window) {
 
 // Get current render behaviour
 RenderBehaviour& Context::GetCurrentRenderBehaviour(void) {
-  return *(this->currentRenderBehaviour);
+  return *(Context::currentRenderBehaviour);
 }
 
 
 // Set current render behaviour
 void Context::SetCurrentRenderBehaviour(RenderBehaviour const& rb) {
-  *(this->currentRenderBehaviour) = rb;
+  *(Context::currentRenderBehaviour) = rb;
 }
 
 
 // Context is (conceptually) static and global, [TODO]
 // this only runs when the program exits. Context really needs a rework...
 Context::~Context(void) {
-  delete this->currentRenderBehaviour;
-  if(!this->openWindows.empty()) {
-    std::cout << "GLT Terminated with " << this->openWindows.size();
+  delete Context::currentRenderBehaviour;
+  if(!Context::openWindows.empty()) {
+    std::cout << "GLT Terminated with " << Context::openWindows.size();
     std::cout << " remaining GLFW windows\n";
     std::cout << "Tsk tsk, you really ought to close those yourself\n";
     glfwTerminate();

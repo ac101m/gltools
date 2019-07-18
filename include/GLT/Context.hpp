@@ -33,10 +33,10 @@ namespace GLT {
   private:
 
     // Pointers to open GLFW windows
-    std::list<GLFWwindow*> openWindows;
+    static std::list<GLFWwindow*> openWindows;
 
     // Current render behaviour
-    RenderBehaviour* currentRenderBehaviour;
+    static RenderBehaviour* currentRenderBehaviour;
 
 //====[METHODS]==============================================================//
 
@@ -44,37 +44,34 @@ namespace GLT {
     static void GLFWError(int error, const char *description);
 
     // Common initialisation
-    void InitGlfw(void);
-    void InitGlew(void);
-    void InitGL(void);
+    static void InitGlfw(void);
+    static void InitGlew(void);
+    static void InitGL(void);
 
   public:
 
-    // Constructor
+    // Constructor, doesn't do much to be honest
     Context(void);
 
-    // Make this context current
-    void MakeCurrent(void);
+    // Make GLT context current
+    static void MakeCurrent(void);
 
     // Create things within this context
-    GLFWwindow* NewGlfwWindow(
+    static GLFWwindow* NewGlfwWindow(
       glm::vec2 const size,
       std::string const name,
       GLFWmonitor* const mon = NULL);
 
     // Close a glfw window and remove it from the window list
-    void CloseGlfwWindow(GLFWwindow* const window);
+    static void CloseGlfwWindow(GLFWwindow* const window);
 
     // Sets and gets for render behaviour
-    RenderBehaviour& GetCurrentRenderBehaviour(void);
-    void SetCurrentRenderBehaviour(const RenderBehaviour& rb);
+    static RenderBehaviour& GetCurrentRenderBehaviour(void);
+    static void SetCurrentRenderBehaviour(const RenderBehaviour& rb);
 
-    // Destructor manages termination of glfw
+    // Destructor closes active windows and manages final glfw termination
     ~Context(void);
   };
-
-  // Global default context variable
-  extern Context defaultContext;
 
 } // namespace GLT
 

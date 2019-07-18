@@ -16,8 +16,8 @@ RenderBehaviour::RenderBehaviour(void) {
 
 // Apply method for normal usage
 void RenderBehaviour::Apply(void) {
-  this->ApplyDifference(defaultContext.GetCurrentRenderBehaviour());
-  defaultContext.SetCurrentRenderBehaviour(*this);
+  this->ApplyDifference(Context::GetCurrentRenderBehaviour());
+  Context::SetCurrentRenderBehaviour(*this);
 }
 
 
