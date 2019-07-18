@@ -7,7 +7,6 @@
 #include <GLT/Master.hpp>
 #endif
 #include <GLT/RefCount.hpp>
-#include <GLT/Context.hpp>
 
 
 // Standard
