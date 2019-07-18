@@ -7,11 +7,6 @@ using namespace GLT;
 #include <string>
 
 
-// Track the number of GLFW contexts
-int Context::contextCount = 0;
-std::mutex Context::contextCountMx;
-
-
 // Default global context
 Context GLT::defaultContext;
 
@@ -53,69 +48,67 @@ void Context::InitGL(void) {
 // Common initialisation
 Context::Context(void) {
 
-  // Begin context lock
-  contextCountMx.lock();
-
-  // If we are the first context, do GLFW setup
-  if(contextCount == 0) {
-
-    // Initialise GLFW
-    if(!glfwInit()) {
-      std::cerr << "Failed to initialise GLFW\n";
-      exit(1);
-    } else {
-      std::cout << "Initialised GLFW\n";
-    }
-
-    // Add glfw error callback
-    glfwSetErrorCallback(Context::GLFWError);
+  // Initialise GLFW
+  if(!glfwInit()) {
+    std::cerr << "Failed to initialise GLFW, nothing to be done\n";
+    exit(1);
   }
 
-  // End context lock
-  contextCount++;
-  contextCountMx.unlock();
-
-  // Last window handle, NULL means glfwCreateWindow will
-  // kick off a new opengl context when called
-  this->prevGlfwWindow = NULL;
+  // Add glfw error callback
+  glfwSetErrorCallback(Context::GLFWError);
 
   // Glew hasn't been intialised yet (we can't until we have a context)
   this->glewInitialised = false;
-
-  // 0 indicates no bound shader
-  this->activeShaderProgram = 0;
 }
 
 
-// Make this context current
+// Make the shared context current
 void Context::MakeCurrent(void) {
-  if(this->prevGlfwWindow != NULL) {
-    glfwMakeContextCurrent(this->prevGlfwWindow);
+  if(this->openWindows.empty()) {
+    std::cout << "ERROR: Cannot make context current, no active context\n";
+    exit(1);
+  } else {
+    glfwMakeContextCurrent(this->openWindows.front());
   }
 }
 
 
-// Create a window that is attached to this context
-GLFWwindow* Context::NewGlfwWindow(glm::vec2 size, std::string name, GLFWmonitor* mon) {
+// Create a window attached to this context
+GLFWwindow* Context::NewGlfwWindow(
+  glm::vec2 const size,
+  std::string const name,
+  GLFWmonitor* const mon) {
 
-  // Create a GLFW window
+  // Window to share context with
+  GLFWwindow* parentWindow = NULL;
+  if(!this->openWindows.empty()) {
+    parentWindow = this->openWindows.front();
+  }
+
+  // Create a new GLFW window handle
   GLFWwindow* glfwWindow = glfwCreateWindow(
-    size.x, size.y, name.c_str(), mon, this->prevGlfwWindow);
+    size.x, size.y, name.c_str(), mon, parentWindow);
 
-  // Initialise GLEW
-  if(this->prevGlfwWindow == NULL) {
+  // If this is our first window, initialise glew
+  if(this->openWindows.empty()) {
     this->InitGlew(glfwWindow);
   }
 
-  // The next window will share this ones context
-  this->prevGlfwWindow = glfwWindow;
-  this->MakeCurrent();
+  // Add the newly created window to the window list
+  this->openWindows.push_back(glfwWindow);
 
-  // Initialise opengl
+  // Initialise some opengl stuff, needs a rework [TODO]
   this->InitGL();
 
   // Return the window handle
   return glfwWindow;
+}
+
+
+// Close a glfw window and remove it from the window list
+void Context::CloseGlfwWindow(GLFWwindow* const window) {
+  glfwDestroyWindow(window);
+  this->openWindows.remove(window);
 }
 
 
@@ -131,30 +124,9 @@ void Context::SetCurrentRenderBehaviour(RenderBehaviour const& rb) {
 }
 
 
-// Context going out of scope
+// Context is (conceptually) static and global, [TODO]
+// this only runs when the program exits. Context really needs a rework...
 Context::~Context(void) {
-
-  // Clean up any allocated items
   delete this->currentRenderBehaviour;
-
-  // Decrement reference count
-  contextCountMx.lock();
-  contextCount--;
-
-  // Last one out, turn out the lights
-  if(contextCount == 0) {
-    glfwTerminate();
-  }
-
-  // Unlock mutex
-  contextCountMx.unlock();
-
-  // Context has no attached windows at the moment
-  this->glewInitialised = false;
-
-  // Print cleanup messages
-  std::cout << "Context cleaned up\n";
-  if(!contextCount) {
-    std::cout << "All contexts destroyed, GLFW terminated\n";
-  }
+  glfwTerminate();
 }

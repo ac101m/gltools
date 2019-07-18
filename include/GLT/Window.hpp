@@ -32,9 +32,6 @@ namespace GLT {
     // Parent context
     Context* parentContext;
 
-    // Is the window active?
-    bool active;
-
     // Some general window info
     std::string title;
     glm::vec2 size;

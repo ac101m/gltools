@@ -15,7 +15,6 @@ Window::Window(unsigned const x, unsigned const y,
 
   this->size = glm::vec2(x, y);
   this->glfwWindow = this->parentContext->NewGlfwWindow(this->size, title, mon);
-  this->active = true;
   this->title = title;
   this->camera.SetViewRatio(this->GetFrameBufferSize());
 
@@ -53,7 +52,7 @@ glm::vec2 Window::GetWindowSize(void) const {
 
 // Make the context current if not already
 void Window::MakeCurrent(void) {
-  if(this->active) {
+  if(this->glfwWindow != NULL) {
     if(glfwGetCurrentContext() != this->glfwWindow) {
       glfwMakeContextCurrent(this->glfwWindow);
     }
@@ -67,9 +66,9 @@ void Window::MakeCurrent(void) {
 
 // Close the window
 void Window::Close() {
-  if(this->active) {
-    glfwDestroyWindow(this->glfwWindow);
-    this->active = false;
+  if(this->glfwWindow != NULL) {
+    defaultContext.CloseGlfwWindow(this->glfwWindow);
+    this->glfwWindow = NULL;
   }
 }
 

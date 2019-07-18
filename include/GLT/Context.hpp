@@ -15,6 +15,7 @@
 #include <vector>
 #include <mutex>
 #include <map>
+#include <list>
 
 
 // Matrix math
@@ -24,7 +25,6 @@
 namespace GLT {
 
   // Forward declarations where neccessary
-  class Texture;
   class RenderBehaviour;
 
 
@@ -32,21 +32,14 @@ namespace GLT {
   class Context {
   private:
 
-    // Keep track of whether GLFW is initialised or not.
-    static int contextCount;
-    static std::mutex contextCountMx;
+    // Pointers to open GLFW windows
+    std::list<GLFWwindow*> openWindows;
 
     // Is glew initialised?
     bool glewInitialised;
 
-    // Pointers to most recent GLFW window
-    GLFWwindow* prevGlfwWindow;
-
     // Current render behaviour
     RenderBehaviour* currentRenderBehaviour;
-
-    // Currently active shader program
-    GLuint activeShaderProgram;
 
 //====[METHODS]==============================================================//
 
@@ -68,8 +61,13 @@ namespace GLT {
     void MakeCurrent(void);
 
     // Create things within this context
-    GLFWwindow* NewGlfwWindow(glm::vec2 size, std::string name, GLFWmonitor *mon);
-    GLuint NewTextureHandle(void);
+    GLFWwindow* NewGlfwWindow(
+      glm::vec2 const size,
+      std::string const name,
+      GLFWmonitor* const mon = NULL);
+
+    // Close a glfw window and remove it from the window list
+    void CloseGlfwWindow(GLFWwindow* const window);
 
     // Sets and gets for render behaviour
     RenderBehaviour& GetCurrentRenderBehaviour(void);
