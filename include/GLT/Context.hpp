@@ -6,8 +6,6 @@
 #ifndef _GLT_MASTER_INCLUDED
 #include <GLT/Master.hpp>
 #endif
-#include <GLT/Texture.hpp>
-#include <GLT/ElementCache.hpp>
 
 
 // Standard

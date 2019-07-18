@@ -11,6 +11,10 @@ using namespace GLT;
 #include <iostream>
 
 
+// This project
+#include <GLT/ElementCache.hpp>
+
+
 // Texture cache
 ElementCache<std::string, Texture> textureCache;
 
