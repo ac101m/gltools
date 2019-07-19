@@ -7,6 +7,7 @@
 #include <GLT/Master.hpp>
 #endif
 #include <GLT/RefCount.hpp>
+#include <GLT/ElementCache.hpp>
 #include <GLT/ElementStack.hpp>
 
 
