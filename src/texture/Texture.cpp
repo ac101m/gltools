@@ -12,7 +12,7 @@ using namespace GLT;
 
 
 // Texture cache
-ElementCache<std::string, Texture> fileCache;
+ElementCache<std::string, Texture> Texture::fileCache;
 
 
 // Texture binding stack
