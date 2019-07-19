@@ -24,6 +24,9 @@ namespace GLT {
     // Texture path, used as name
     GLuint glHandle;
 
+    // Cache for textures loaded from file
+    static ElementCache<std::string, Texture> fileCache;
+
     // Texture binding stack, keeps track of the GL_TEXTURE_2D bind target
     static ElementStack<GLuint> bindStack;
 

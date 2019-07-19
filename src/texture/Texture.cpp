@@ -16,7 +16,7 @@ using namespace GLT;
 
 
 // Texture cache
-ElementCache<std::string, Texture> textureCache;
+ElementCache<std::string, Texture> fileCache;
 
 
 // Texture binding stack
@@ -32,7 +32,7 @@ void Texture::Init() {
   glBindTexture(GL_TEXTURE_2D, 0);
 
   // Empty the texture cache
-  textureCache.Clear();
+  fileCache.Clear();
 }
 
 
@@ -44,8 +44,8 @@ Texture::Texture(
   std::cout << "Loading texture '" << path << "' - ";
 
   // Check the texture cache first
-  if(textureCache.Contains(path)) {
-    *this = textureCache.Get(path);
+  if(fileCache.Contains(path)) {
+    *this = fileCache.Get(path);
     std::cout << "CACHED\n";
     return;
   }
@@ -80,7 +80,7 @@ Texture::Texture(
   }
 
   // Add the texture to the texture cache
-  textureCache.Add(path, *this);
+  fileCache.Add(path, *this);
 
   // Loading complete
   std::cout << "SUCCESS\n";
