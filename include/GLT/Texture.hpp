@@ -7,6 +7,7 @@
 #include <GLT/Master.hpp>
 #endif
 #include <GLT/RefCount.hpp>
+#include <GLT/ElementStack.hpp>
 
 
 // Standard
@@ -23,7 +24,13 @@ namespace GLT {
     // Texture path, used as name
     GLuint glHandle;
 
+    // Texture binding stack, keeps track of the GL_TEXTURE_2D bind target
+    static ElementStack<GLuint> bindStack;
+
   public:
+
+    // Initialise static members (cache and bind stack)
+    static void Init();
 
     // Constructor, from file
     Texture(

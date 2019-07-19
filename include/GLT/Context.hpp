@@ -36,7 +36,9 @@ namespace GLT {
     // Common initialisation
     static void InitGlfw(void);
     static void InitGlew(void);
-    static void InitGL(void);
+
+    // Initialise GLT
+    static void InitGLT(void);
 
   public:
 

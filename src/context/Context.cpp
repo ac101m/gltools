@@ -7,6 +7,10 @@ using namespace GLT;
 #include <string>
 
 
+// This project headers
+#include <GLT/Texture.hpp>
+
+
 // Context object, manages termination of glfw at program exit
 Context cxt;
 
@@ -53,9 +57,14 @@ void Context::InitGlew(void) {
 
 
 // Initialise opengl behaviour
-void Context::InitGL(void) {
+void Context::InitGLT(void) {
+
+  // Temporary [TODO]
   glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
+
+  // Initialise GLT stuff
+  Texture::Init();
 }
 
 
@@ -97,13 +106,12 @@ GLFWwindow* Context::NewGlfwWindow(
   // Add window to window list
   Context::openWindows.push_back(window);
 
-  // If this is our first window, glew must be initialised
+  // If this is our first window, that means this is a new context
+  // New context means there is some initialisation to do
   if(Context::openWindows.size() == 1) {
     Context::InitGlew();
+    Context::InitGLT();
   }
-
-  // Initialise some opengl stuff, needs a rework [TODO]
-  Context::InitGL();
 
   // Return the window handle
   return window;

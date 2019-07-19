@@ -19,6 +19,23 @@ using namespace GLT;
 ElementCache<std::string, Texture> textureCache;
 
 
+// Texture binding stack
+ElementStack<GLuint> Texture::bindStack;
+
+
+// Initialise static members (cache and bind stack)
+void Texture::Init() {
+
+  // Initially the default texture is bound
+  bindStack.Clear();
+  bindStack.Push(0);
+  glBindTexture(GL_TEXTURE_2D, 0);
+
+  // Empty the texture cache
+  textureCache.Clear();
+}
+
+
 // Constructor, loads the image from file
 Texture::Texture(
   std::string const path,
@@ -162,15 +179,38 @@ void Texture::SetData(
 }
 
 
-// Bind texture
+// Bind texture and add it to the top of the bind stack
+// Call glBindTexture if appropriate
 void Texture::Bind() const {
-  glBindTexture(GL_TEXTURE_2D, this->glHandle);
+
+  // If the currently bound texture is not this one, bind this texture
+  if(this->glHandle != bindStack.Top()) {
+    glBindTexture(GL_TEXTURE_2D, this->glHandle);
+  }
+
+  // Push this textures glhandle onto the bind stack
+  bindStack.Push(this->glHandle);
 }
 
 
-// Unbind texture
+// Unbind texture and bind the last thing that was bound
 void Texture::Unbind() const {
-  glBindTexture(GL_TEXTURE_2D, 0);
+
+  // Can't unbind a texture that isn't bound, without leaving the bind
+  // stack in an invalid state
+  if(this->glHandle != bindStack.Top()) {
+    std::cerr << "ERROR: Attempt to unbind already unbound texture\n";
+    std::cerr << "Did you forget to unbind a texture somewhere?\n";
+    exit(1);
+  }
+
+  // Pop this textures opengl handle off the bind stack
+  bindStack.Pop();
+
+  // If the last bound opengl handle was not this textures
+  if(bindStack.Top() != this->glHandle) {
+    glBindTexture(GL_TEXTURE_2D, bindStack.Top());
+  }
 }
 
 
