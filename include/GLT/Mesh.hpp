@@ -56,7 +56,7 @@ namespace GLT {
   public:
 
     // Constructors with context initialisation
-    VertexBuffer(void);
+    VertexBuffer();
     VertexBuffer(const std::vector<vertex_t>& vertices,
                  const std::vector<unsigned>& indices);
 
@@ -69,7 +69,7 @@ namespace GLT {
     GLsizei GetVertexBufferLength(void) {return *(this->vBufLen);}
 
     // Destructor
-    ~VertexBuffer(void);
+    ~VertexBuffer();
   };
 
 
@@ -88,13 +88,13 @@ namespace GLT {
 //====[METHODS]==============================================================//
 
     // Common initialisation
-    void Init(void);
+    void Init();
 
     // Generate tangent basis, assumes valid normals
-    void GenTangentSpaceBasis(void);
+    void GenTangentSpaceBasis();
 
     // Bind textures
-    void BindTextureArray(void);
+    void BindTextureArray();
 
   public:
 
@@ -105,10 +105,10 @@ namespace GLT {
          std::vector<Texture> textures);
 
     // Generate normals
-    void AutoGenerateNormals(void);
+    void AutoGenerateNormals();
 
     // Yes, really
-    void Print(void);
+    void Print();
 
     // Overridden draw method
     void Draw(Camera& camera, ShaderProgram& shader, glm::mat4& transform);
