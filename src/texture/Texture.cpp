@@ -171,7 +171,7 @@ void Texture::SetData(
   std::vector<unsigned char> const data,
   unsigned const mipMapLevel) {
 
-  this->SetData(width, height, data.data());
+  this->SetData(width, height, data.data(), mipMapLevel);
 }
 
 
