@@ -41,12 +41,12 @@ void VertexBuffer::GenBuffers(const std::vector<vertex_t>& vertices,
   glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE,
                         sizeof(vertex_t), (void*)offsetof(vertex_t, normal));
 
-  // Vertex normals
+  // Vertex tangents
   glEnableVertexAttribArray(3);
   glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE,
                         sizeof(vertex_t), (void*)offsetof(vertex_t, tangent));
 
-  // Vertex normals
+  // Vertex bitangents
   glEnableVertexAttribArray(4);
   glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE,
                         sizeof(vertex_t), (void*)offsetof(vertex_t, bitangent));
