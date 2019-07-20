@@ -18,11 +18,11 @@
 
 namespace GLT {
 
-  // Class represents a texture handle
+  // Class represents a two-dimensional texture
   class Texture : public RefCount {
   private:
 
-    // Texture path, used as name
+    // Opengl handle
     GLuint glHandle;
 
     // Cache for textures loaded from file
@@ -36,6 +36,20 @@ namespace GLT {
     // Initialise static members (cache and bind stack)
     static void Init();
 
+    // Constructor, from arbitrary handle
+    Texture(
+      GLuint const textureHandle);
+
+    // Constructor, complete initialisation
+    Texture(
+      GLint const mipMapLevel,
+      GLint const internalFormat,
+      GLsizei const width,
+      GLsizei const height,
+      GLenum const format,
+      GLenum const type,
+      GLvoid const * data);
+
     // Constructor, from file
     Texture(
       std::string const path,
@@ -47,21 +61,7 @@ namespace GLT {
       int const height,
       std::vector<unsigned char> const data);
 
-    // Constructor, from initialised handle
-    Texture(
-      GLuint const textureHandle);
-
-    // Constructor, full initialisation
-    Texture(
-      GLint const mipMapLevel,
-      GLint const internalFormat,
-      GLsizei const width,
-      GLsizei const height,
-      GLenum const format,
-      GLenum const type,
-      GLvoid const * data);
-
-    // Set texture data
+    // Set texture data, std::vector and raw pointer
     void SetData(
       int const width,
       int const height,
@@ -73,17 +73,17 @@ namespace GLT {
       unsigned char const * const data,
       unsigned const mipMapLevel = 0);
 
-    // Set texture integer parameter
-    void Parameteri(GLenum const pname, GLint const param);
-
-    // Bind and unbind the texture
-    void Bind() const;
-    void Unbind() const;
-
-    // Get the opengl handle
+    // Return the opengl handle
     GLuint GetGlHandle() const {return this->glHandle;}
 
-    // Destructor, uses reference count
+    // Binding control
+    void Bind() const;    // Bind this texture
+    void Unbind() const;  // Unbind this texture and restore previous binding
+
+    // Set texture parameters
+    void Parameteri(GLenum const pname, GLint const param);
+
+    // Reference counted destructor
     ~Texture();
   };
 

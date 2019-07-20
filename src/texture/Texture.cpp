@@ -32,6 +32,45 @@ void Texture::Init() {
 }
 
 
+// Constructor, from pre initialised GLuint
+Texture::Texture(GLuint const textureHandle) {
+  this->glHandle = textureHandle;
+}
+
+
+// Constructor, full initialisation
+Texture::Texture(
+  GLint const mipMapLevel,
+  GLint const internalFormat,
+  GLsizei const width,
+  GLsizei const height,
+  GLenum const format,
+  GLenum const type,
+  GLvoid const * data) {
+
+  // Generate and bind handle
+  glGenTextures(1, &this->glHandle);
+  this->Bind();
+
+  // Generate our texture
+  glTexImage2D(
+    GL_TEXTURE_2D,
+    mipMapLevel,
+    internalFormat,
+    width,
+    height,
+    0,
+    format,
+    type,
+    data);
+
+  // Use nearest neighbour filtering by default
+  this->Parameteri(GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+  this->Parameteri(GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+  this->Unbind();
+}
+
+
 // Constructor, loads the image from file
 Texture::Texture(
   std::string const path,
@@ -98,45 +137,6 @@ Texture::Texture(
 }
 
 
-// Constructor, from pre initialised GLuint
-Texture::Texture(GLuint const textureHandle) {
-  this->glHandle = textureHandle;
-}
-
-
-// Constructor, full initialisation
-Texture::Texture(
-  GLint const mipMapLevel,
-  GLint const internalFormat,
-  GLsizei const width,
-  GLsizei const height,
-  GLenum const format,
-  GLenum const type,
-  GLvoid const * data) {
-
-  // Generate and bind handle
-  glGenTextures(1, &this->glHandle);
-  this->Bind();
-
-  // Generate our texture
-  glTexImage2D(
-    GL_TEXTURE_2D,
-    mipMapLevel,
-    internalFormat,
-    width,
-    height,
-    0,
-    format,
-    type,
-    data);
-
-  // Use nearest neighbour filtering by default
-  this->Parameteri(GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-  this->Parameteri(GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-  this->Unbind();
-}
-
-
 // Set texture data from raw pointer
 void Texture::SetData(
   int const width,
@@ -144,9 +144,8 @@ void Texture::SetData(
   unsigned char const * const data,
   unsigned const mipMapLevel) {
 
-  this->Bind();
-
   // Texture data
+  this->Bind();
   glTexImage2D(
     GL_TEXTURE_2D,
     0, GL_RGB,
@@ -160,6 +159,7 @@ void Texture::SetData(
     glGenerateMipmap(GL_TEXTURE_2D);
   }
 
+  // Restore binding
   this->Unbind();
 }
 
