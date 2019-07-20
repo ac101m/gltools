@@ -16,7 +16,7 @@ ElementCache<std::string, Texture> Texture::fileCache;
 
 
 // Texture binding stack
-ElementStack<GLuint> Texture::bindStack;
+ElementStack<Texture> Texture::bindStack;
 
 
 // Initialise static members (cache and bind stack)
@@ -24,7 +24,7 @@ void Texture::Init() {
 
   // Initially the default texture is bound
   bindStack.Clear();
-  bindStack.Push(0);
+  bindStack.Push(GLT::Texture(0));
   glBindTexture(GL_TEXTURE_2D, 0);
 
   // Empty the texture cache
@@ -180,12 +180,12 @@ void Texture::SetData(
 void Texture::Bind() const {
 
   // If the currently bound texture is not this one, bind this texture
-  if(this->glHandle != bindStack.Top()) {
+  if(this->glHandle != bindStack.Top().GetGlHandle()) {
     glBindTexture(GL_TEXTURE_2D, this->glHandle);
   }
 
   // Push this textures glhandle onto the bind stack
-  bindStack.Push(this->glHandle);
+  bindStack.Push(*this);
 }
 
 
@@ -194,7 +194,7 @@ void Texture::Unbind() const {
 
   // Can't unbind a texture that isn't bound, without leaving the bind
   // stack in an invalid state
-  if(this->glHandle != bindStack.Top()) {
+  if(this->glHandle != bindStack.Top().GetGlHandle()) {
     std::cerr << "ERROR: Attempt to unbind already unbound texture\n";
     std::cerr << "Did you forget to unbind a texture somewhere?\n";
     exit(1);
@@ -204,8 +204,8 @@ void Texture::Unbind() const {
   bindStack.Pop();
 
   // If the last bound opengl handle was not this textures
-  if(bindStack.Top() != this->glHandle) {
-    glBindTexture(GL_TEXTURE_2D, bindStack.Top());
+  if(bindStack.Top().GetGlHandle() != this->glHandle) {
+    glBindTexture(GL_TEXTURE_2D, bindStack.Top().GetGlHandle());
   }
 }
 
