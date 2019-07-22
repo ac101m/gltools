@@ -50,23 +50,25 @@ namespace GLT {
 //====[METHODS]==============================================================//
 
     // Sets up the mesh opengl buffers
-    void GenBuffers(const std::vector<vertex_t>& vertices,
-                    const std::vector<unsigned>& indices);
+    void GenBuffers(
+      std::vector<vertex_t> const& vertices,
+      std::vector<unsigned> const& indices);
 
   public:
 
     // Constructors with context initialisation
     VertexBuffer();
-    VertexBuffer(const std::vector<vertex_t>& vertices,
-                 const std::vector<unsigned>& indices);
+    VertexBuffer(
+      std::vector<vertex_t> const& vertices,
+      std::vector<unsigned> const& indices);
 
     // Bind this vertex buffer
-    void Bind(void) {glBindVertexArray(this->vao);}
-    void Unbind(void) {glBindVertexArray(0);}
+    void Bind() {glBindVertexArray(this->vao);}
+    void Unbind() {glBindVertexArray(0);}
 
     // Get index and vertex counts
-    GLsizei GetIndexBufferLength(void) {return *(this->iBufLen);}
-    GLsizei GetVertexBufferLength(void) {return *(this->vBufLen);}
+    GLsizei GetIndexBufferLength() {return *(this->iBufLen);}
+    GLsizei GetVertexBufferLength() {return *(this->vBufLen);}
 
     // Destructor
     ~VertexBuffer();

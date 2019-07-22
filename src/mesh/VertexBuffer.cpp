@@ -3,8 +3,9 @@ using namespace GLT;
 
 
 // Sets up the mesh opengl buffers
-void VertexBuffer::GenBuffers(const std::vector<vertex_t>& vertices,
-                              const std::vector<unsigned>& indices) {
+void VertexBuffer::GenBuffers(
+  std::vector<vertex_t> const& vertices,
+  std::vector<unsigned> const& indices) {
 
   // Create vertex array object buffer
   glGenVertexArrays(1, &this->vao);
@@ -57,7 +58,7 @@ void VertexBuffer::GenBuffers(const std::vector<vertex_t>& vertices,
 
 
 // Blank constructor, no data
-VertexBuffer::VertexBuffer(void) {
+VertexBuffer::VertexBuffer() {
   this->vao = this->vbo = this->ebo = 0;
   this->vBufLen = new GLsizei(0);
   this->iBufLen = new GLsizei(0);
@@ -65,8 +66,9 @@ VertexBuffer::VertexBuffer(void) {
 
 
 // Initialise vertex positions
-VertexBuffer::VertexBuffer(const std::vector<vertex_t>& vertices,
-                           const std::vector<unsigned>& indices) {
+VertexBuffer::VertexBuffer(
+  std::vector<vertex_t> const& vertices,
+  std::vector<unsigned> const& indices) {
 
   this->GenBuffers(vertices, indices);
   this->vBufLen = new GLsizei(vertices.size());
@@ -75,7 +77,7 @@ VertexBuffer::VertexBuffer(const std::vector<vertex_t>& vertices,
 
 
 // Destructor with reference count
-VertexBuffer::~VertexBuffer(void) {
+VertexBuffer::~VertexBuffer() {
   if(!this->ReferencedElsewhere()) {
     if(this->vao) glDeleteVertexArrays(1, &this->vao);
     if(this->vbo) glDeleteBuffers(1, &this->vbo);
