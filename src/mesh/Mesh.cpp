@@ -24,7 +24,7 @@ Mesh::Mesh(std::vector<vertex_t> vertices,
 
 
 // Compute tangents
-void Mesh::GenTangentSpaceBasis(void) {
+void Mesh::GenTangentSpaceBasis() {
 
   // Clear vertex tangents and bitangents
   for(unsigned i = 0; i < this->vertices.size(); i++) {
@@ -63,7 +63,7 @@ void Mesh::GenTangentSpaceBasis(void) {
 
 
 // Auto generate normals
-void Mesh::AutoGenerateNormals(void) {
+void Mesh::AutoGenerateNormals() {
 
   // Reset vertex normals
   for(unsigned i = 0; i < this->vertices.size(); i++) {
@@ -94,7 +94,7 @@ void Mesh::AutoGenerateNormals(void) {
 
 
 // Print all the things
-void Mesh::Print(void) {
+void Mesh::Print() {
   vertex_t *v[3];
   for(unsigned i = 0; i < this->indices.size(); i += 3) {
     std::cout << "[POLY " << i / 3 << "][INDEX " << "" << "]\n";
