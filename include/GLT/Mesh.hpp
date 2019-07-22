@@ -89,9 +89,6 @@ namespace GLT {
 
 //====[METHODS]==============================================================//
 
-    // Common initialisation
-    void Init();
-
     // Generate tangent basis, assumes valid normals
     void GenTangentSpaceBasis();
 
@@ -100,13 +97,15 @@ namespace GLT {
 
   public:
 
-    // Initialise geometry and indices
+    // Initialise without indices
     Mesh(std::vector<vertex_t> vertices);
+
+    // Initialise with indices and textures
     Mesh(std::vector<vertex_t> vertices,
          std::vector<unsigned> indices,
          std::vector<Texture> textures);
 
-    // Generate normals
+    // Generate normals and tangent space basis
     void AutoGenerateNormals();
 
     // Yes, really

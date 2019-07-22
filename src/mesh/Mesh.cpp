@@ -3,22 +3,28 @@ using namespace GLT;
 
 
 // Constructor, with automatic indices
-Mesh::Mesh(std::vector<vertex_t> vertices) {
-  this->vertices = vertices;
-  this->indices.reserve(vertices.size());
-  for(unsigned i = 0; i < this->vertices.size(); i++) {
-    this->indices.push_back(i);
+Mesh::Mesh(std::vector<vertex_t> vertices) :
+  vertices(vertices) {
+
+  // Initialise indices, assume each triplet of vertices represents a triangle
+  this->indices = std::vector<unsigned>(vertices.size());
+  for(unsigned i = 0; i < this->indices.size(); i++) {
+    this->indices[i] = i;
   }
+
+  // Construct vertex buffer from mesh vertices
   this->vertexBuffer = VertexBuffer(this->vertices, this->indices);
 }
 
 
 // Construct the mesh
-Mesh::Mesh(std::vector<vertex_t> vertices,
-           std::vector<unsigned> indices,
-           std::vector<Texture> textures) :
-           vertices(vertices), indices(indices), textures(textures) {
+Mesh::Mesh(
+  std::vector<vertex_t> vertices,
+  std::vector<unsigned> indices,
+  std::vector<Texture> textures) :
+  vertices(vertices), indices(indices), textures(textures) {
 
+  // Construct vertex buffer from mesh vertices
   this->vertexBuffer = VertexBuffer(this->vertices, this->indices);
 }
 
