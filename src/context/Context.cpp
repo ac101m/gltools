@@ -9,6 +9,7 @@ using namespace GLT;
 
 // This project headers
 #include <GLT/Texture.hpp>
+#include <GLT/Buffer.hpp>
 
 
 // Context object, manages termination of glfw at program exit
@@ -65,6 +66,7 @@ void Context::InitGLT(void) {
 
   // Initialise GLT stuff
   Texture::Init();
+  Buffer::Init();
 }
 
 
