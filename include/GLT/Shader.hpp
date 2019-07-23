@@ -1,9 +1,9 @@
-#ifndef _GLT_SHADER_INCLUDED
-#define _GLT_SHADER_INCLUDED
+#ifndef GLT_SHADER_INCLUDED
+#define GLT_SHADER_INCLUDED
 
 
 // This project
-#ifndef _GLT_MASTER_INCLUDED
+#ifndef GLT_MASTER_INCLUDED
 #include <GLT/Master.hpp>
 #endif
 #include <GLT/RefCount.hpp>
@@ -55,4 +55,4 @@ namespace GLT {
 } // namespace GLT
 
 
-#endif // _GLT_SHADER_INCLUDED
+#endif // GLT_SHADER_INCLUDED

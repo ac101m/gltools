@@ -1,5 +1,5 @@
-#ifndef _GLT_CAMERA_INCLUDED
-#define _GLT_CAMERA_INCLUDED
+#ifndef GLT_CAMERA_INCLUDED
+#define GLT_CAMERA_INCLUDED
 
 
 // Matrix math
@@ -79,4 +79,4 @@ namespace GLT {
 
 } // namespace GLT
 
-#endif // _GLT_CAMERA_INCLUDED
+#endif // GLT_CAMERA_INCLUDED

@@ -1,9 +1,9 @@
-#ifndef _GLT_TEXTURE_INCLUDED
-#define _GLT_TEXTURE_INCLUDED
+#ifndef GLT_TEXTURE_INCLUDED
+#define GLT_TEXTURE_INCLUDED
 
 
 // This project
-#ifndef _GLT_MASTER_INCLUDED
+#ifndef GLT_MASTER_INCLUDED
 #include <GLT/Master.hpp>
 #endif
 #include <GLT/RefCount.hpp>
@@ -90,4 +90,4 @@ namespace GLT {
 } // namespace GLT
 
 
-#endif // _GLT_TEXTURE_INCLUDED
+#endif // GLT_TEXTURE_INCLUDED

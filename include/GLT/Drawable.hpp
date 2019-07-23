@@ -1,9 +1,9 @@
-#ifndef _GLT_DRAWABLE_INCLUDED
-#define _GLT_DRAWABLE_INCLUDED
+#ifndef GLT_DRAWABLE_INCLUDED
+#define GLT_DRAWABLE_INCLUDED
 
 
 // This project
-#ifndef _GLT_MASTER_INCLUDED
+#ifndef GLT_MASTER_INCLUDED
 #include <GLT/Master.hpp>
 #endif
 #include <GLT/Camera.hpp>
@@ -23,4 +23,4 @@ namespace GLT {
 } // namespace GLT
 
 
-#endif // _GLT_DRAWABLE_INCLUDED
+#endif // GLT_DRAWABLE_INCLUDED

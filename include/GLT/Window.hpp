@@ -1,9 +1,9 @@
-#ifndef _GLT_WINDOW_INCLUDED
-#define _GLT_WINDOW_INCLUDED
+#ifndef GLT_WINDOW_INCLUDED
+#define GLT_WINDOW_INCLUDED
 
 
 // This project
-#ifndef _GLT_MASTER_INCLUDED
+#ifndef GLT_MASTER_INCLUDED
 #include <GLT/Master.hpp>
 #endif
 #include <GLT/Camera.hpp>
@@ -125,4 +125,4 @@ namespace GLT {
 
 } // namespace GLT
 
-#endif // _GLT_CONTEXT_INCLUDED
+#endif // GLT_CONTEXT_INCLUDED

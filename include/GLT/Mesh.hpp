@@ -1,9 +1,9 @@
-#ifndef _GLT_MESH_INCLUDED
-#define _GLT_MESH_INCLUDED
+#ifndef GLT_MESH_INCLUDED
+#define GLT_MESH_INCLUDED
 
 
 // This project
-#ifndef _GLT_MASTER_INCLUDED
+#ifndef GLT_MASTER_INCLUDED
 #include <GLT/Master.hpp>
 #endif
 #include <GLT/RefCount.hpp>
@@ -117,4 +117,4 @@ namespace GLT {
 
 } // namespace GLT
 
-#endif // _GLT_MESH_HPP
+#endif // GLT_MESH_INCLUDED

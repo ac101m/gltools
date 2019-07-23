@@ -1,9 +1,9 @@
-#ifndef _GLT_ELEMENT_CACHE_INCLUDED
-#define _GLT_ELEMENT_CACHE_INCLUDED
+#ifndef GLT_ELEMENT_CACHE_INCLUDED
+#define GLT_ELEMENT_CACHE_INCLUDED
 
 
 // This project
-#ifndef _GLT_MASTER_INCLUDED
+#ifndef GLT_MASTER_INCLUDED
 #include <GLT/Master.hpp>
 #endif
 
@@ -58,4 +58,4 @@ namespace GLT {
 }
 
 
-#endif // _GLT_ELEMENT_CACHE_INCLUDED
+#endif // GLT_ELEMENT_CACHE_INCLUDED

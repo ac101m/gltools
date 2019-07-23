@@ -1,9 +1,9 @@
-#ifndef _GLT_RENDER_BEHAVIOUR_INCLUDED
-#define _GLT_RENDER_BEHAVIOUR_INCLUDED
+#ifndef GLT_RENDER_BEHAVIOUR_INCLUDED
+#define GLT_RENDER_BEHAVIOUR_INCLUDED
 
 
 // This project
-#ifndef _GLT_MASTER_INCLUDED
+#ifndef GLT_MASTER_INCLUDED
 #include <GLT/Master.hpp>
 #endif
 #include <GLT/Context.hpp>
@@ -47,4 +47,4 @@ namespace GLT {
 } // namespace GLT
 
 
-#endif // _GLT_RENDER_BEHAVIOUR_INCLUDED
+#endif // GLT_RENDER_BEHAVIOUR_INCLUDED

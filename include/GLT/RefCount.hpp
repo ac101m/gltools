@@ -1,5 +1,5 @@
-#ifndef _GLT_REF_COUNT_INCLUDED
-#define _GLT_REF_COUNT_INCLUDED
+#ifndef GLT_REF_COUNT_INCLUDED
+#define GLT_REF_COUNT_INCLUDED
 
 
 namespace GLT {
@@ -37,4 +37,4 @@ namespace GLT {
 } // namespace GLT
 
 
-#endif /// _GLT_REF_COUNT_INCLUDED
+#endif // GLT_REF_COUNT_INCLUDED

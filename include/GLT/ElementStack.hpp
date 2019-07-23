@@ -1,9 +1,9 @@
-#ifndef _GLT_ELEMENT_STACK_INCLUDED
-#define _GLT_ELEMENT_STACK_INCLUDED
+#ifndef GLT_ELEMENT_STACK_INCLUDED
+#define GLT_ELEMENT_STACK_INCLUDED
 
 
 // This project
-#ifndef _GLT_MASTER_INCLUDED
+#ifndef GLT_MASTER_INCLUDED
 #include <GLT/Master.hpp>
 #endif
 
@@ -56,4 +56,4 @@ namespace GLT {
 } // namespace GLT
 
 
-#endif // _GLT_ELEMENT_STACK_INCLUDED
+#endif // GLT_ELEMENT_STACK_INCLUDED

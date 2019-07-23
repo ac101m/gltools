@@ -1,9 +1,9 @@
-#ifndef _GLT_CUBE_MAP_INCLUDED
-#define _GLT_CUBE_MAP_INCLUDED
+#ifndef GLT_CUBE_MAP_INCLUDED
+#define GLT_CUBE_MAP_INCLUDED
 
 
 // This project
-#ifndef _GLT_MASTER_INCLUDED
+#ifndef GLT_MASTER_INCLUDED
 #include <GLT/Master.hpp>
 #endif
 #include <GLT/Drawable.hpp>
@@ -45,4 +45,4 @@ namespace GLT {
 }
 
 
-#endif // _GLT_CUBE_MAP_INCLUDED
+#endif // GLT_CUBE_MAP_INCLUDED
