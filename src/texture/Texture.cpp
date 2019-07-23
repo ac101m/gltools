@@ -175,8 +175,7 @@ void Texture::SetData(
 }
 
 
-// Bind texture and add it to the top of the bind stack
-// Call glBindTexture if appropriate
+// Bind this texture and remember the state of the current binding
 void Texture::Bind() const {
 
   // If the currently bound texture is not this one, bind this texture
@@ -184,26 +183,25 @@ void Texture::Bind() const {
     glBindTexture(GL_TEXTURE_2D, this->glHandle);
   }
 
-  // Push this textures glhandle onto the bind stack
+  // Push this textures object onto the bind stack
   bindStack.Push(*this);
 }
 
 
-// Unbind texture and bind the last thing that was bound
+// Restore the texture bind target to its previous state
 void Texture::Unbind() const {
 
-  // Can't unbind a texture that isn't bound, without leaving the bind
-  // stack in an invalid state
+  // Can't unbind object that isn't currently bound without breaking stuff
   if(this->glHandle != bindStack.Top().GetGlHandle()) {
     std::cerr << "ERROR: Attempt to unbind already unbound texture\n";
-    std::cerr << "Did you forget to unbind a texture somewhere?\n";
+    std::cerr << "Did you forget to call unbind?\n";
     exit(1);
   }
 
-  // Pop this textures opengl handle off the bind stack
+  // Pop this texture off the bind stack
   bindStack.Pop();
 
-  // If the last bound opengl handle was not this textures
+  // Restore the previous binding
   if(bindStack.Top().GetGlHandle() != this->glHandle) {
     glBindTexture(GL_TEXTURE_2D, bindStack.Top().GetGlHandle());
   }
