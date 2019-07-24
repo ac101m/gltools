@@ -57,6 +57,10 @@ void VertexBuffer::GenBuffers(
   // Unbind vertex and index buffers
   this->vertexBuffer.Unbind(GL_ARRAY_BUFFER);
   this->indexBuffer.Unbind(GL_ELEMENT_ARRAY_BUFFER);
+
+  // Update vertex buffer element counts
+  *(this->vBufLen) = vertices.size();
+  *(this->iBufLen) = vertices.suze();
 }
 
 
@@ -73,9 +77,9 @@ VertexBuffer::VertexBuffer(
   std::vector<vertex_t> const& vertices,
   std::vector<unsigned> const& indices) {
 
+  this->vBufLen = new GLsizei(0);
+  this->iBufLen = new GLsizei(0);
   this->GenBuffers(vertices, indices);
-  this->vBufLen = new GLsizei(vertices.size());
-  this->iBufLen = new GLsizei(indices.size());
 }
 
 
