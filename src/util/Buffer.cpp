@@ -36,10 +36,12 @@ void Buffer::Init() {
   // GL_ARRAY_BUFFER
   bindStack_GL_ARRAY_BUFFER = ElementStack<Buffer>();
   bindStack_GL_ARRAY_BUFFER.Push(Buffer(0));
+  glBindBuffer(GL_ARRAY_BUFFER, 0);
 
   // GL_ELEMENT_ARRAY_BUFFER
   bindStack_GL_ELEMENT_ARRAY_BUFFER = ElementStack<Buffer>();
   bindStack_GL_ELEMENT_ARRAY_BUFFER.Push(Buffer(0));
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
 
