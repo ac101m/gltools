@@ -83,5 +83,7 @@ VertexBuffer::VertexBuffer(
 VertexBuffer::~VertexBuffer() {
   if(!this->ReferencedElsewhere()) {
     glDeleteVertexArrays(1, &this->vao);
+    delete this->vBufLen;
+    delete this->iBufLen;
   }
 }
