@@ -41,7 +41,7 @@ namespace GLT {
     static void Init();
 
     // Constructor, direct from GLuint
-    Buffer(GLuint const glHandle) : glHandle(glHandle) {}
+    Buffer(GLuint const glHandle = 0) : glHandle(glHandle) {}
 
     // Loads data into the GL buffer
     template <class T>
@@ -63,8 +63,8 @@ namespace GLT {
       std::vector<T> const data,
       GLenum const usageHint = defaultUsageHint) {
 
-      glGenBuffers(1, &this->glHandle);
-      this->SetData<T>(data);
+      glCreateBuffers(1, &this->glHandle);
+      this->SetData<T>(data, usageHint);
     }
 
     // Get the underlying opengl handle
