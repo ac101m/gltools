@@ -11,55 +11,58 @@ void VertexBuffer::GenBuffers(
   glGenVertexArrays(1, &this->vao);
   glBindVertexArray(this->vao);
 
-  // Set up vertex buffer
-  glGenBuffers(1, &this->vbo);
-  glBindBuffer(GL_ARRAY_BUFFER, this->ebo);
-  glBufferData(GL_ARRAY_BUFFER,
-               vertices.size() * sizeof(vertex_t),
-               &vertices[0],
-               GL_STATIC_DRAW);
+  // Create vertex buffer object
+  this->vertexBuffer = Buffer(vertices, GL_STATIC_DRAW);
+  this->vertexBuffer.Bind(GL_ARRAY_BUFFER);
 
-  // Set up index buffer
-  glGenBuffers(1, &this->ebo);
-  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->ebo);
-  glBufferData(GL_ELEMENT_ARRAY_BUFFER,
-               indices.size() * sizeof(unsigned),
-               &indices[0],
-               GL_STATIC_DRAW);
+  // Create index buffer object
+  this->indexBuffer = Buffer(indices, GL_STATIC_DRAW);
+  this->indexBuffer.Bind(GL_ELEMENT_ARRAY_BUFFER);
+
+  // Enable vertex attribute arrays
+  glEnableVertexAttribArray(0);
+  glEnableVertexAttribArray(1);
+  glEnableVertexAttribArray(2);
+  glEnableVertexAttribArray(3);
+  glEnableVertexAttribArray(4);
 
   // Vertex positions
-  glEnableVertexAttribArray(0);
-  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE,
-                        sizeof(vertex_t), (void*)0);
+  glVertexAttribPointer(
+    0, 3, GL_FLOAT, GL_FALSE,
+    sizeof(vertex_t), (void*)0);
 
   // Vertex uvs
-  glEnableVertexAttribArray(1);
-  glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE,
-                        sizeof(vertex_t), (void*)offsetof(vertex_t, uv));
+  glVertexAttribPointer(
+    1, 2, GL_FLOAT, GL_FALSE,
+    sizeof(vertex_t), (void*)offsetof(vertex_t, uv));
 
   // Vertex normals
-  glEnableVertexAttribArray(2);
-  glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE,
-                        sizeof(vertex_t), (void*)offsetof(vertex_t, normal));
+  glVertexAttribPointer(
+    2, 3, GL_FLOAT, GL_FALSE,
+    sizeof(vertex_t), (void*)offsetof(vertex_t, normal));
 
   // Vertex tangents
-  glEnableVertexAttribArray(3);
-  glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE,
-                        sizeof(vertex_t), (void*)offsetof(vertex_t, tangent));
+  glVertexAttribPointer(
+    3, 3, GL_FLOAT, GL_FALSE,
+    sizeof(vertex_t), (void*)offsetof(vertex_t, tangent));
 
   // Vertex bitangents
-  glEnableVertexAttribArray(4);
-  glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE,
-                        sizeof(vertex_t), (void*)offsetof(vertex_t, bitangent));
+  glVertexAttribPointer(
+    4, 3, GL_FLOAT, GL_FALSE,
+    sizeof(vertex_t), (void*)offsetof(vertex_t, bitangent));
 
-  // Unbind the vertex array
+  // Unbind the vertex array object handle
   glBindVertexArray(0);
+
+  // Unbind vertex and index buffers
+  this->vertexBuffer.Unbind(GL_ARRAY_BUFFER);
+  this->indexBuffer.Unbind(GL_ELEMENT_ARRAY_BUFFER);
 }
 
 
 // Blank constructor, no data
 VertexBuffer::VertexBuffer() {
-  this->vao = this->vbo = this->ebo = 0;
+  this->vao = 0;
   this->vBufLen = new GLsizei(0);
   this->iBufLen = new GLsizei(0);
 }
@@ -79,8 +82,6 @@ VertexBuffer::VertexBuffer(
 // Destructor with reference count
 VertexBuffer::~VertexBuffer() {
   if(!this->ReferencedElsewhere()) {
-    if(this->vao) glDeleteVertexArrays(1, &this->vao);
-    if(this->vbo) glDeleteBuffers(1, &this->vbo);
-    if(this->ebo) glDeleteBuffers(1, &this->ebo);
+    glDeleteVertexArrays(1, &this->vao);
   }
 }
