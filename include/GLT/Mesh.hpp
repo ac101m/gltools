@@ -10,6 +10,7 @@
 #include <GLT/ShaderProgram.hpp>
 #include <GLT/Drawable.hpp>
 #include <GLT/Texture.hpp>
+#include <GLT/Buffer.hpp>
 
 
 // Standard
@@ -40,8 +41,12 @@ namespace GLT {
   class VertexBuffer : public RefCount {
   private:
 
-    // OpenGL handles
-    GLuint vao, vbo, ebo;
+    // Vertex array object handle
+    GLuint vao;
+
+    // Vertex and index buffers
+    Buffer vertexBuffer;
+    Buffer indexBuffer;
 
     // Buffer lengths
     GLsizei* vBufLen;
