@@ -42,7 +42,7 @@ namespace GLT {
   private:
 
     // Vertex array object handle
-    GLuint vao;
+    GLuint glHandle;
 
     // Vertex and index buffers
     Buffer vertexBuffer;
@@ -51,6 +51,9 @@ namespace GLT {
     // Buffer lengths
     GLsizei* vBufLen;
     GLsizei* iBufLen;
+
+    // vertex array bind stack
+    static ElementStack<VertexBuffer> bindStack;
 
 //====[METHODS]==============================================================//
 
@@ -61,15 +64,21 @@ namespace GLT {
 
   public:
 
+    // Initialise bind stacks
+    static void Init();
+
     // Constructors with context initialisation
     VertexBuffer();
     VertexBuffer(
       std::vector<vertex_t> const& vertices,
       std::vector<unsigned> const& indices);
 
+    // Return
+    GLuint GetGlHandle() {return glHandle;}
+
     // Bind this vertex buffer
-    void Bind() {glBindVertexArray(this->vao);}
-    void Unbind() {glBindVertexArray(0);}
+    void Bind();
+    void Unbind();
 
     // Get index and vertex counts
     GLsizei GetIndexBufferLength() {return *(this->iBufLen);}

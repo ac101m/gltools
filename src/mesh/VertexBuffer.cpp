@@ -2,14 +2,26 @@
 using namespace GLT;
 
 
+// Vertex array bind stack
+ElementStack<VertexBuffer> VertexBuffer::bindStack;
+
+
+// Vertex array bind stack initialisation
+void VertexBuffer::Init() {
+  bindStack.Clear();
+  bindStack.Push(GLT::VertexBuffer());
+  glBindVertexArray(0);
+}
+
+
 // Sets up the mesh opengl buffers
 void VertexBuffer::GenBuffers(
   std::vector<vertex_t> const& vertices,
   std::vector<unsigned> const& indices) {
 
   // Create vertex array object buffer
-  glGenVertexArrays(1, &this->vao);
-  glBindVertexArray(this->vao);
+  glGenVertexArrays(1, &this->glHandle);
+  this->Bind();
 
   // Create vertex buffer object
   this->vertexBuffer = Buffer(vertices, GL_STATIC_DRAW);
@@ -52,7 +64,7 @@ void VertexBuffer::GenBuffers(
     sizeof(vertex_t), (void*)offsetof(vertex_t, bitangent));
 
   // Unbind the vertex array object handle
-  glBindVertexArray(0);
+  this->Unbind();
 
   // Unbind vertex and index buffers
   this->vertexBuffer.Unbind(GL_ARRAY_BUFFER);
@@ -66,7 +78,7 @@ void VertexBuffer::GenBuffers(
 
 // Blank constructor, no data
 VertexBuffer::VertexBuffer() {
-  this->vao = 0;
+  this->glHandle = 0;
   this->vBufLen = new GLsizei(0);
   this->iBufLen = new GLsizei(0);
 }
@@ -83,10 +95,43 @@ VertexBuffer::VertexBuffer(
 }
 
 
+// Bind and remember state of current binding
+void VertexBuffer::Bind() {
+
+  // If the currently bound object is not this one, bind this texture
+  if(this->glHandle != bindStack.Top().GetGlHandle()) {
+    glBindVertexArray(this->glHandle);
+  }
+
+  // Push this object onto the bind stack
+  bindStack.Push(*this);
+}
+
+
+// Restore the bind target to its previous state
+void VertexBuffer::Unbind() {
+
+  // Can't unbind object that isn't currently bound without breaking stuff
+  if(this->glHandle != bindStack.Top().GetGlHandle()) {
+    std::cerr << "ERROR: Attempt to unbind already unbound vertex buffer\n";
+    std::cerr << "Did you forget to call unbind?\n";
+    exit(1);
+  }
+
+  // Pop this object off the bind stack
+  bindStack.Pop();
+
+  // Restore the previous binding
+  if(bindStack.Top().GetGlHandle() != this->glHandle) {
+    glBindVertexArray(bindStack.Top().GetGlHandle());
+  }
+}
+
+
 // Destructor with reference count
 VertexBuffer::~VertexBuffer() {
   if(!this->ReferencedElsewhere()) {
-    glDeleteVertexArrays(1, &this->vao);
+    glDeleteVertexArrays(1, &this->glHandle);
     delete this->vBufLen;
     delete this->iBufLen;
   }
