@@ -72,7 +72,7 @@ void VertexBuffer::GenBuffers(
 
   // Update vertex buffer element counts
   *(this->vBufLen) = vertices.size();
-  *(this->iBufLen) = vertices.size();
+  *(this->iBufLen) = indices.size();
 }
 
 
