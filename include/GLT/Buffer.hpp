@@ -52,8 +52,8 @@ namespace GLT {
       // Load data into buffer
       glNamedBufferData(
         this->glHandle,
-        sizeof(T) * data.size(),
-        (void*)data.data(),
+        data.size() * sizeof(T),
+        data.data(),
         usageHint);
     }
 
