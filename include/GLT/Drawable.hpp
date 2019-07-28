@@ -4,10 +4,10 @@
 
 // This project
 #ifndef GLT_MASTER_INCLUDED
-#include <GLT/Master.hpp>
+#include "GLT/Master.hpp"
 #endif
-#include <GLT/Camera.hpp>
-#include <GLT/ShaderProgram.hpp>
+#include "GLT/Camera.hpp"
+#include "GLT/ShaderProgram.hpp"
 
 
 namespace GLT {
