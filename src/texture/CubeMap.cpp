@@ -3,7 +3,7 @@ using namespace GLT;
 
 
 // Image loading
-#include "GLT/stb_image.h"
+#include "GLT/Extern/stb_image.h"
 
 
 // Standard

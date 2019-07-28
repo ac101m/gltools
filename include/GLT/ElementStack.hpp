@@ -4,7 +4,7 @@
 
 // This project
 #ifndef GLT_GL_INCLUDED
-#include "GLT/GL.hpp"
+#include "GLT/Extern/GL.hpp"
 #endif
 
 
