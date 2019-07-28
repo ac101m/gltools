@@ -1,9 +1,9 @@
-#include <GLT/CubeMap.hpp>
+#include "GLT/CubeMap.hpp"
 using namespace GLT;
 
 
 // Image loading
-#include <GLT/stb_image.h>
+#include "GLT/stb_image.h"
 
 
 // Standard
