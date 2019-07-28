@@ -1,10 +1,10 @@
-#include <GLT/Camera.hpp>
+#include "GLT/Camera.hpp"
 using namespace GLT;
 
 
 // Experimental
 #define GLM_ENABLE_EXPERIMENTAL
-#include <glm/gtx/rotate_vector.hpp>
+#include "glm/gtx/rotate_vector.hpp"
 
 
 // Standard
