@@ -4,7 +4,7 @@ DEBUG_EXEC ?= bin/test/gltools-debug
 
 # Output libraries
 LIB_INSTALL_PATH ?= bin/install
-LIB_HEADER_PATH ?= include/GLT/
+LIB_HEADER_PATH ?= include/GLT
 STATIC_LIB ?= $(LIB_INSTALL_PATH)/libgltools.a
 SHARED_LIB ?= $(LIB_INSTALL_PATH)/libgltools.so
 
