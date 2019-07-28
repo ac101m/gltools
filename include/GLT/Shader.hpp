@@ -3,8 +3,8 @@
 
 
 // This project
-#ifndef GLT_MASTER_INCLUDED
-#include "GLT/Master.hpp"
+#ifndef GLT_GL_INCLUDED
+#include "GLT/GL.hpp"
 #endif
 #include "GLT/RefCount.hpp"
 

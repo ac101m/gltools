@@ -1,5 +1,5 @@
-#ifndef GLT_MASTER_INCLUDED
-#define GLT_MASTER_INCLUDED
+#ifndef GLT_GL_INCLUDED
+#define GLT_GL_INCLUDED
 
 
 // Include GLEW and glfw in the correct order
@@ -7,4 +7,4 @@
 #include "GLFW/glfw3.h"
 
 
-#endif // GLT_MASTER_INCLUDED
+#endif // GLT_GL_INCLUDED
