@@ -4,13 +4,13 @@
 
 // This project
 #ifndef GLT_MASTER_INCLUDED
-#include <GLT/Master.hpp>
+#include "GLT/Master.hpp"
 #endif
-#include <GLT/RefCount.hpp>
-#include <GLT/ShaderProgram.hpp>
-#include <GLT/Drawable.hpp>
-#include <GLT/Texture.hpp>
-#include <GLT/Buffer.hpp>
+#include "GLT/RefCount.hpp"
+#include "GLT/ShaderProgram.hpp"
+#include "GLT/Drawable.hpp"
+#include "GLT/Texture.hpp"
+#include "GLT/Buffer.hpp"
 
 
 // Standard
