@@ -3,19 +3,19 @@ using namespace GLT;
 
 
 // Vertex array bind stack
-ElementStack<VertexBuffer> VertexBuffer::bindStack;
+ElementStack<VertexArray> VertexArray::bindStack;
 
 
 // Vertex array bind stack initialisation
-void VertexBuffer::Init() {
+void VertexArray::Init() {
   bindStack.Clear();
-  bindStack.Push(GLT::VertexBuffer());
+  bindStack.Push(GLT::VertexArray());
   glBindVertexArray(0);
 }
 
 
 // Sets up the mesh opengl buffers
-void VertexBuffer::GenBuffers(
+void VertexArray::GenBuffers(
   std::vector<vertex_t> const& vertices,
   std::vector<unsigned> const& indices) {
 
@@ -77,7 +77,7 @@ void VertexBuffer::GenBuffers(
 
 
 // Blank constructor, no data
-VertexBuffer::VertexBuffer() {
+VertexArray::VertexArray() {
   this->glHandle = 0;
   this->vBufLen = new GLsizei(0);
   this->iBufLen = new GLsizei(0);
@@ -85,7 +85,7 @@ VertexBuffer::VertexBuffer() {
 
 
 // Initialise vertex positions
-VertexBuffer::VertexBuffer(
+VertexArray::VertexArray(
   std::vector<vertex_t> const& vertices,
   std::vector<unsigned> const& indices) {
 
@@ -96,7 +96,7 @@ VertexBuffer::VertexBuffer(
 
 
 // Bind and remember state of current binding
-void VertexBuffer::Bind() {
+void VertexArray::Bind() {
 
   // If the currently bound object is not this one, bind this texture
   if(this->glHandle != bindStack.Top().GetGlHandle()) {
@@ -109,7 +109,7 @@ void VertexBuffer::Bind() {
 
 
 // Restore the bind target to its previous state
-void VertexBuffer::Unbind() {
+void VertexArray::Unbind() {
 
   // Can't unbind object that isn't currently bound without breaking stuff
   if(this->glHandle != bindStack.Top().GetGlHandle()) {
@@ -129,7 +129,7 @@ void VertexBuffer::Unbind() {
 
 
 // Destructor with reference count
-VertexBuffer::~VertexBuffer() {
+VertexArray::~VertexArray() {
   if(!this->ReferencedElsewhere()) {
     glDeleteVertexArrays(1, &this->glHandle);
     delete this->vBufLen;

@@ -38,7 +38,7 @@ namespace GLT {
 
 
   // Container class for vertex buffer
-  class VertexBuffer : public RefCount {
+  class VertexArray : public RefCount {
   private:
 
     // Vertex array object handle
@@ -53,7 +53,7 @@ namespace GLT {
     GLsizei* iBufLen;
 
     // vertex array bind stack
-    static ElementStack<VertexBuffer> bindStack;
+    static ElementStack<VertexArray> bindStack;
 
 //====[METHODS]==============================================================//
 
@@ -68,8 +68,8 @@ namespace GLT {
     static void Init();
 
     // Constructors with context initialisation
-    VertexBuffer();
-    VertexBuffer(
+    VertexArray();
+    VertexArray(
       std::vector<vertex_t> const& vertices,
       std::vector<unsigned> const& indices);
 
@@ -85,7 +85,7 @@ namespace GLT {
     GLsizei GetVertexBufferLength() {return *(this->vBufLen);}
 
     // Destructor
-    ~VertexBuffer();
+    ~VertexArray();
   };
 
 
@@ -99,7 +99,7 @@ namespace GLT {
     std::vector<Texture> textures;
 
     // Vertex buffer
-    VertexBuffer vertexBuffer;
+    VertexArray vertexBuffer;
 
 //====[METHODS]==============================================================//
 

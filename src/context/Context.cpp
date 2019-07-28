@@ -68,7 +68,7 @@ void Context::InitGLT(void) {
   // Initialise GLT stuff
   Texture::Init();
   Buffer::Init();
-  VertexBuffer::Init();
+  VertexArray::Init();
 }
 
 

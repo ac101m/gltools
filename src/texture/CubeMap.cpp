@@ -99,7 +99,7 @@ CubeMap::CubeMap(std::vector<std::string> const texPaths) {
    }
 
    // Build the vertex buffer and gl cube map
-   this->vertexBuffer = VertexBuffer(vertices, indices);
+   this->vertexBuffer = VertexArray(vertices, indices);
    this->LoadTextures(texPaths);
 }
 

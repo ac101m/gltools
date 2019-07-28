@@ -13,7 +13,7 @@ Mesh::Mesh(std::vector<vertex_t> vertices) :
   }
 
   // Construct vertex buffer from mesh vertices
-  this->vertexBuffer = VertexBuffer(this->vertices, this->indices);
+  this->vertexBuffer = VertexArray(this->vertices, this->indices);
 }
 
 
@@ -25,7 +25,7 @@ Mesh::Mesh(
   vertices(vertices), indices(indices), textures(textures) {
 
   // Construct vertex buffer from mesh vertices
-  this->vertexBuffer = VertexBuffer(this->vertices, this->indices);
+  this->vertexBuffer = VertexArray(this->vertices, this->indices);
 }
 
 
@@ -95,7 +95,7 @@ void Mesh::AutoGenerateNormals() {
   this->GenTangentSpaceBasis();
 
   // Regenerate the vertex buffer
-  this->vertexBuffer = VertexBuffer(this->vertices, this->indices);
+  this->vertexBuffer = VertexArray(this->vertices, this->indices);
 }
 
 

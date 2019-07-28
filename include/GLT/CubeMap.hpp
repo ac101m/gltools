@@ -22,7 +22,7 @@ namespace GLT {
   private:
 
     // Vertex and cubemap handles
-    VertexBuffer vertexBuffer;
+    VertexArray vertexBuffer;
     GLuint glHandle;
 
 //====[METHODS]==============================================================//
