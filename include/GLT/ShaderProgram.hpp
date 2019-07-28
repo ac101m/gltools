@@ -4,12 +4,12 @@
 
 // This project
 #ifndef GLT_MASTER_INCLUDED
-#include <GLT/Master.hpp>
+#include "GLT/Master.hpp"
 #endif
-#include <GLT/Texture.hpp>
-#include <GLT/Shader.hpp>
-#include <GLT/RefCount.hpp>
-#include <GLT/ElementCache.hpp>
+#include "GLT/Texture.hpp"
+#include "GLT/Shader.hpp"
+#include "GLT/RefCount.hpp"
+#include "GLT/ElementCache.hpp"
 
 
 // Standard
