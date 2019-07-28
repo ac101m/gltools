@@ -6,9 +6,9 @@
 #ifndef GLT_GL_INCLUDED
 #include "GLT/Extern/GL.hpp"
 #endif
-#include "GLT/Drawable.hpp"
+#include "GLT/Util/Drawable.hpp"
 #include "GLT/Mesh.hpp"
-#include "GLT/RefCount.hpp"
+#include "GLT/Util/RefCount.hpp"
 
 
 // Standard

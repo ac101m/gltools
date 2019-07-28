@@ -7,8 +7,8 @@
 #include "GLT/Extern/GL.hpp"
 #endif
 #include "GLT/Camera.hpp"
-#include "GLT/Drawable.hpp"
-#include "GLT/RenderBehaviour.hpp"
+#include "GLT/Util/Drawable.hpp"
+#include "GLT/Util/RenderBehaviour.hpp"
 
 
 // Standard

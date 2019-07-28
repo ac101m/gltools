@@ -1,4 +1,4 @@
-#include "GLT/RenderBehaviour.hpp"
+#include "GLT/Util/RenderBehaviour.hpp"
 using namespace GLT;
 
 

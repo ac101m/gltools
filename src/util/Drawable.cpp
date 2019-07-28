@@ -1,4 +1,4 @@
-#include "GLT/Drawable.hpp"
+#include "GLT/Util/Drawable.hpp"
 using namespace GLT;
 
 

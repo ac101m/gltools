@@ -8,8 +8,8 @@
 #endif
 #include "GLT/GL/Texture.hpp"
 #include "GLT/GL/Shader.hpp"
-#include "GLT/RefCount.hpp"
-#include "GLT/ElementCache.hpp"
+#include "GLT/Util/RefCount.hpp"
+#include "GLT/Util/ElementCache.hpp"
 
 
 // Standard

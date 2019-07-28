@@ -6,9 +6,9 @@
 #ifndef GLT_GL_INCLUDED
 #include "GLT/Extern/GL.hpp"
 #endif
-#include "GLT/RefCount.hpp"
-#include "GLT/ElementCache.hpp"
-#include "GLT/ElementStack.hpp"
+#include "GLT/Util/RefCount.hpp"
+#include "GLT/Util/ElementCache.hpp"
+#include "GLT/Util/ElementStack.hpp"
 
 
 // Standard

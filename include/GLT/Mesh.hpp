@@ -6,9 +6,9 @@
 #ifndef GLT_GL_INCLUDED
 #include "GLT/Extern/GL.hpp"
 #endif
-#include "GLT/RefCount.hpp"
+#include "GLT/Util/RefCount.hpp"
 #include "GLT/GL/ShaderProgram.hpp"
-#include "GLT/Drawable.hpp"
+#include "GLT/Util/Drawable.hpp"
 #include "GLT/GL/Texture.hpp"
 #include "GLT/GL/Buffer.hpp"
 
