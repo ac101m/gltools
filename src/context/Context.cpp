@@ -1,4 +1,4 @@
-#include <GLT/Context.hpp>
+#include "GLT/Context.hpp"
 using namespace GLT;
 
 
@@ -8,9 +8,9 @@ using namespace GLT;
 
 
 // This project headers
-#include <GLT/Texture.hpp>
-#include <GLT/Buffer.hpp>
-#include <GLT/Mesh.hpp>
+#include "GLT/Texture.hpp"
+#include "GLT/Buffer.hpp"
+#include "GLT/Mesh.hpp"
 
 
 // Context object, manages termination of glfw at program exit
