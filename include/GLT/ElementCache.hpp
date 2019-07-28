@@ -4,7 +4,7 @@
 
 // This project
 #ifndef GLT_MASTER_INCLUDED
-#include <GLT/Master.hpp>
+#include "GLT/Master.hpp"
 #endif
 
 
