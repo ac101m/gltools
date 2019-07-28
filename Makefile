@@ -73,11 +73,10 @@ move_shaders:
 	cp $(GLSL_SRCS) $(SHADER_BIN_DIR)
 
 # Moves library headers to the install directory
-LIB_HEADERS := $(shell find $(LIB_HEADER_PATH) -name *.hpp)
-INSTALL_HEADER_PATH := bin/install/GLT
+INSTALL_HEADER_PATH := bin/install
 move_headers: $(LIB_HEADERS)
 	@$(MKDIR_P) $(INSTALL_HEADER_PATH)
-	cp $(LIB_HEADERS) $(INSTALL_HEADER_PATH)
+	cp -r $(LIB_HEADER_PATH) $(INSTALL_HEADER_PATH)
 
 # Build static library, no position independent code
 LIB_STATIC_OBJS := $(SUB_OBJS_RELEASE)
