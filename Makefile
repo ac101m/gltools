@@ -3,9 +3,10 @@ RELEASE_EXEC ?= bin/test/gltools
 DEBUG_EXEC ?= bin/test/gltools-debug
 
 # Output libraries
+LIB_INSTALL_PATH ?= bin/install
 LIB_HEADER_PATH ?= include/GLT/
-STATIC_LIB ?= bin/install/libgltools.a
-SHARED_LIB ?= bin/install/libgltools.so
+STATIC_LIB ?= $(LIB_INSTALL_PATH)/libgltools.a
+SHARED_LIB ?= $(LIB_INSTALL_PATH)/libgltools.so
 
 # Directory controls
 OBJ_DIR_BASE ?= build
@@ -97,6 +98,7 @@ all: release debug lib_static lib_shared
 .PHONY: clean
 clean:
 	@$(RM) -rv $(OBJ_DIR_BASE)
+	@$(RM) -rv $(LIB_INSTALL_PATH)
 
 # Include dependencies
 -include $(SUB_DEPS) $(MAIN_DEPS)
