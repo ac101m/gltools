@@ -1,4 +1,4 @@
-#include "GLT/Shader.hpp"
+#include "GLT/GL/Shader.hpp"
 using namespace GLT;
 
 

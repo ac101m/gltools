@@ -8,8 +8,8 @@ using namespace GLT;
 
 
 // This project headers
-#include "GLT/Texture.hpp"
-#include "GLT/Buffer.hpp"
+#include "GLT/GL/Texture.hpp"
+#include "GLT/GL/Buffer.hpp"
 #include "GLT/Mesh.hpp"
 
 

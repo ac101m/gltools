@@ -7,10 +7,10 @@
 #include "GLT/Extern/GL.hpp"
 #endif
 #include "GLT/RefCount.hpp"
-#include "GLT/ShaderProgram.hpp"
+#include "GLT/GL/ShaderProgram.hpp"
 #include "GLT/Drawable.hpp"
-#include "GLT/Texture.hpp"
-#include "GLT/Buffer.hpp"
+#include "GLT/GL/Texture.hpp"
+#include "GLT/GL/Buffer.hpp"
 
 
 // Standard

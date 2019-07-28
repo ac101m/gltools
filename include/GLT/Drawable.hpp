@@ -7,7 +7,7 @@
 #include "GLT/Extern/GL.hpp"
 #endif
 #include "GLT/Camera.hpp"
-#include "GLT/ShaderProgram.hpp"
+#include "GLT/GL/ShaderProgram.hpp"
 
 
 namespace GLT {

@@ -1,4 +1,4 @@
-#include "GLT/CubeMap.hpp"
+#include "GLT/GL/CubeMap.hpp"
 using namespace GLT;
 
 

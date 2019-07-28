@@ -1,4 +1,4 @@
-#include "GLT/Texture.hpp"
+#include "GLT/GL/Texture.hpp"
 using namespace GLT;
 
 

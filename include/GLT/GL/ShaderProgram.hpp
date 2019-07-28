@@ -6,8 +6,8 @@
 #ifndef GLT_GL_INCLUDED
 #include "GLT/Extern/GL.hpp"
 #endif
-#include "GLT/Texture.hpp"
-#include "GLT/Shader.hpp"
+#include "GLT/GL/Texture.hpp"
+#include "GLT/GL/Shader.hpp"
 #include "GLT/RefCount.hpp"
 #include "GLT/ElementCache.hpp"
 

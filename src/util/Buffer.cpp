@@ -1,4 +1,4 @@
-#include "GLT/Buffer.hpp"
+#include "GLT/GL/Buffer.hpp"
 using namespace GLT;
 
 
