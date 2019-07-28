@@ -4,9 +4,9 @@
 
 // This project
 #ifndef GLT_MASTER_INCLUDED
-#include <GLT/Master.hpp>
+#include "GLT/Master.hpp"
 #endif
-#include <GLT/Context.hpp>
+#include "GLT/Context.hpp"
 
 
 namespace GLT {
