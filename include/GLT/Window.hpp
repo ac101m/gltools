@@ -4,11 +4,11 @@
 
 // This project
 #ifndef GLT_MASTER_INCLUDED
-#include <GLT/Master.hpp>
+#include "GLT/Master.hpp"
 #endif
-#include <GLT/Camera.hpp>
-#include <GLT/Drawable.hpp>
-#include <GLT/RenderBehaviour.hpp>
+#include "GLT/Camera.hpp"
+#include "GLT/Drawable.hpp"
+#include "GLT/RenderBehaviour.hpp"
 
 
 // Standard
