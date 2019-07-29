@@ -37,6 +37,18 @@ ElementStack<FrameBuffer>& FrameBuffer::GetTargetStack(GLenum const bindTarget) 
 }
 
 
+// Check for completeness, error if not
+void FrameBuffer::VerifyCompleteness() {
+  this->Bind(GL_FRAMEBUFFER);
+  if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
+    std::cout << "Error, failed to construct frame buffer, errorcode: ";
+    std::cout << glCheckFramebufferStatus(GL_FRAMEBUFFER) << "\n";
+    exit(1);
+  }
+  this->Unbind(GL_FRAMEBUFFER);
+}
+
+
 // Constructor, direct from name
 FrameBuffer::FrameBuffer(GLuint const glName) {
   this->glName = glName;
@@ -53,27 +65,35 @@ FrameBuffer::FrameBuffer(
 
   // Construct framebuffer object
   glGenFramebuffers(1, &this->glName);
-  this->Bind(GL_DRAW_FRAMEBUFFER);
+  this->Bind(GL_FRAMEBUFFER);
 
   // Intialise internal color buffer textures
   this->colorBuffers =
     std::shared_ptr<std::vector<Texture>>(new std::vector<Texture>());
-  *(this->colorBuffers) = colorBuffers;
+  *this->colorBuffers = colorBuffers;
 
   // Add color buffers to textures
-  std::vector<GLuint> attachments;
+  std::vector<GLuint> attachments(colorBuffers.size());
   for(unsigned i = 0; i < colorBuffers.size(); i++) {
-/*
+
+    // Append color components to buffer
     glFramebufferTexture2D(
       GL_FRAMEBUFFER,
       GL_COLOR_ATTACHMENT0 + i,
       GL_TEXTURE_2D,
-      this->textures[i].GetGlHandle(), 0);
-*/
-    attachments.push_back(GL_COLOR_ATTACHMENT0 + i);
+      (*this->colorBuffers)[i].GetGlHandle(), 0);
+
+    // Add attachment indices
+    attachments[i] = GL_COLOR_ATTACHMENT0 + i;
   }
 
-  this->Unbind(GL_DRAW_FRAMEBUFFER);
+  // Add attachments to buffer
+  glDrawBuffers(attachments.size(), attachments);
+
+  // Completeness check
+  this->VerifyCompleteness();
+
+  this->Unbind(GL_FRAMEBUFFER);
 }
 
 

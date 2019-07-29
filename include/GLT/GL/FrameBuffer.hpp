@@ -35,6 +35,9 @@ namespace GLT {
     // Return a reference to the selected bind target stack
     static ElementStack<FrameBuffer>& GetTargetStack(GLenum const bindTarget);
 
+    // Check for completeness, error if not
+    void VerifyCompleteness();
+
   public:
 
     // Initialise bind stacks
