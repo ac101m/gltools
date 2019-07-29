@@ -97,6 +97,14 @@ FrameBuffer::FrameBuffer(
 }
 
 
+// Clear method
+void FrameBuffer::Clear(GLbitfield const mask) {
+  this->Bind(GL_FRAMEBUFFER);
+  glClear(mask);
+  this->Unbind(GL_FRAMEBUFFER);
+}
+
+
 // Bind and record current binding
 void FrameBuffer::Bind(GLenum const bindTarget) {
 

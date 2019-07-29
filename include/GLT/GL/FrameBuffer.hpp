@@ -52,6 +52,9 @@ namespace GLT {
       unsigned const height,
       std::vector<Texture> const colorBuffers);
 
+    // Clear method
+    void Clear(GLbitfield const mask);
+
     // Return gl name
     GLuint GetGlName() {return this->glName;}
 
