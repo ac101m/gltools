@@ -88,7 +88,7 @@ FrameBuffer::FrameBuffer(
   }
 
   // Add attachments to buffer
-  glDrawBuffers(attachments.size(), attachments);
+  glDrawBuffers(attachments.size(), attachments.data());
 
   // Completeness check
   this->VerifyCompleteness();
