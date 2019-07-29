@@ -80,7 +80,7 @@ FrameBuffer::FrameBuffer(
 // Bind and record current binding
 void FrameBuffer::Bind(GLenum const bindTarget) {
 
-  // If the bind target is GL_FRAMEBUFFER, bind to both targets. This works
+  // If the bind target is GL_FRAMEBUFFER, bind both targets. This works
   // because binding GL_DRAW_FRAMEBUFFER will also bind GL_FRAMEBUFFER
   // At least from my experimentation.
   if(bindTarget == GL_FRAMEBUFFER) {
@@ -105,7 +105,9 @@ void FrameBuffer::Bind(GLenum const bindTarget) {
 // Unbind and restore previous binding
 void FrameBuffer::Unbind(GLenum const bindTarget) {
 
-  // If the bind target is GL_FRAMEBUFFER, unbind both targets separately
+  // If the bind target is GL_FRAMEBUFFER, unbind both targets. This works
+  // because binding GL_DRAW_FRAMEBUFFER will also bind GL_FRAMEBUFFER
+  // At least from my experimentation.
   if(bindTarget == GL_FRAMEBUFFER) {
     this->Unbind(GL_DRAW_FRAMEBUFFER);
     this->Unbind(GL_READ_FRAMEBUFFER);
