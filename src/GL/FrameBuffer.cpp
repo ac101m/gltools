@@ -124,6 +124,9 @@ FrameBuffer::FrameBuffer(
 void FrameBuffer::AttachTexture2D(Texture const texture) {
   this->colorAttachments->push_back(texture);
   this->UpdateColorAttachments();
+
+  // Check for oopsies
+  this->VerifyCompleteness();
 }
 
 
