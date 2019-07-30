@@ -32,7 +32,13 @@ namespace GLT {
 
   public:
 
-    // Constructor
+    // Constructor, void
+    CubeMap() {glGenTextures(1, &this->glHandle);}
+
+    // Constructor, direct from name
+    CubeMap(GLuint const glHandle) : glHandle(glHandle) {}
+
+    // Constructor, from paths
     CubeMap(std::vector<std::string> const texPaths);
 
     // Overridden draw method
