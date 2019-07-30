@@ -41,10 +41,12 @@ namespace GLT {
 
   public:
 
-    // Constructors
-    Shader(const GLenum type, const std::string path);
+    // Constructor, no path
+    Shader(GLenum const type) {this->glName = glCreateShader(type);}
 
-    // Get GL handle
+    // Constructor, from path
+    Shader(GLenum const type, std::string const path);
+
     GLuint GetGlName(void) const {return this->glName;}
 
     // Reference counted destructor
