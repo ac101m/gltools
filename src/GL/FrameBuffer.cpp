@@ -49,6 +49,13 @@ void FrameBuffer::VerifyCompleteness() {
 }
 
 
+// Void constructor, generates new name
+FrameBuffer::FrameBuffer() {
+  glGenFramebuffers(1, &this->glName);
+  this->colorAttachments = new std::vector<Texture>();
+}
+
+
 // Constructor, direct from name
 FrameBuffer::FrameBuffer(GLuint const glName) {
   this->glName = glName;

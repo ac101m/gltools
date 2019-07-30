@@ -43,8 +43,11 @@ namespace GLT {
     // Initialise bind stacks
     static void Init();
 
+    // Void constructor, generates new name
+    FrameBuffer();
+
     // Constructor, direct from name
-    FrameBuffer(GLuint const glName = 0);
+    FrameBuffer(GLuint const glName);
 
     // Constructor, full
     FrameBuffer(
