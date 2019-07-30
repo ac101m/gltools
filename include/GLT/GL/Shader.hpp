@@ -24,20 +24,8 @@ namespace GLT {
   class Shader : public RefCount {
   private:
 
-    // OpenGL handle
+    // OpenGL name
     GLuint glName;
-
-    // Shader source
-    std::string source;
-
-//====[METHODS]==============================================================//
-
-    // Generates debug prints
-    void Compile(void);
-
-    // Loads entire file into string and returns it
-    void SetSource(const std::string& src);
-    void LoadSource(const std::string& path);
 
   public:
 
@@ -47,6 +35,11 @@ namespace GLT {
     // Constructor, from path
     Shader(GLenum const type, std::string const path);
 
+    // Loading data
+    void FromSource(std::string const source);
+    void FromFile(std::string const path);
+
+    // Get opengl name
     GLuint GetGlName(void) const {return this->glName;}
 
     // Reference counted destructor

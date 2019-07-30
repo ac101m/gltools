@@ -7,12 +7,23 @@ using namespace GLT;
 #include <iostream>
 
 
-// Generates debug prints
-void Shader::Compile(void) {
+// Constructor, specified context
+Shader::Shader(GLenum const type, std::string const path) {
 
-  // Perform compilation
-  const char * srcPtr = this->source.c_str();
-  glShaderSource(this->glName, 1, &srcPtr, NULL);
+  // Set up type information
+  this->glName = glCreateShader(type);
+
+  // Load the shader source
+  this->FromFile(path);
+}
+
+
+// Load shader from source
+void Shader::FromSource(std::string const source) {
+
+  // Compile the shader
+  char const * scrPtr = source.c_str();
+  glShaderSource(this->glName, 1, &scrPtr, NULL);
   glCompileShader(this->glName);
 
   // Get error log status
@@ -33,23 +44,8 @@ void Shader::Compile(void) {
 }
 
 
-// Constructor, specified context
-Shader::Shader(GLenum const type, std::string const path) {
-
-  // Set up type information
-  this->glName = glCreateShader(type);
-
-  // Load the shader source
-  this->LoadSource(path);
-
-  // Compile the shader
-  std::cout << "Compiling shader '" << path << "' - ";
-  this->Compile();
-}
-
-
-// Gets file from string
-void Shader::LoadSource(const std::string& path) {
+// Load shader from source
+void Shader::FromFile(std::string const path) {
 
   // Open the file
   std::ifstream fp(path, std::ios::in);
@@ -64,15 +60,12 @@ void Shader::LoadSource(const std::string& path) {
     source += line + "\n";
   }
 
-  // Close the file stream
-  this->SetSource(source);
+  // Compile the source
+  std::cout << "Compiling shader '" << path << "' - ";
+  this->FromSource(source);
+
+  // Close the file
   fp.close();
-}
-
-
-// Set shader source
-void Shader::SetSource(const std::string& src) {
-  this->source = src;
 }
 
 
