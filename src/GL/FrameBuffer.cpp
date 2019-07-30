@@ -142,6 +142,9 @@ void FrameBuffer::AttachRenderBuffer(
     GL_RENDERBUFFER,
     renderBuffer.GetGlName());
   this->Unbind(GL_FRAMEBUFFER);
+
+  // Check for oopsies
+  this->VerifyCompleteness();
 }
 
 
