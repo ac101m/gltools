@@ -21,7 +21,7 @@ namespace GLT {
   private:
 
     // Underlying opengl handle
-    GLuint glHandle;
+    GLuint glName;
 
     // Default buffer usage hint
     static GLenum defaultUsageHint;
@@ -41,7 +41,7 @@ namespace GLT {
     static void Init();
 
     // Constructor, direct from GLuint
-    Buffer(GLuint const glHandle = 0) : glHandle(glHandle) {}
+    Buffer(GLuint const glName = 0) : glName(glName) {}
 
     // Loads data into the GL buffer
     template <class T>
@@ -51,7 +51,7 @@ namespace GLT {
 
       // Load data into buffer
       glNamedBufferData(
-        this->glHandle,
+        this->glName,
         data.size() * sizeof(T),
         data.data(),
         usageHint);
@@ -63,12 +63,12 @@ namespace GLT {
       std::vector<T> const data,
       GLenum const usageHint = defaultUsageHint) {
 
-      glCreateBuffers(1, &this->glHandle);
+      glCreateBuffers(1, &this->glName);
       this->SetData<T>(data, usageHint);
     }
 
     // Get the underlying opengl handle
-    GLuint GetGlHandle() {return this->glHandle;}
+    GLuint GetGlName() {return this->glName;}
 
     // Binding routines, selectable target (many different ways to use buffers)
     void Bind(GLenum const bindTarget);

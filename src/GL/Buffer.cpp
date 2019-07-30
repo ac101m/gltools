@@ -52,8 +52,8 @@ void Buffer::Bind(GLenum const bindTarget) {
   ElementStack<Buffer>& bindStack = GetTargetStack(bindTarget);
 
   // If the currently bound buffer is not this one, bind this buffer
-  if(this->glHandle != bindStack.Top().GetGlHandle()) {
-    glBindBuffer(bindTarget, this->glHandle);
+  if(this->glName != bindStack.Top().GetGlName()) {
+    glBindBuffer(bindTarget, this->glName);
   }
 
   // Push this buffer onto the bind stack
@@ -68,7 +68,7 @@ void Buffer::Unbind(GLenum const bindTarget) {
   ElementStack<Buffer>& bindStack = GetTargetStack(bindTarget);
 
   // Can't unbind object that isn't currently bound without breaking stuff
-  if(this->glHandle != bindStack.Top().GetGlHandle()) {
+  if(this->glName != bindStack.Top().GetGlName()) {
     std::cerr << "ERROR: Attempt to unbind already unbound buffer\n";
     std::cerr << "Did you forget to call unbind?\n";
     exit(1);
@@ -78,8 +78,8 @@ void Buffer::Unbind(GLenum const bindTarget) {
   bindStack.Pop();
 
   // Restore the binding to what it was previously (if neccessary)
-  if(bindStack.Top().GetGlHandle() != this->glHandle) {
-    glBindBuffer(bindTarget, bindStack.Top().GetGlHandle());
+  if(bindStack.Top().GetGlName() != this->glName) {
+    glBindBuffer(bindTarget, bindStack.Top().GetGlName());
   }
 }
 
@@ -87,6 +87,6 @@ void Buffer::Unbind(GLenum const bindTarget) {
 // Reference counted destructor
 Buffer::~Buffer() {
   if(!this->ReferencedElsewhere()) {
-    glDeleteBuffers(1, &this->glHandle);
+    glDeleteBuffers(1, &this->glName);
   }
 }
