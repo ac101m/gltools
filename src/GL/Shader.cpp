@@ -12,13 +12,13 @@ void Shader::Compile(void) {
 
   // Perform compilation
   const char * srcPtr = this->source.c_str();
-  glShaderSource(this->glHandle, 1, &srcPtr, NULL);
-  glCompileShader(this->glHandle);
+  glShaderSource(this->glName, 1, &srcPtr, NULL);
+  glCompileShader(this->glName);
 
   // Get error log status
   GLint result = GL_FALSE; int logLength = 0;
-  glGetShaderiv(this->glHandle, GL_COMPILE_STATUS, &result);
-	glGetShaderiv(this->glHandle, GL_INFO_LOG_LENGTH, &logLength);
+  glGetShaderiv(this->glName, GL_COMPILE_STATUS, &result);
+	glGetShaderiv(this->glName, GL_INFO_LOG_LENGTH, &logLength);
 
   // Print log output if there were errors
 	if(!logLength) {
@@ -26,7 +26,7 @@ void Shader::Compile(void) {
   } else {
     std::cout << "ERROR\n";
 		std::vector<char> log(logLength + 1);
-		glGetShaderInfoLog(this->glHandle, logLength, NULL, &log[0]);
+		glGetShaderInfoLog(this->glName, logLength, NULL, &log[0]);
     std::cout << &log[0] << "\n";
     exit(1);
 	}
@@ -38,7 +38,7 @@ Shader::Shader(GLenum const type, std::string const path) {
 
   // Set up type information
   this->type = type;
-  this->glHandle = glCreateShader(type);
+  this->glName = glCreateShader(type);
 
   // Load the shader source
   this->LoadSource(path);
@@ -77,9 +77,9 @@ void Shader::SetSource(const std::string& src) {
 }
 
 
-// Deconstruct
+// Reference counted destructor
 Shader::~Shader(void) {
   if(!this->ReferencedElsewhere()) {
-    glDeleteShader(this->glHandle);
+    glDeleteShader(this->glName);
   }
 }

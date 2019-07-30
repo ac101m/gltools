@@ -26,7 +26,7 @@ namespace GLT {
 
     // OpenGL handle
     GLenum type;
-    GLuint glHandle;
+    GLuint glName;
 
     // Shader source
     std::string source;
@@ -46,9 +46,9 @@ namespace GLT {
     Shader(const GLenum type, const std::string path);
 
     // Get GL handle
-    GLuint GetGlHandle(void) const {return this->glHandle;}
+    GLuint GetGlName(void) const {return this->glName;}
 
-    // Deconstruct
+    // Reference counted destructor
     ~Shader(void);
   };
 

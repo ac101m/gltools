@@ -12,7 +12,7 @@ void ShaderProgram::LinkShaders(const std::vector<Shader>& shaders) {
 
   // Attach the shaders
   for(unsigned i = 0; i < shaders.size(); i++) {
-    glAttachShader(this->glHandle, shaders[i].GetGlHandle());
+    glAttachShader(this->glHandle, shaders[i].GetGlName());
   }
 
   // Link the program
@@ -35,7 +35,7 @@ void ShaderProgram::LinkShaders(const std::vector<Shader>& shaders) {
 
   // Detach the shaders
   for(unsigned i = 0; i < shaders.size(); i++) {
-    glDetachShader(this->glHandle, shaders[i].GetGlHandle());
+    glDetachShader(this->glHandle, shaders[i].GetGlName());
   }
 }
 
