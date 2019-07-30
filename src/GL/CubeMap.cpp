@@ -118,7 +118,7 @@ void __attribute__((weak)) CubeMap::Draw(
 
 
 // Standard, delete the opengl handle when finished with it
-CubeMap::~CubeMap(void) {
+CubeMap::~CubeMap() {
   if(!this->ReferencedElsewhere()) {
     glDeleteTextures(1, &this->glHandle);
   }

@@ -45,7 +45,7 @@ namespace GLT {
     void Draw(Camera& camera, ShaderProgram& shader, glm::mat4& m);
 
     // Required to handle reference counting
-    ~CubeMap(void);
+    ~CubeMap();
   };
 
 }
