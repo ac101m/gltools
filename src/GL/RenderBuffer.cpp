@@ -39,7 +39,7 @@ void RenderBuffer::Storage(
 
 
 // Bind render buffer
-void RenderBuffer::Bind() {
+void RenderBuffer::Bind() const {
 
   // If the currently bound buffer is not this one, bind this buffer
   if(this->glName != bindStack.Top().GetGlName()) {
@@ -52,7 +52,7 @@ void RenderBuffer::Bind() {
 
 
 // Unbind render buffer
-void RenderBuffer::Unbind() {
+void RenderBuffer::Unbind() const {
 
   // Can't unbind object that isn't currently bound without breaking stuff
   if(this->glName != bindStack.Top().GetGlName()) {
