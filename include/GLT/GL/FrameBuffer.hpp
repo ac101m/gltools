@@ -38,6 +38,9 @@ namespace GLT {
     // Check for completeness, error if not
     void VerifyCompleteness();
 
+    // Indicates which draw buffers are attached
+    void UpdateColorAttachments();
+
   public:
 
     // Initialise bind stacks
@@ -54,6 +57,9 @@ namespace GLT {
       unsigned const width,
       unsigned const height,
       std::vector<Texture> const colorBuffers);
+
+    // Attach a texture as a colour buffer
+    void AttachTexture2D(Texture const texture);
 
     // Clear method
     void Clear(GLbitfield const mask);
