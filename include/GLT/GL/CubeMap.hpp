@@ -9,6 +9,7 @@
 #include "GLT/Util/Drawable.hpp"
 #include "GLT/Mesh.hpp"
 #include "GLT/Util/RefCount.hpp"
+#include "GLT/Util/ElementStack.hpp"
 
 
 // Standard
@@ -27,7 +28,13 @@ namespace GLT {
     // Vertex array
     VertexArray vertexBuffer;
 
+    // Cube map bind stack
+    static ElementStack<CubeMap> bindStack;
+
   public:
+
+    // Initialise cube map bind stack
+    static void Init();
 
     // Constructor, void
     CubeMap() {glGenTextures(1, &this->glName);}
@@ -46,6 +53,10 @@ namespace GLT {
 
     // Get the opengl name for this object
     GLuint GetGlName() const {return this->glName;}
+
+    // Bind and unbind this
+    void Bind() const;
+    void Unbind() const;
 
     // Reference counted destructor
     ~CubeMap();

@@ -13,6 +13,7 @@ using namespace GLT;
 #include "GLT/Mesh.hpp"
 #include "GLT/GL/FrameBuffer.hpp"
 #include "GLT/GL/RenderBuffer.hpp"
+#include "GLT/GL/CubeMap.hpp"
 
 
 // Context object, manages termination of glfw at program exit
@@ -73,6 +74,7 @@ void Context::InitGLT(void) {
   VertexArray::Init();
   FrameBuffer::Init();
   RenderBuffer::Init();
+  CubeMap::Init();
 }
 
 
