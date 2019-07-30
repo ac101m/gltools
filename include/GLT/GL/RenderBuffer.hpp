@@ -45,7 +45,7 @@ namespace GLT {
       unsigned const height);
 
     // Get opengl name
-    GLuint GetGlName() {return this->glName;}
+    GLuint GetGlName() const {return this->glName;}
 
     // Bind and unbind
     void Bind();
