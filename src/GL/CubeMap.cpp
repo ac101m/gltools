@@ -28,16 +28,19 @@ void CubeMap::LoadTextures(std::vector<std::string> const& texPaths) {
   // Load the textures
   for(unsigned i = 0; i < 6; i++) {
     int width, height, channelCount;
-    unsigned char* data = stbi_load(texPaths[i].c_str(),
-                                    &width, &height, &channelCount, 0);
+    unsigned char* data = stbi_load(
+      texPaths[i].c_str(),
+      &width, &height,
+      &channelCount, 0);
     if(!data) {
       std::cout << "ERROR\n";
       std::cout << "stbi_load failure. Unsupported texture format?\n";
       exit(1);
     } else {
-      glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
-                   0, GL_RGB, width, height,
-                   0, GL_RGB, GL_UNSIGNED_BYTE, data);
+      glTexImage2D(
+        GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
+        0, GL_RGB, width, height,
+        0, GL_RGB, GL_UNSIGNED_BYTE, data);
       stbi_image_free(data);
     }
   }
@@ -61,7 +64,7 @@ void CubeMap::LoadTextures(std::vector<std::string> const& texPaths) {
 }
 
 
-// Constructor
+// Constructor, from paths
 CubeMap::CubeMap(std::vector<std::string> const texPaths) {
 
   // Raw vertex data
@@ -117,7 +120,7 @@ void __attribute__((weak)) CubeMap::Draw(
 }
 
 
-// Standard, delete the opengl handle when finished with it
+// Reference counted destructor
 CubeMap::~CubeMap() {
   if(!this->ReferencedElsewhere()) {
     glDeleteTextures(1, &this->glHandle);

@@ -21,9 +21,11 @@ namespace GLT {
   class CubeMap : public Drawable, public RefCount {
   private:
 
-    // Vertex and cubemap handles
-    VertexArray vertexBuffer;
+    // Opengl name
     GLuint glHandle;
+
+    // Vertex array
+    VertexArray vertexBuffer;
 
 //====[METHODS]==============================================================//
 
@@ -41,10 +43,10 @@ namespace GLT {
     // Constructor, from paths
     CubeMap(std::vector<std::string> const texPaths);
 
-    // Overridden draw method
+    // Overridden mesh draw method
     void Draw(Camera& camera, ShaderProgram& shader, glm::mat4& m);
 
-    // Required to handle reference counting
+    // Reference counted destructor
     ~CubeMap();
   };
 
