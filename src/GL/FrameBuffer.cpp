@@ -127,6 +127,21 @@ void FrameBuffer::AttachTexture2D(Texture const texture) {
 }
 
 
+// Attach a renderbuffer
+void FrameBuffer::AttachRenderBuffer(
+  RenderBuffer const renderBuffer,
+  GLenum const attachmentType) {
+
+  this->Bind(GL_FRAMEBUFFER);
+  glFramebufferRenderbuffer(
+    GL_FRAMEBUFFER,
+    attachmentType,
+    GL_RENDERBUFFER,
+    renderBuffer.GetGlName());
+  this->Unbind(GL_FRAMEBUFFER);
+}
+
+
 // Clear method
 void FrameBuffer::Clear(GLbitfield const mask) {
   this->Bind(GL_FRAMEBUFFER);

@@ -8,6 +8,7 @@
 #endif
 #include "GLT/Util/RefCount.hpp"
 #include "GLT/GL/Texture.hpp"
+#include "GLT/GL/RenderBuffer.hpp"
 
 
 // Standard
@@ -60,6 +61,11 @@ namespace GLT {
 
     // Attach a texture as a colour buffer
     void AttachTexture2D(Texture const texture);
+
+    // Attach a renderbuffer
+    void AttachRenderBuffer(
+      RenderBuffer const renderBuffer,
+      GLenum const attachment);
 
     // Clear method
     void Clear(GLbitfield const mask);
