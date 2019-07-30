@@ -11,7 +11,7 @@ using namespace GLT;
 
 
 // Load from textures
-void CubeMap::LoadTextures(std::vector<std::string> const& texPaths) {
+void CubeMap::FromFiles(std::vector<std::string> const& texPaths) {
   std::cout << "Loading cube map - ";
 
   // A little initial checking
@@ -103,7 +103,7 @@ CubeMap::CubeMap(std::vector<std::string> const texPaths) {
 
    // Build the vertex buffer and gl cube map
    this->vertexBuffer = VertexArray(vertices, indices);
-   this->LoadTextures(texPaths);
+   this->FromFiles(texPaths);
 }
 
 

@@ -27,11 +27,6 @@ namespace GLT {
     // Vertex array
     VertexArray vertexBuffer;
 
-//====[METHODS]==============================================================//
-
-    // Load all texture files
-    void LoadTextures(std::vector<std::string> const& texPaths);
-
   public:
 
     // Constructor, void
@@ -42,6 +37,9 @@ namespace GLT {
 
     // Constructor, from paths
     CubeMap(std::vector<std::string> const texPaths);
+
+    // Load sides of cubemap from files
+    void FromFiles(std::vector<std::string> const& texPaths);
 
     // Overridden mesh draw method
     void Draw(Camera& camera, ShaderProgram& shader, glm::mat4& m);
