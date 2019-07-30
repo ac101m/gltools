@@ -48,8 +48,8 @@ namespace GLT {
     GLuint GetGlName() const {return this->glName;}
 
     // Bind and unbind
-    void Bind();
-    void Unbind();
+    void Bind() const;
+    void Unbind() const;
 
     // Reference counted destructor
     ~RenderBuffer();
