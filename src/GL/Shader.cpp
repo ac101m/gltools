@@ -7,7 +7,7 @@ using namespace GLT;
 #include <iostream>
 
 
-// Constructor, specified context
+// Constructor, from file path
 Shader::Shader(GLenum const type, std::string const path) {
 
   // Set up type information
@@ -18,7 +18,7 @@ Shader::Shader(GLenum const type, std::string const path) {
 }
 
 
-// Load shader from source
+// Load shader from source string
 void Shader::FromSource(std::string const source) {
 
   // Compile the shader
@@ -44,7 +44,7 @@ void Shader::FromSource(std::string const source) {
 }
 
 
-// Load shader from source
+// Load shader from file
 void Shader::FromFile(std::string const path) {
 
   // Open the file
@@ -54,7 +54,7 @@ void Shader::FromFile(std::string const path) {
     exit(1);
   }
 
-  // Get the source from the file
+  // Get the sourcecode from the file
   std::string line, source;
   while(getline(fp, line)) {
     source += line + "\n";

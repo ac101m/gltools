@@ -29,13 +29,13 @@ namespace GLT {
 
   public:
 
-    // Constructor, no path
+    // Constructor, blank
     Shader(GLenum const type) {this->glName = glCreateShader(type);}
 
     // Constructor, from path
     Shader(GLenum const type, std::string const path);
 
-    // Loading data
+    // Shader source compilation
     void FromSource(std::string const source);
     void FromFile(std::string const path);
 
