@@ -25,7 +25,6 @@ namespace GLT {
   private:
 
     // OpenGL handle
-    GLenum type;
     GLuint glName;
 
     // Shader source

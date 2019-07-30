@@ -37,7 +37,6 @@ void Shader::Compile(void) {
 Shader::Shader(GLenum const type, std::string const path) {
 
   // Set up type information
-  this->type = type;
   this->glName = glCreateShader(type);
 
   // Load the shader source
