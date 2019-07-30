@@ -40,8 +40,11 @@ namespace GLT {
     // Initialise bind stacks
     static void Init();
 
+    // Constructor, void
+    Buffer() {glGenBuffers(1, &this->glName);}
+
     // Constructor, direct from GLuint
-    Buffer(GLuint const glName = 0) : glName(glName) {}
+    Buffer(GLuint const glName) : glName(glName) {}
 
     // Loads data into the GL buffer
     template <class T>
