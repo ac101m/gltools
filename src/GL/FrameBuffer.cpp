@@ -52,8 +52,9 @@ void FrameBuffer::VerifyCompleteness() {
 // Constructor, direct from name
 FrameBuffer::FrameBuffer(GLuint const glName) {
   this->glName = glName;
-  this->colorBuffers =
-    std::shared_ptr<std::vector<Texture>>(new std::vector<Texture>());
+
+  // [TODO] figure out how to get attachments from the frame buffer name
+  this->colorAttachments = new std::vector<Texture>();
 }
 
 
@@ -62,6 +63,9 @@ FrameBuffer::FrameBuffer(
   unsigned const width,
   unsigned const height,
   std::vector<Texture> const colorBuffers) {
+
+  // Allocate colour buffer texture storage
+  this->colorAttachments = new std::vector<Texture>();
 
   // Construct framebuffer object
   glGenFramebuffers(1, &this->glName);
@@ -166,5 +170,6 @@ void FrameBuffer::Unbind(GLenum const bindTarget) {
 FrameBuffer::~FrameBuffer() {
   if(!this->ReferencedElsewhere()) {
     glDeleteFramebuffers(1, &this->glName);
+    delete colorAttachments;
   }
 }

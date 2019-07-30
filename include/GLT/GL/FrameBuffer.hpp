@@ -24,7 +24,7 @@ namespace GLT {
     GLuint glName;
 
     // Colour buffers
-    std::shared_ptr<std::vector<Texture>> colorBuffers;
+    std::vector<Texture>* colorAttachments;
 
     // Bind stacks
     static ElementStack<FrameBuffer> bindStack_GL_DRAW_FRAMEBUFFER;
