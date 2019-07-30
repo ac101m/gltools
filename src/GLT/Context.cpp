@@ -11,6 +11,8 @@ using namespace GLT;
 #include "GLT/GL/Texture.hpp"
 #include "GLT/GL/Buffer.hpp"
 #include "GLT/Mesh.hpp"
+#include "GLT/GL/FrameBuffer.hpp"
+#include "GLT/GL/RenderBuffer.hpp"
 
 
 // Context object, manages termination of glfw at program exit
@@ -69,6 +71,8 @@ void Context::InitGLT(void) {
   Texture::Init();
   Buffer::Init();
   VertexArray::Init();
+  FrameBuffer::Init();
+  RenderBuffer::Init();
 }
 
 
