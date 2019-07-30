@@ -39,7 +39,7 @@ namespace GLT {
 //====[METHODS]==============================================================//
 
     // Allocate memory based on type and size
-    void AllocateBuffer(void);
+    void AllocateBuffer();
     bool UpdateBuffer(void const * const data, unsigned const n);
     static unsigned GetTypeSize(GLenum const type);
     static std::string GetTypeName(GLenum const type);
@@ -52,7 +52,7 @@ namespace GLT {
   public:
 
     // Constructors
-    Uniform(void);
+    Uniform();
     Uniform(std::string const name,
             GLuint const handle,
             GLenum const type,
@@ -123,7 +123,7 @@ namespace GLT {
     void SetDMat4x3(glm::dmat4x3* data, unsigned n = 1);  //
 
     // Destructor, cleans up data memory
-    ~Uniform(void);
+    ~Uniform();
   };
 
 
@@ -140,10 +140,10 @@ namespace GLT {
 //====[METHODS]==============================================================//
 
     // Links an array of shaders into this program
-    void LinkShaders(const std::vector<Shader>& shaders);
+    void LinkShaders(std::vector<Shader> const& shaders);
 
     // Uniform map stuff
-    void FillUniformCache(void);
+    void FillUniformCache();
 
   public:
 
@@ -151,7 +151,7 @@ namespace GLT {
     ShaderProgram(const std::vector<Shader> shaders);
 
     // Use this shader program
-    void Use(void);
+    void Use();
 
     // Set texture uniform
     void SetTexture(unsigned const texUnit,
@@ -162,7 +162,7 @@ namespace GLT {
     Uniform GetUniform(const std::string name);
 
     // Destructor, clean up GL handle
-    ~ShaderProgram(void);
+    ~ShaderProgram();
   };
 
 } // namespace GLT
