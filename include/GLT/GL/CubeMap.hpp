@@ -44,6 +44,9 @@ namespace GLT {
     // Overridden mesh draw method
     void Draw(Camera& camera, ShaderProgram& shader, glm::mat4& m);
 
+    // Get the opengl name for this object
+    GLuint GetGlName() const {return this->glName;}
+
     // Reference counted destructor
     ~CubeMap();
   };
