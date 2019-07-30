@@ -41,7 +41,7 @@ ElementStack<FrameBuffer>& FrameBuffer::GetTargetStack(GLenum const bindTarget) 
 void FrameBuffer::VerifyCompleteness() {
   this->Bind(GL_FRAMEBUFFER);
   if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
-    std::cout << "Error, failed to construct frame buffer, errorcode: ";
+    std::cout << "Error, frame buffer incomplete, errorcode: ";
     std::cout << glCheckFramebufferStatus(GL_FRAMEBUFFER) << "\n";
     exit(1);
   }
