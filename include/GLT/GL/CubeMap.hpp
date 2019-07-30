@@ -22,7 +22,7 @@ namespace GLT {
   private:
 
     // Opengl name
-    GLuint glHandle;
+    GLuint glName;
 
     // Vertex array
     VertexArray vertexBuffer;
@@ -30,10 +30,10 @@ namespace GLT {
   public:
 
     // Constructor, void
-    CubeMap() {glGenTextures(1, &this->glHandle);}
+    CubeMap() {glGenTextures(1, &this->glName);}
 
     // Constructor, direct from name
-    CubeMap(GLuint const glHandle) : glHandle(glHandle) {}
+    CubeMap(GLuint const glName) : glName(glName) {}
 
     // Constructor, from paths
     CubeMap(std::vector<std::string> const texPaths);

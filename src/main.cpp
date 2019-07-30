@@ -149,7 +149,7 @@ void GLT::CubeMap::Draw(
   shader.GetUniform("pMx").SetFMat4(&camera.GetProjMat());
 
   // Bind cube map texture
-  glBindTexture(GL_TEXTURE_CUBE_MAP, this->glHandle);
+  glBindTexture(GL_TEXTURE_CUBE_MAP, this->glName);
 
   // Execute the actual draw call
   this->vertexBuffer.Bind();

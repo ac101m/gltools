@@ -22,8 +22,8 @@ void CubeMap::FromFiles(std::vector<std::string> const& texPaths) {
   }
 
   // Create opengl handles
-  glGenTextures(1, &this->glHandle);
-  glBindTexture(GL_TEXTURE_CUBE_MAP, this->glHandle);
+  glGenTextures(1, &this->glName);
+  glBindTexture(GL_TEXTURE_CUBE_MAP, this->glName);
 
   // Load the textures
   for(unsigned i = 0; i < 6; i++) {
@@ -123,6 +123,6 @@ void __attribute__((weak)) CubeMap::Draw(
 // Reference counted destructor
 CubeMap::~CubeMap() {
   if(!this->ReferencedElsewhere()) {
-    glDeleteTextures(1, &this->glHandle);
+    glDeleteTextures(1, &this->glName);
   }
 }
