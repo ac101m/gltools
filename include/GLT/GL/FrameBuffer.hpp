@@ -62,6 +62,9 @@ namespace GLT {
     // Attach a texture as a colour buffer
     void AttachTexture2D(Texture const texture);
 
+    // Get color buffers
+    std::vector<Texture> GetColorBuffers() {return *this->colorAttachments;}
+
     // Attach a renderbuffer
     void AttachRenderBuffer(
       RenderBuffer const renderBuffer,
