@@ -22,8 +22,8 @@ namespace GLT {
   class Texture : public RefCount {
   private:
 
-    // Opengl handle
-    GLuint glHandle;
+    // Opengl name
+    GLuint glName;
 
     // Cache for textures loaded from file
     static ElementCache<std::string, Texture> fileCache;
@@ -74,7 +74,7 @@ namespace GLT {
       unsigned const mipMapLevel = 0);
 
     // Return the opengl handle
-    GLuint GetGlHandle() const {return this->glHandle;}
+    GLuint GetGlName() const {return this->glName;}
 
     // Binding control
     void Bind() const;    // Bind this texture

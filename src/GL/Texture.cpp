@@ -34,7 +34,7 @@ void Texture::Init() {
 
 // Constructor, from pre initialised GLuint
 Texture::Texture(GLuint const textureHandle) {
-  this->glHandle = textureHandle;
+  this->glName = textureHandle;
 }
 
 
@@ -49,7 +49,7 @@ Texture::Texture(
   GLvoid const * data) {
 
   // Generate and bind handle
-  glGenTextures(1, &this->glHandle);
+  glGenTextures(1, &this->glName);
   this->Bind();
 
   // Generate our texture
@@ -100,7 +100,7 @@ Texture::Texture(
   }
 
   // Load the texture
-  glGenTextures(1, &this->glHandle);
+  glGenTextures(1, &this->glName);
   this->SetData(width, height, data, mipMapLevel);
 
   // Done with the texture data
@@ -128,7 +128,7 @@ Texture::Texture(
   int const height,
   std::vector<unsigned char> const data) {
 
-  glGenTextures(1, &this->glHandle);
+  glGenTextures(1, &this->glName);
   this->SetData(width, height, data);
 
   // Use nearest neighbour filtering by default
@@ -179,8 +179,8 @@ void Texture::SetData(
 void Texture::Bind() const {
 
   // If the currently bound texture is not this one, bind this texture
-  if(this->glHandle != bindStack.Top().GetGlHandle()) {
-    glBindTexture(GL_TEXTURE_2D, this->glHandle);
+  if(this->glName != bindStack.Top().GetGlName()) {
+    glBindTexture(GL_TEXTURE_2D, this->glName);
   }
 
   // Push this textures object onto the bind stack
@@ -192,7 +192,7 @@ void Texture::Bind() const {
 void Texture::Unbind() const {
 
   // Can't unbind object that isn't currently bound without breaking stuff
-  if(this->glHandle != bindStack.Top().GetGlHandle()) {
+  if(this->glName != bindStack.Top().GetGlName()) {
     std::cerr << "ERROR: Attempt to unbind already unbound texture\n";
     std::cerr << "Did you forget to call unbind?\n";
     exit(1);
@@ -202,8 +202,8 @@ void Texture::Unbind() const {
   bindStack.Pop();
 
   // Restore the previous binding
-  if(bindStack.Top().GetGlHandle() != this->glHandle) {
-    glBindTexture(GL_TEXTURE_2D, bindStack.Top().GetGlHandle());
+  if(bindStack.Top().GetGlName() != this->glName) {
+    glBindTexture(GL_TEXTURE_2D, bindStack.Top().GetGlName());
   }
 }
 
@@ -219,6 +219,6 @@ void Texture::Parameteri(GLenum const pname, GLint const param) {
 // Reference counting destructor
 Texture::~Texture() {
   if(!this->ReferencedElsewhere()) {
-    glDeleteTextures(1, &this->glHandle);
+    glDeleteTextures(1, &this->glName);
   }
 }

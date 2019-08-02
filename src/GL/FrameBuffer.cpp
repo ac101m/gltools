@@ -61,7 +61,7 @@ void FrameBuffer::UpdateColorAttachments() {
       GL_FRAMEBUFFER,
       GL_COLOR_ATTACHMENT0 + i,
       GL_TEXTURE_2D,
-      (*this->colorAttachments)[i].GetGlHandle(), 0);
+      (*this->colorAttachments)[i].GetGlName(), 0);
   }
 
   // Update draw buffer attachment points
