@@ -132,7 +132,7 @@ namespace GLT {
   private:
 
     // OpenGL handle
-    GLuint glHandle;
+    GLuint glName;
 
     // Uniform locations in shader, raw pointer for shallow copy
     ElementCache<std::string, Uniform>* uniformCache;

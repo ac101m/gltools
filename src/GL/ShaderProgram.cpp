@@ -12,16 +12,16 @@ void ShaderProgram::LinkShaders(const std::vector<Shader>& shaders) {
 
   // Attach the shaders
   for(unsigned i = 0; i < shaders.size(); i++) {
-    glAttachShader(this->glHandle, shaders[i].GetGlName());
+    glAttachShader(this->glName, shaders[i].GetGlName());
   }
 
   // Link the program
-  glLinkProgram(this->glHandle);
+  glLinkProgram(this->glName);
 
   // Check the program
   GLint result = GL_FALSE; int logLength = 0;
-	glGetProgramiv(this->glHandle, GL_LINK_STATUS, &result);
-	glGetProgramiv(this->glHandle, GL_INFO_LOG_LENGTH, &logLength);
+	glGetProgramiv(this->glName, GL_LINK_STATUS, &result);
+	glGetProgramiv(this->glName, GL_INFO_LOG_LENGTH, &logLength);
 
   // Print out error messages if neccessary
 	if(!logLength) {
@@ -29,13 +29,13 @@ void ShaderProgram::LinkShaders(const std::vector<Shader>& shaders) {
   } else {
     std::cout << "ERROR:\n";
 		std::vector<char> log(logLength + 1);
-		glGetProgramInfoLog(this->glHandle, logLength, NULL, &log[0]);
+		glGetProgramInfoLog(this->glName, logLength, NULL, &log[0]);
     std::cout << &log[0] << "\n";
 	}
 
   // Detach the shaders
   for(unsigned i = 0; i < shaders.size(); i++) {
-    glDetachShader(this->glHandle, shaders[i].GetGlName());
+    glDetachShader(this->glName, shaders[i].GetGlName());
   }
 }
 
@@ -48,7 +48,7 @@ void ShaderProgram::FillUniformCache(void) {
 
 	// Get uniform count
 	GLint uniformCount = 0;
-	glGetProgramiv(this->glHandle, GL_ACTIVE_UNIFORMS, &uniformCount);
+	glGetProgramiv(this->glName, GL_ACTIVE_UNIFORMS, &uniformCount);
 
 	// Uniform data
 	GLuint uniformHandle;
@@ -65,7 +65,7 @@ void ShaderProgram::FillUniformCache(void) {
 
 		// Get our uniform data
 		glGetActiveUniform(
-			this->glHandle,
+			this->glName,
 			(GLuint)i,
 			nameBufSize,
 			&nameLength,
@@ -74,7 +74,7 @@ void ShaderProgram::FillUniformCache(void) {
 			nameBuf);
 
 		// Get GL handle for uniform (redundant? i good enough?)
-		uniformHandle = glGetUniformLocation(this->glHandle, nameBuf);
+		uniformHandle = glGetUniformLocation(this->glName, nameBuf);
 
 		// Print out uniform stuff, temporary, to confirm the above
 		std::cout << i << " - Found uniform '" << nameBuf;
@@ -107,7 +107,7 @@ Uniform ShaderProgram::GetUniform(const std::string name) {
 
 // Constructor, default context
 ShaderProgram::ShaderProgram(std::vector<Shader> const shaders) {
-	this->glHandle = glCreateProgram();
+	this->glName = glCreateProgram();
   this->LinkShaders(shaders);
 	this->FillUniformCache();
 }
@@ -126,7 +126,7 @@ void ShaderProgram::SetTexture(unsigned const texUnit,
 
 // Use this shader program
 void ShaderProgram::Use(void) {
-  glUseProgram(this->glHandle);
+  glUseProgram(this->glName);
 }
 
 
@@ -134,6 +134,6 @@ void ShaderProgram::Use(void) {
 ShaderProgram::~ShaderProgram(void) {
   if(!this->ReferencedElsewhere()) {
 		delete this->uniformCache;
-    glDeleteProgram(this->glHandle);
+    glDeleteProgram(this->glName);
   }
 }
