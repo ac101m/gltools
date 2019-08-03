@@ -18,6 +18,41 @@
 
 namespace GLT {
 
+  // Base class for textures
+  template<class T>
+  class TextureBase : public RefCount {
+  protected:
+
+    // Opengl name
+    GLuint glName;
+
+    // Binding stack
+    static ElementStack<TextureBase> bindStack;
+
+    // Bind to specific target
+    void Bind(GLenum const bindTarget);
+    void Unbind(GLenum const bindTarget);
+
+  public:
+
+    static void Init();
+
+    // Basic constructors
+    TextureBase() {glGenTextures(1, &this->glName);}
+    TextureBase(GLuint const glName) : glName(glName) {}
+
+    // Get the GL name
+    GLuint GetGlName() {return this->glName;}
+
+    // Bind and unbind control
+    virtual void Bind();
+    virtual void Unbind();
+
+    // Reference counted destructor
+    ~TextureBase();
+  };
+
+
   // Class represents a two-dimensional texture
   class Texture : public RefCount {
   private:
