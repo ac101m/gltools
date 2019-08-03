@@ -21,7 +21,7 @@ namespace GLT {
   private:
 
     // Vertex array object handle
-    GLuint glHandle;
+    GLuint glName;
 
     // Vertex and index buffers
     Buffer vertexBuffer;
@@ -52,8 +52,8 @@ namespace GLT {
       std::vector<vertex_t> const& vertices,
       std::vector<unsigned> const& indices);
 
-    // Return
-    GLuint GetGlHandle() {return glHandle;}
+    // Return opengl name
+    GLuint GetGlName() {return glName;}
 
     // Bind this vertex buffer
     void Bind();

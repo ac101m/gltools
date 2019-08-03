@@ -20,7 +20,7 @@ void VertexArray::GenBuffers(
   std::vector<unsigned> const& indices) {
 
   // Create vertex array object buffer
-  glGenVertexArrays(1, &this->glHandle);
+  glGenVertexArrays(1, &this->glName);
   this->Bind();
 
   // Create vertex buffer object
@@ -78,7 +78,7 @@ void VertexArray::GenBuffers(
 
 // Blank constructor, no data
 VertexArray::VertexArray() {
-  this->glHandle = 0;
+  this->glName = 0;
   this->vBufLen = new GLsizei(0);
   this->iBufLen = new GLsizei(0);
 }
@@ -99,8 +99,8 @@ VertexArray::VertexArray(
 void VertexArray::Bind() {
 
   // If the currently bound object is not this one, bind this texture
-  if(this->glHandle != bindStack.Top().GetGlHandle()) {
-    glBindVertexArray(this->glHandle);
+  if(this->glName != bindStack.Top().GetGlName()) {
+    glBindVertexArray(this->glName);
   }
 
   // Push this object onto the bind stack
@@ -112,7 +112,7 @@ void VertexArray::Bind() {
 void VertexArray::Unbind() {
 
   // Can't unbind object that isn't currently bound without breaking stuff
-  if(this->glHandle != bindStack.Top().GetGlHandle()) {
+  if(this->glName != bindStack.Top().GetGlName()) {
     std::cerr << "ERROR: Attempt to unbind already unbound vertex buffer\n";
     std::cerr << "Did you forget to call unbind?\n";
     exit(1);
@@ -122,8 +122,8 @@ void VertexArray::Unbind() {
   bindStack.Pop();
 
   // Restore the previous binding
-  if(bindStack.Top().GetGlHandle() != this->glHandle) {
-    glBindVertexArray(bindStack.Top().GetGlHandle());
+  if(bindStack.Top().GetGlName() != this->glName) {
+    glBindVertexArray(bindStack.Top().GetGlName());
   }
 }
 
@@ -131,7 +131,7 @@ void VertexArray::Unbind() {
 // Destructor with reference count
 VertexArray::~VertexArray() {
   if(!this->ReferencedElsewhere()) {
-    glDeleteVertexArrays(1, &this->glHandle);
+    glDeleteVertexArrays(1, &this->glName);
     delete this->vBufLen;
     delete this->iBufLen;
   }
