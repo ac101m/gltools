@@ -11,6 +11,8 @@
 #include "GLT/Util/Drawable.hpp"
 #include "GLT/GL/Texture.hpp"
 #include "GLT/GL/Buffer.hpp"
+#include "GLT/Util/Vertex.hpp"
+#include "GLT/GL/VertexArray.hpp"
 
 
 // Standard
@@ -19,75 +21,6 @@
 
 
 namespace GLT {
-
-  // Vertex structure
-  typedef struct {
-    glm::vec3 position;
-    glm::vec2 uv;
-    glm::vec3 normal;
-    glm::vec3 tangent;
-    glm::vec3 bitangent;
-    void Print(void) {
-      std::cout << position.x << "," << position.y << "," << position.z << "\t";
-      std::cout << normal.x << "," << normal.y << "," << normal.z << "\t";
-      std::cout << tangent.x << "," << tangent.y << "," << tangent.z << "\t";
-      std::cout << bitangent.x << "," << bitangent.y << "," << bitangent.z << "\t";
-      std::cout << "\n";
-    }
-  } vertex_t;
-
-
-  // Container class for vertex buffer
-  class VertexArray : public RefCount {
-  private:
-
-    // Vertex array object handle
-    GLuint glHandle;
-
-    // Vertex and index buffers
-    Buffer vertexBuffer;
-    Buffer indexBuffer;
-
-    // Buffer lengths
-    GLsizei* vBufLen;
-    GLsizei* iBufLen;
-
-    // vertex array bind stack
-    static ElementStack<VertexArray> bindStack;
-
-//====[METHODS]==============================================================//
-
-    // Sets up the mesh opengl buffers
-    void GenBuffers(
-      std::vector<vertex_t> const& vertices,
-      std::vector<unsigned> const& indices);
-
-  public:
-
-    // Initialise bind stacks
-    static void Init();
-
-    // Constructors with context initialisation
-    VertexArray();
-    VertexArray(
-      std::vector<vertex_t> const& vertices,
-      std::vector<unsigned> const& indices);
-
-    // Return
-    GLuint GetGlHandle() {return glHandle;}
-
-    // Bind this vertex buffer
-    void Bind();
-    void Unbind();
-
-    // Get index and vertex counts
-    GLsizei GetIndexBufferLength() {return *(this->iBufLen);}
-    GLsizei GetVertexBufferLength() {return *(this->vBufLen);}
-
-    // Destructor
-    ~VertexArray();
-  };
-
 
   // Container class for meshes
   class Mesh : public Drawable {
