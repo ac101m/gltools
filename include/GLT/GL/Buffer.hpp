@@ -50,24 +50,28 @@ namespace GLT {
     template <class T>
     void SetData(
       std::vector<T> const data,
+      GLenum const bindTarget,
       GLenum const usageHint = defaultUsageHint) {
 
       // Load data into buffer
-      glNamedBufferData(
-        this->glName,
+      this->Bind(bindTarget);
+      glBufferData(
+        bindTarget,
         data.size() * sizeof(T),
         data.data(),
         usageHint);
+      this->Unbind(bindTarget);
     }
 
     // Constructor, loads data
     template <class T>
     Buffer(
       std::vector<T> const data,
+      GLenum const bindTarget,
       GLenum const usageHint = defaultUsageHint) {
 
-      glCreateBuffers(1, &this->glName);
-      this->SetData<T>(data, usageHint);
+      glGenBuffers(1, &this->glName);
+      this->SetData<T>(data, bindTarget, usageHint);
     }
 
     // Get the underlying opengl handle

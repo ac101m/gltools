@@ -24,11 +24,11 @@ void VertexArray::GenBuffers(
   this->Bind();
 
   // Create vertex buffer object
-  this->vertexBuffer = Buffer(vertices, GL_STATIC_DRAW);
+  this->vertexBuffer = Buffer(vertices, GL_ARRAY_BUFFER, GL_STATIC_DRAW);
   this->vertexBuffer.Bind(GL_ARRAY_BUFFER);
 
   // Create index buffer object
-  this->indexBuffer = Buffer(indices, GL_STATIC_DRAW);
+  this->indexBuffer = Buffer(indices, GL_ELEMENT_ARRAY_BUFFER, GL_STATIC_DRAW);
   this->indexBuffer.Bind(GL_ELEMENT_ARRAY_BUFFER);
 
   // Enable vertex attribute arrays
