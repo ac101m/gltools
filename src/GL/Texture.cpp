@@ -39,14 +39,6 @@ void Texture::UnbindAny(
 }
 
 
-// Set texture integer parameter
-void Texture::Parameteri(GLenum const pname, GLint const param) {
-  this->Bind();
-  glTexParameteri(GL_TEXTURE_2D, pname, param);
-  this->Unbind();
-}
-
-
 // Reference counted destructor
 Texture::~Texture() {
   if(!this->ReferencedElsewhere()) {

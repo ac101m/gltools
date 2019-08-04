@@ -36,7 +36,7 @@ namespace GLT {
     Texture(GLuint const glName) : GlObject(glName) {}
 
     // Set texture parameters
-    void Parameteri(GLenum const pname, GLint const param);
+    virtual void Parameteri(GLenum const pname, GLint const param) {}
 
     // Virtual bind methods
     virtual void Bind() const {
