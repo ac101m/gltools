@@ -8,7 +8,7 @@ using namespace GLT;
 
 
 // This project headers
-#include "GLT/GL/Texture.hpp"
+#include "GLT/GL/Texture2D.hpp"
 #include "GLT/GL/Buffer.hpp"
 #include "GLT/Mesh.hpp"
 #include "GLT/GL/FrameBuffer.hpp"
@@ -69,7 +69,7 @@ void Context::InitGLT(void) {
 	glEnable(GL_CULL_FACE);
 
   // Initialise GLT stuff
-  Texture::Init();
+  Texture2D::Init();
   Buffer::Init();
   VertexArray::Init();
   FrameBuffer::Init();
