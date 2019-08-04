@@ -11,14 +11,13 @@ using namespace GLT;
 
 
 // Cube map bind stack
-ElementStack<CubeMap> CubeMap::bindStack;
+ElementStack<Texture> CubeMap::bindStack;
 
 
 // Initialise cube map bind stack
 void CubeMap::Init() {
   bindStack.Clear();
-  bindStack.Push(CubeMap(0));
-  glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
+  bindStack.Push(Texture(0));
 }
 
 
@@ -121,6 +120,14 @@ CubeMap::CubeMap(std::vector<std::string> const texPaths) {
 }
 
 
+// Set texture integer parameter
+void CubeMap::Parameteri(GLenum const pname, GLint const param) {
+  this->Bind();
+  glTexParameteri(GL_TEXTURE_CUBE_MAP, pname, param);
+  this->Unbind();
+}
+
+
 // Default draw routine. Just a polite reminder to the developer
 // that they need to provide their own draw code
 void __attribute__((weak)) CubeMap::Draw(
@@ -131,45 +138,4 @@ void __attribute__((weak)) CubeMap::Draw(
   std::cout << "Error, draw method not specified (GLT::CubeMap)\n";
   std::cout << "Please provide a draw method\n";
   exit(1);
-}
-
-
-// Bind the cube map
-void CubeMap::Bind() const {
-
-  // If the currently bound buffer is not this one, bind this buffer
-  if(this->glName != bindStack.Top().GetGlName()) {
-    glBindTexture(GL_TEXTURE_CUBE_MAP, this->glName);
-  }
-
-  // Push this buffer onto the bind stack
-  bindStack.Push(*this);
-}
-
-
-// Unbind the cube map
-void CubeMap::Unbind() const {
-
-  // Can't unbind object that isn't currently bound without breaking stuff
-  if(this->glName != bindStack.Top().GetGlName()) {
-    std::cerr << "ERROR: Attempt to unbind already unbound buffer\n";
-    std::cerr << "Did you forget to call unbind?\n";
-    exit(1);
-  }
-
-  // Pop this object off the bind stack
-  bindStack.Pop();
-
-  // Restore the binding to what it was previously (if neccessary)
-  if(bindStack.Top().GetGlName() != this->glName) {
-    glBindBuffer(GL_TEXTURE_CUBE_MAP, bindStack.Top().GetGlName());
-  }
-}
-
-
-// Reference counted destructor
-CubeMap::~CubeMap() {
-  if(!this->ReferencedElsewhere()) {
-    glDeleteTextures(1, &this->glName);
-  }
 }

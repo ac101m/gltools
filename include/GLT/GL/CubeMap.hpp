@@ -10,6 +10,7 @@
 #include "GLT/Mesh.hpp"
 #include "GLT/Util/RefCount.hpp"
 #include "GLT/Util/ElementStack.hpp"
+#include "GLT/GL/Texture.hpp"
 
 
 // Standard
@@ -19,28 +20,19 @@
 
 namespace GLT {
 
-  class CubeMap : public Drawable, public RefCount {
+  class CubeMap : public Texture, public Drawable {
   private:
-
-    // Opengl name
-    GLuint glName;
 
     // Vertex array
     VertexArray vertexBuffer;
 
     // Cube map bind stack
-    static ElementStack<CubeMap> bindStack;
+    static ElementStack<Texture> bindStack;
 
   public:
 
     // Initialise cube map bind stack
     static void Init();
-
-    // Constructor, void
-    CubeMap() {glGenTextures(1, &this->glName);}
-
-    // Constructor, direct from name
-    CubeMap(GLuint const glName) : glName(glName) {}
 
     // Constructor, from paths
     CubeMap(std::vector<std::string> const texPaths);
@@ -51,18 +43,14 @@ namespace GLT {
     // Overridden mesh draw method
     void Draw(Camera& camera, ShaderProgram& shader, glm::mat4& m);
 
-    // Get the opengl name for this object
-    GLuint GetGlName() const {return this->glName;}
+    // Set texture integer parameter
+    void Parameteri(GLenum const pname, GLint const param);
 
     // Bind and unbind this
-    void Bind() const;
-    void Unbind() const;
-
-    // Reference counted destructor
-    ~CubeMap();
+    void Bind() const {this->BindAny(GL_TEXTURE_CUBE_MAP, bindStack);}
+    void Unbind() const {this->UnbindAny(GL_TEXTURE_CUBE_MAP, bindStack);}
   };
 
-}
-
+} // namespace GLT
 
 #endif // GLT_CUBE_MAP_INCLUDED
