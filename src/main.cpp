@@ -3,7 +3,7 @@
 #include "GLT/Camera.hpp"
 #include "GLT/GL/ShaderProgram.hpp"
 #include "GLT/Mesh.hpp"
-#include "GLT/GL/Texture.hpp"
+#include "GLT/GL/Texture2D.hpp"
 #include "GLT/GL/CubeMap.hpp"
 
 
@@ -25,9 +25,9 @@ GLT::Mesh GenTestTriangle(void) {
   std::vector<unsigned> indices = {0, 2, 1};
 
   // Textures
-  std::vector<GLT::Texture> textures = {
-    GLT::Texture("textures/brownrock/colour.png"),
-    GLT::Texture("textures/brownrock/normal.png")};
+  std::vector<std::shared_ptr<GLT::Texture>> textures = {
+    std::shared_ptr<GLT::Texture>(new GLT::Texture2D("textures/brownrock/colour.png")),
+    std::shared_ptr<GLT::Texture>(new GLT::Texture2D("textures/brownrock/normal.png"))};
 
   // Package up into mesh
   return GLT::Mesh(vertices, indices, textures);
@@ -83,16 +83,16 @@ GLT::Mesh GenTestCubeIndexed(void) {
   }
 
   // Load the side texture
-  std::vector<GLT::Texture> textures = {
-    GLT::Texture("textures/brownrock/colour.png"),
-    GLT::Texture("textures/brownrock/normal.png"),
-    GLT::Texture("textures/brownrock/depth.png"),
-    GLT::Texture("textures/brownrock/ao.png")};
+  std::vector<std::shared_ptr<GLT::Texture>> textures = {
+    std::shared_ptr<GLT::Texture>(new GLT::Texture2D("textures/brownrock/colour.png")),
+    std::shared_ptr<GLT::Texture>(new GLT::Texture2D("textures/brownrock/normal.png")),
+    std::shared_ptr<GLT::Texture>(new GLT::Texture2D("textures/brownrock/depth.png")),
+    std::shared_ptr<GLT::Texture>(new GLT::Texture2D("textures/brownrock/ao.png"))};
 
   // Set sampling modes on the textures
   for(unsigned i = 0; i < textures.size(); i++) {
-    textures[i].Parameteri(GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    textures[i].Parameteri(GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    textures[i]->Parameteri(GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    textures[i]->Parameteri(GL_TEXTURE_MAG_FILTER, GL_LINEAR);
   }
 
   // Package up into mesh and return
@@ -121,7 +121,9 @@ void GLT::Mesh::Draw(
   std::string name = "texture0";
   for(unsigned i = 0; i < this->textures.size(); i++) {
     name[7] = 48 + i;
-    shader.SetTexture(i, name, this->textures[i]);
+    glActiveTexture(GL_TEXTURE0 + i);
+    this->textures[i]->Bind();
+    shader.GetUniform(name).SetTex2D(i);
   }
 
   // Draw the things
