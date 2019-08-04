@@ -7,7 +7,7 @@
 #include "GLT/Extern/GL.hpp"
 #endif
 #include "GLT/Util/RefCount.hpp"
-#include "GLT/GL/Texture.hpp"
+#include "GLT/GL/Texture2D.hpp"
 #include "GLT/GL/RenderBuffer.hpp"
 
 
@@ -25,7 +25,7 @@ namespace GLT {
     GLuint glName;
 
     // Colour buffers
-    std::vector<Texture>* colorAttachments;
+    std::vector<Texture2D>* colorAttachments;
 
     // Bind stacks
     static ElementStack<FrameBuffer> bindStack_GL_DRAW_FRAMEBUFFER;
@@ -57,13 +57,13 @@ namespace GLT {
     FrameBuffer(
       unsigned const width,
       unsigned const height,
-      std::vector<Texture> const colorBuffers);
+      std::vector<Texture2D> const colorBuffers);
 
     // Attach a texture as a colour buffer
-    void AttachTexture2D(Texture const texture);
+    void AttachTexture2D(Texture2D const texture);
 
     // Get color buffers
-    std::vector<Texture> GetColorBuffers() {return *this->colorAttachments;}
+    std::vector<Texture2D> GetColorBuffers() {return *this->colorAttachments;}
 
     // Attach a renderbuffer
     void AttachRenderBuffer(

@@ -73,7 +73,7 @@ void FrameBuffer::UpdateColorAttachments() {
 // Void constructor, generates new name
 FrameBuffer::FrameBuffer() {
   glGenFramebuffers(1, &this->glName);
-  this->colorAttachments = new std::vector<Texture>();
+  this->colorAttachments = new std::vector<Texture2D>();
 }
 
 
@@ -82,7 +82,7 @@ FrameBuffer::FrameBuffer(GLuint const glName) {
   this->glName = glName;
 
   // [TODO] figure out how to get attachments from the frame buffer name
-  this->colorAttachments = new std::vector<Texture>();
+  this->colorAttachments = new std::vector<Texture2D>();
 }
 
 
@@ -90,10 +90,10 @@ FrameBuffer::FrameBuffer(GLuint const glName) {
 FrameBuffer::FrameBuffer(
   unsigned const width,
   unsigned const height,
-  std::vector<Texture> const colorBuffers) {
+  std::vector<Texture2D> const colorBuffers) {
 
   // Allocate colour buffer texture storage
-  this->colorAttachments = new std::vector<Texture>();
+  this->colorAttachments = new std::vector<Texture2D>();
 
   // Construct framebuffer object
   glGenFramebuffers(1, &this->glName);
@@ -121,7 +121,7 @@ FrameBuffer::FrameBuffer(
 
 
 // Attach a texture as a colour buffer
-void FrameBuffer::AttachTexture2D(Texture const texture) {
+void FrameBuffer::AttachTexture2D(Texture2D const texture) {
   this->colorAttachments->push_back(texture);
   this->UpdateColorAttachments();
 
