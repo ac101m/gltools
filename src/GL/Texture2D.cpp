@@ -157,6 +157,14 @@ void Texture2D::SetData(
 }
 
 
+// Set texture integer parameter
+void Texture2D::Parameteri(GLenum const pname, GLint const param) {
+  this->Bind();
+  glTexParameteri(GL_TEXTURE_2D, pname, param);
+  this->Unbind();
+}
+
+
 // Set texture data from vector of chars
 void Texture2D::SetData(
   int const width,

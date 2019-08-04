@@ -65,6 +65,9 @@ namespace GLT {
       unsigned char const * const data,
       unsigned const mipMapLevel = 0);
 
+    // Set texture parameter
+    void Parameteri(GLenum const pname, GLint const param);
+
     // Binding control
     void Bind() const {this->BindAny(GL_TEXTURE_2D, bindStack);}
     void Unbind() const {this->UnbindAny(GL_TEXTURE_2D, bindStack);}
