@@ -9,7 +9,7 @@
 #include "GLT/Util/RefCount.hpp"
 #include "GLT/GL/ShaderProgram.hpp"
 #include "GLT/Util/Drawable.hpp"
-#include "GLT/GL/Texture.hpp"
+#include "GLT/GL/Texture2D.hpp"
 #include "GLT/GL/Buffer.hpp"
 #include "GLT/Util/Vertex.hpp"
 #include "GLT/GL/VertexArray.hpp"
@@ -18,6 +18,7 @@
 // Standard
 #include <vector>
 #include <iostream>
+#include <memory>
 
 
 namespace GLT {
@@ -29,7 +30,7 @@ namespace GLT {
     // Mesh data
     std::vector<vertex_t> vertices;
     std::vector<unsigned> indices;
-    std::vector<Texture> textures;
+    std::vector<std::shared_ptr<Texture>> textures;
 
     // Vertex buffer
     VertexArray vertexBuffer;
@@ -45,12 +46,16 @@ namespace GLT {
   public:
 
     // Initialise without indices
-    Mesh(std::vector<vertex_t> vertices);
+    Mesh(std::vector<vertex_t> const vertices);
 
     // Initialise with indices and textures
-    Mesh(std::vector<vertex_t> vertices,
-         std::vector<unsigned> indices,
-         std::vector<Texture> textures);
+    Mesh(
+      std::vector<vertex_t> const vertices,
+      std::vector<unsigned> const indices,
+      std::vector<std::shared_ptr<Texture>> const textures);
+
+    // Set mesh textures
+    void SetTextures(std::vector<std::shared_ptr<Texture>> const textures);
 
     // Generate normals and tangent space basis
     void AutoGenerateNormals();
