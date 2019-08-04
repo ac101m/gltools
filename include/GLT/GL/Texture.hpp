@@ -6,8 +6,7 @@
 #ifndef GLT_GL_INCLUDED
 #include "GLT/Extern/GL.hpp"
 #endif
-#include "GLT/Util/RefCount.hpp"
-#include "GLT/Util/ElementCache.hpp"
+#include "GLT/GL/GlObject.hpp"
 #include "GLT/Util/ElementStack.hpp"
 
 
@@ -19,110 +18,40 @@
 namespace GLT {
 
   // Base class for textures
-  template<class T>
-  class TextureBase : public RefCount {
+  class Texture : public GlObject {
   protected:
 
-    // Opengl name
-    GLuint glName;
-
-    // Binding stack
-    static ElementStack<TextureBase> bindStack;
-
-    // Bind to specific target
-    void Bind(GLenum const bindTarget);
-    void Unbind(GLenum const bindTarget);
+    // Bind to specific target and bind stack
+    void BindAny(
+      GLenum const bindTarget,
+      ElementStack<Texture>& bindStack) const;
+    void UnbindAny(
+      GLenum const bindTarget,
+      ElementStack<Texture>& bindStack) const;
 
   public:
-
-    static void Init();
 
     // Basic constructors
-    TextureBase() {glGenTextures(1, &this->glName);}
-    TextureBase(GLuint const glName) : glName(glName) {}
-
-    // Get the GL name
-    GLuint GetGlName() {return this->glName;}
-
-    // Bind and unbind control
-    virtual void Bind();
-    virtual void Unbind();
-
-    // Reference counted destructor
-    ~TextureBase();
-  };
-
-
-  // Class represents a two-dimensional texture
-  class Texture : public RefCount {
-  private:
-
-    // Opengl name
-    GLuint glName;
-
-    // Cache for textures loaded from file
-    static ElementCache<std::string, Texture> fileCache;
-
-    // Texture binding stack, keeps track of the GL_TEXTURE_2D bind target
-    static ElementStack<Texture> bindStack;
-
-  public:
-
-    // Initialise static members (cache and bind stack)
-    static void Init();
-
-    // Constructor, from arbitrary handle
-    Texture(
-      GLuint const textureHandle);
-
-    // Constructor, complete initialisation
-    Texture(
-      GLint const mipMapLevel,
-      GLint const internalFormat,
-      GLsizei const width,
-      GLsizei const height,
-      GLenum const format,
-      GLenum const type,
-      GLvoid const * data);
-
-    // Constructor, from file
-    Texture(
-      std::string const path,
-      unsigned const mipMapLevel = 0);
-
-    // Constructor, from data
-    Texture(
-      int const width,
-      int const height,
-      std::vector<unsigned char> const data);
-
-    // Set texture data, std::vector and raw pointer
-    void SetData(
-      int const width,
-      int const height,
-      std::vector<unsigned char> const data,
-      unsigned const mipMapLevel = 0);
-    void SetData(
-      int const width,
-      int const height,
-      unsigned char const * const data,
-      unsigned const mipMapLevel = 0);
-
-    // Return the opengl handle
-    GLuint GetGlName() const {return this->glName;}
-
-    // Binding control
-    void Bind() const;    // Bind this texture
-    void Unbind() const;  // Unbind this texture and restore previous binding
+    Texture() {glGenTextures(1, &this->glName);}
+    Texture(GLuint const glName) : GlObject(glName) {}
 
     // Set texture parameters
     void Parameteri(GLenum const pname, GLint const param);
+
+    // Virtual bind methods
+    virtual void Bind() const {
+      std::cout << "ERROR: Pure virtual Texture bind\n";
+      exit(1);
+    }
+    virtual void Unbind() const {
+      std::cout << "ERROR: Pure virtual GlObject unbind\n";
+      exit(1);
+    }
 
     // Reference counted destructor
     ~Texture();
   };
 
 } // namespace GLT
-
 
 #endif // GLT_TEXTURE_INCLUDED
