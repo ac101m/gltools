@@ -6,6 +6,7 @@
 #ifndef GLT_GL_INCLUDED
 #include "GLT/Extern/GL.hpp"
 #endif
+#include "GLT/GL/GlObject.hpp"
 #include "GLT/Util/RefCount.hpp"
 #include "GLT/Util/ElementStack.hpp"
 
@@ -17,11 +18,8 @@
 namespace GLT {
 
   // Class wraps opengl buffer construct
-  class Buffer : public RefCount {
+  class Buffer : public GlObject {
   private:
-
-    // Underlying opengl handle
-    GLuint glName;
 
     // Default buffer usage hint
     static GLenum defaultUsageHint;
@@ -44,7 +42,7 @@ namespace GLT {
     Buffer() {glGenBuffers(1, &this->glName);}
 
     // Constructor, direct from GLuint
-    Buffer(GLuint const glName) : glName(glName) {}
+    Buffer(GLuint const glName) : GlObject(glName) {}
 
     // Loads data into the GL buffer
     template <class T>
@@ -73,9 +71,6 @@ namespace GLT {
       glGenBuffers(1, &this->glName);
       this->SetData<T>(data, bindTarget, usageHint);
     }
-
-    // Get the underlying opengl handle
-    GLuint GetGlName() {return this->glName;}
 
     // Binding routines, selectable target (many different ways to use buffers)
     void Bind(GLenum const bindTarget);
