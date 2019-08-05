@@ -6,7 +6,7 @@
 #ifndef GLT_GL_INCLUDED
 #include "GLT/Extern/GL.hpp"
 #endif
-#include "GLT/Util/RefCount.hpp"
+#include "GLT/GL/GlObject.hpp"
 
 
 // Standard
@@ -21,12 +21,7 @@
 namespace GLT {
 
   // Class encapsulates a shader
-  class Shader : public RefCount {
-  private:
-
-    // OpenGL name
-    GLuint glName;
-
+  class Shader : public GlObject {
   public:
 
     // Constructor, blank
@@ -38,9 +33,6 @@ namespace GLT {
     // Shader source compilation
     void FromSource(std::string const source);
     void FromFile(std::string const path);
-
-    // Get opengl name
-    GLuint GetGlName(void) const {return this->glName;}
 
     // Reference counted destructor
     ~Shader(void);
