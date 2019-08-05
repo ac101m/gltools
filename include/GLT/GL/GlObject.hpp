@@ -29,19 +29,6 @@ namespace GLT {
 
     // Get the opengl name
     GLuint GetGlName() {return this->glName;}
-
-    // Bind and unbind the object
-    virtual void Bind() const {
-      std::cout << "ERROR: Pure virtual GlObject bind\n";
-      exit(1);
-    }
-    virtual void Unbind() const {
-      std::cout << "ERROR: Pure virtual GlObject unbind\n";
-      exit(1);
-    }
-
-    // Reference counted destructor
-    virtual ~GlObject() {}
   };
 
 } // namespace GLT
