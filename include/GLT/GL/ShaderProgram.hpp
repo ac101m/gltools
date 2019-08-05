@@ -53,10 +53,11 @@ namespace GLT {
 
     // Constructors
     Uniform();
-    Uniform(std::string const name,
-            GLuint const handle,
-            GLenum const type,
-            GLint const elemCount);
+    Uniform(
+      std::string const name,
+      GLuint const handle,
+      GLenum const type,
+      GLint const elemCount);
 
     // Texture samplers                                   IMPLEMENTED?
     void SetTex2D(int const value);                       //    Y
@@ -145,18 +146,19 @@ namespace GLT {
   public:
 
     // Constructor
-    ShaderProgram(const std::vector<Shader> shaders);
+    ShaderProgram(std::vector<Shader> const shaders);
 
     // Use this shader program
     void Use();
 
     // Set texture uniform
-    void SetTexture(unsigned const texUnit,
-                    std::string const& name,
-                    Texture const& tex);
+    void SetTexture(
+      unsigned const texUnit,
+      std::string const& name,
+      Texture const& tex);
 
     // Set other uniforms
-    Uniform GetUniform(const std::string name);
+    Uniform GetUniform(std::string const name);
 
     // Destructor, clean up GL handle
     ~ShaderProgram();
