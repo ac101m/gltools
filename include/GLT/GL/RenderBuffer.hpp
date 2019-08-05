@@ -6,17 +6,14 @@
 #ifndef GLT_GL_INCLUDED
 #include "GLT/Extern/GL.hpp"
 #endif
-#include "GLT/Util/RefCount.hpp"
+#include "GLT/GL/GlObject.hpp"
 #include "GLT/Util/ElementStack.hpp"
 
 
 namespace GLT {
 
-  class RenderBuffer : public RefCount {
+  class RenderBuffer : public GlObject {
   private:
-
-    // Opengl assigned name
-    GLuint glName;
 
     // Stack for renderbuffer bind target
     static ElementStack<RenderBuffer> bindStack;
@@ -30,7 +27,7 @@ namespace GLT {
     RenderBuffer() {glGenRenderbuffers(1, &this->glName);}
 
     // Construct directly from name
-    RenderBuffer(GLuint const glName) : glName(glName) {}
+    RenderBuffer(GLuint const glName) : GlObject(glName) {}
 
     // Construct from parameters
     RenderBuffer(
@@ -43,9 +40,6 @@ namespace GLT {
       GLenum const format,
       unsigned const width,
       unsigned const height);
-
-    // Get opengl name
-    GLuint GetGlName() const {return this->glName;}
 
     // Bind and unbind
     void Bind() const;
