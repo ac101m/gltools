@@ -8,6 +8,7 @@
 #endif
 #include "GLT/Util/Vertex.hpp"
 #include "GLT/GL/Buffer.hpp"
+#include "GLT/GL/GlObject.hpp"
 
 
 // Standard
@@ -17,11 +18,8 @@
 namespace GLT {
 
   // Container class for vertex array object
-  class VertexArray : public RefCount {
+  class VertexArray : public GlObject {
   private:
-
-    // Vertex array object handle
-    GLuint glName;
 
     // Vertex and index buffers
     Buffer vertexBuffer;
@@ -51,9 +49,6 @@ namespace GLT {
     VertexArray(
       std::vector<vertex_t> const& vertices,
       std::vector<unsigned> const& indices);
-
-    // Return opengl name
-    GLuint GetGlName() {return glName;}
 
     // Bind this vertex buffer
     void Bind();
