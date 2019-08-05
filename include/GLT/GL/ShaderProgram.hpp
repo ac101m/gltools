@@ -8,7 +8,7 @@
 #endif
 #include "GLT/GL/Texture.hpp"
 #include "GLT/GL/Shader.hpp"
-#include "GLT/Util/RefCount.hpp"
+#include "GLT/GL/GlObject.hpp"
 #include "GLT/Util/ElementCache.hpp"
 
 
@@ -128,11 +128,8 @@ namespace GLT {
 
 
   // Class wraps an opengl shader program handle
-  class ShaderProgram : public RefCount {
+  class ShaderProgram : public GlObject {
   private:
-
-    // OpenGL handle
-    GLuint glName;
 
     // Uniform locations in shader, raw pointer for shallow copy
     ElementCache<std::string, Uniform>* uniformCache;
