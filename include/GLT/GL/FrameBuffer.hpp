@@ -6,6 +6,7 @@
 #ifndef GLT_GL_INCLUDED
 #include "GLT/Extern/GL.hpp"
 #endif
+#include "GLT/GL/GlObject.hpp"
 #include "GLT/Util/RefCount.hpp"
 #include "GLT/GL/Texture2D.hpp"
 #include "GLT/GL/RenderBuffer.hpp"
@@ -18,11 +19,8 @@
 
 namespace GLT {
 
-  class FrameBuffer : public RefCount {
+  class FrameBuffer : public GlObject {
   private:
-
-    // Opengl name
-    GLuint glName;
 
     // Colour buffers
     std::vector<Texture2D>* colorAttachments;
@@ -72,9 +70,6 @@ namespace GLT {
 
     // Clear method
     void Clear(GLbitfield const mask);
-
-    // Return gl name
-    GLuint GetGlName() {return this->glName;}
 
     // Bind and unbind
     void Bind(GLenum const bindTarget);

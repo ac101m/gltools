@@ -78,8 +78,7 @@ FrameBuffer::FrameBuffer() {
 
 
 // Constructor, direct from name
-FrameBuffer::FrameBuffer(GLuint const glName) {
-  this->glName = glName;
+FrameBuffer::FrameBuffer(GLuint const glName) : GlObject(glName) {
 
   // [TODO] figure out how to get attachments from the frame buffer name
   this->colorAttachments = new std::vector<Texture2D>();
