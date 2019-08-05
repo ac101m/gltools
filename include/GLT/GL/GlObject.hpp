@@ -28,7 +28,7 @@ namespace GLT {
     GlObject(GLuint const glName) : glName(glName) {}
 
     // Get the opengl name
-    GLuint GetGlName() {return this->glName;}
+    GLuint GetGlName() const {return this->glName;}
   };
 
 } // namespace GLT
