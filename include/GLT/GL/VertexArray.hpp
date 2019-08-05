@@ -51,8 +51,8 @@ namespace GLT {
       std::vector<unsigned> const& indices);
 
     // Bind this vertex buffer
-    void Bind();
-    void Unbind();
+    void Bind() const;
+    void Unbind() const;
 
     // Get index and vertex counts
     GLsizei GetIndexBufferLength() {return *(this->iBufLen);}

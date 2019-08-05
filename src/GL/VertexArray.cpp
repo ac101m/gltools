@@ -96,7 +96,7 @@ VertexArray::VertexArray(
 
 
 // Bind and remember state of current binding
-void VertexArray::Bind() {
+void VertexArray::Bind() const {
 
   // If the currently bound object is not this one, bind this texture
   if(this->glName != bindStack.Top().GetGlName()) {
@@ -109,7 +109,7 @@ void VertexArray::Bind() {
 
 
 // Restore the bind target to its previous state
-void VertexArray::Unbind() {
+void VertexArray::Unbind() const {
 
   // Can't unbind object that isn't currently bound without breaking stuff
   if(this->glName != bindStack.Top().GetGlName()) {
