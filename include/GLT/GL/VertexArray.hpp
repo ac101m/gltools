@@ -8,7 +8,7 @@
 #endif
 #include "GLT/Util/Vertex.hpp"
 #include "GLT/GL/Buffer.hpp"
-#include "GLT/GL/GlObject.hpp"
+#include "GLT/Util/GlObject.hpp"
 
 
 // Standard

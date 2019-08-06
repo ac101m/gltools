@@ -8,7 +8,7 @@
 #endif
 #include "GLT/GL/Texture.hpp"
 #include "GLT/GL/Shader.hpp"
-#include "GLT/GL/GlObject.hpp"
+#include "GLT/Util/GlObject.hpp"
 #include "GLT/Util/ElementCache.hpp"
 
 

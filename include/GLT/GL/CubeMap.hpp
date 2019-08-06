@@ -8,7 +8,6 @@
 #endif
 #include "GLT/Util/Drawable.hpp"
 #include "GLT/Mesh.hpp"
-#include "GLT/Util/RefCount.hpp"
 #include "GLT/Util/ElementStack.hpp"
 #include "GLT/GL/Texture.hpp"
 

@@ -6,7 +6,7 @@
 #ifndef GLT_GL_INCLUDED
 #include "GLT/Extern/GL.hpp"
 #endif
-#include "GLT/GL/GlObject.hpp"
+#include "GLT/Util/GlObject.hpp"
 #include "GLT/Util/ElementStack.hpp"
 
 
