@@ -24,7 +24,7 @@ Note:
 Uniform set methods are declared, see include/GLT/Uniform.hpp. Only a few currently have implementations though; fvec3, fmat3, fmat4 & float. Implementations can be found in src/shader/Uniform.cpp.
 
 # Build instructions:
-This is not a complete library, lots of bits are missing. Only bother with it if required by whatever else you are building. You have been warned.
+This is not a complete library, lots of bits are missing. Only bother with it if it is required by something else. You have been warned.
 
 You will need:
 - GNU make
