@@ -8,6 +8,7 @@ It can:
 - Load your texture files (and cache them)
 - Compute your tangent space basis vectors
 - Manage your view and projection matrices
+- Render to your textures
 
 It cannot:
 - Cook your dinner
@@ -15,7 +16,6 @@ It cannot:
 Planned future features:
 - Defaults for missing textures
 - Updatable vertex buffers
-- Render to texture
 - Better context creation and management
 - Model loading
 - Built in camera control schemes
