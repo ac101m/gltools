@@ -93,6 +93,9 @@ lib_shared: move_headers $(LIB_SHARED_OBJS)
 # Make all targets
 all: release debug lib_static lib_shared
 
+# Make library targets
+lib: lib_static lib_shared
+
 # Clean, be careful with this
 .PHONY: clean
 clean:
