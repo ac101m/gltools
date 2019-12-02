@@ -1,5 +1,5 @@
 # gltools
-A simple opengl framework for quickly chucking things on the screen.
+A simple opengl framework for quickly chucking 3D things on the screen.
 
 It can:
 - Make your windows
